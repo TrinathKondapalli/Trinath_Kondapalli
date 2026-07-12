@@ -42,7 +42,7 @@ function TwinklingDots() {
             top: `${dot.y}vh`,
             width: dot.size,
             height: dot.size,
-            background: '#4ADE80',
+            background: 'var(--c-primary)',
             borderRadius: '50%',
             filter: 'blur(1px)'
           }}
@@ -68,8 +68,8 @@ function CurvedMarquee() {
         <defs>
           <path id="curve-path" d="M -100 100 Q 360 0, 720 100 T 1540 100" fill="transparent" />
           <linearGradient id="ribbonGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#4ADE80" />
-            <stop offset="100%" stopColor="#86EFAC" />
+            <stop offset="0%" stopColor="var(--c-primary)" />
+            <stop offset="100%" stopColor="var(--c-secondary)" />
           </linearGradient>
         </defs>
         
@@ -83,7 +83,7 @@ function CurvedMarquee() {
           fontSize="20" 
           letterSpacing="2px"
           textTransform="uppercase"
-          fill="#0A0D0A"
+          fill="var(--c-base)"
         >
           <textPath href="#curve-path" startOffset="0%">
             <animate attributeName="startOffset" from="0%" to="-50%" dur="20s" repeatCount="indefinite" />
@@ -164,13 +164,13 @@ export default function Hero() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            fontFamily: 'var(--font-sans)', fontSize: 16, color: 'var(--text-sub)',
+            fontFamily: 'var(--font-sans)', fontSize: 16, color: 'var(--c-muted)',
             letterSpacing: '0.3px', display: 'flex', alignItems: 'center', gap: 12,
             marginBottom: 24
           }}
         >
           Hi! I'm Trinadh Kondapalli 
-          <span style={{ color: 'var(--primary-green)' }}>•</span> 
+          <span style={{ color: 'var(--c-primary)' }}>•</span> 
           Based in India
         </motion.div>
 
@@ -187,7 +187,7 @@ export default function Hero() {
             <motion.span variants={wordVars} style={{
               fontFamily: 'var(--font-display)',
               fontSize: 'clamp(48px, 6vw, 88px)',
-              background: 'linear-gradient(135deg, #4ADE80, #86EFAC)',
+              background: 'linear-gradient(135deg, var(--c-primary), var(--c-secondary))',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
               paddingRight: 8 // italic fix
             }}>
@@ -195,7 +195,7 @@ export default function Hero() {
             </motion.span>
             <motion.span variants={wordVars} style={{
               fontFamily: 'var(--font-sans)', fontWeight: 700, letterSpacing: '-1px',
-              fontSize: 'clamp(48px, 6vw, 88px)', color: 'var(--text-white)'
+              fontSize: 'clamp(48px, 6vw, 88px)', color: 'var(--c-white)'
             }}>
               Designer &
             </motion.span>
@@ -205,18 +205,18 @@ export default function Hero() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 4 }}>
             <motion.span variants={wordVars} style={{
               fontFamily: 'var(--font-sans)', fontWeight: 700, letterSpacing: '-1px',
-              fontSize: 'clamp(48px, 6vw, 88px)', color: 'var(--text-white)'
+              fontSize: 'clamp(48px, 6vw, 88px)', color: 'var(--c-white)'
             }}>
               Developer
             </motion.span>
             <motion.div variants={wordVars}>
               <div style={{
                 width: 40, height: 40, borderRadius: '50%',
-                background: 'var(--primary-green)',
+                background: 'var(--c-primary)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 transform: 'translateY(-4px)'
               }}>
-                <ArrowUpRight size={20} color="#0A0D0A" strokeWidth={3} />
+                <ArrowUpRight size={20} color="var(--c-base)" strokeWidth={3} />
               </div>
             </motion.div>
           </div>
@@ -228,7 +228,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            fontFamily: 'var(--font-sans)', fontSize: 18, color: 'var(--text-muted)',
+            fontFamily: 'var(--font-sans)', fontSize: 18, color: 'var(--c-muted)',
             maxWidth: 600, textAlign: 'center', marginTop: 24, lineHeight: 1.6
           }}
         >
@@ -259,8 +259,8 @@ export default function Hero() {
             width: 'clamp(280px, 40vw, 420px)',
             height: 'clamp(360px, 50vw, 520px)',
             borderRadius: 32,
-            background: 'linear-gradient(135deg, #6EE7A0, #22C55E)',
-            boxShadow: '0 0 80px 20px rgba(74,222,128,0.4), 0 0 40px rgba(255,255,255,0.15)',
+            background: 'linear-gradient(135deg, var(--c-secondary), var(--c-deep))',
+            boxShadow: '0 0 80px 20px var(--rgba-primary-04), 0 0 40px var(--rgba-white-015)',
             position: 'relative',
             transformStyle: 'preserve-3d'
           }}
@@ -268,13 +268,19 @@ export default function Hero() {
           {/* Portrait Image */}
           <div style={{
             position: 'absolute', inset: 0, borderRadius: 32, overflow: 'hidden',
-            boxShadow: 'inset 2px -2px 10px rgba(255,255,255,0.6)' // Rim light effect
+            boxShadow: 'inset 2px -2px 10px var(--rgba-white-06)' // Rim light effect
           }}>
             <img 
               src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
               alt="Portrait"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'contrast(1.1) saturate(0.8)' }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
+            {/* Subtle warm tint overlay grading */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(to top, rgba(143,82,41,0.2) 0%, transparent 50%)',
+              pointerEvents: 'none'
+            }} />
           </div>
 
           {/* ─── CIRCULAR SCROLL BADGE ─── */}
@@ -282,9 +288,9 @@ export default function Hero() {
             position: 'absolute', bottom: -30, right: -30,
             width: 140, height: 140,
             borderRadius: '50%',
-            background: 'rgba(10, 15, 10, 0.6)',
+            background: 'var(--rgba-dark-06)',
             backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255,255,255,0.3)',
+            border: '1px solid var(--rgba-white-03)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             transform: 'translateZ(30px)', // Pop out slightly due to 3D tilt
             boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
@@ -294,7 +300,7 @@ export default function Hero() {
               <defs>
                 <path id="badge-path" d="M 70, 70 m -50, 0 a 50,50 0 1,1 100,0 a 50,50 0 1,1 -100,0" />
               </defs>
-              <text fontSize="11" fill="white" fontWeight="600" letterSpacing="2px">
+              <text fontSize="11" fill="var(--c-white)" fontWeight="600" letterSpacing="2px">
                 <textPath href="#badge-path" startOffset="0">
                   LET'S EXPLORE • LET'S EXPLORE •
                 </textPath>
@@ -304,10 +310,10 @@ export default function Hero() {
             {/* Pulsing Center Icon */}
             <div className="anim-pulse" style={{
               width: 56, height: 56, borderRadius: '50%',
-              background: 'var(--text-white)',
+              background: 'var(--c-white)',
               display: 'flex', alignItems: 'center', justifyContent: 'center'
             }}>
-              <ArrowDown size={20} color="#0A0D0A" strokeWidth={3} />
+              <ArrowDown size={20} color="var(--c-base)" strokeWidth={3} />
             </div>
           </div>
           

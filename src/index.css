@@ -1,16 +1,24 @@
 :root {
-  /* Color Palette */
-  --bg-base: #0A0D0A;
-  --primary-green: #4ADE80;
-  --gradient-green-1: #22C55E;
-  --gradient-green-2: #6EE7A0;
-  --gradient-green-3: #86EFAC;
+  /* Exact 8 locked Hex Tokens */
+  --c-primary: #6dd74c;      /* Neon green primary */
+  --c-secondary: #81dd6a;    /* Secondary green gradient */
+  --c-base: #081509;         /* Base background */
+  --c-white: #e1e6dc;        /* Off-white primary text */
+  --c-deep: #386626;         /* Deep green shadow tone */
+  --c-warm: #8f5229;         /* Warm brown/skin accent */
+  --c-dark: #143113;         /* Dark green panel surface */
+  --c-muted: #635e4c;        /* Muted olive-gray */
   
-  --text-white: #FFFFFF;
-  --text-muted: #B0B0B0;
-  --text-sub: #C9C9C9;
-  --text-dim: #E5E5E5;
-  
+  /* RGBA references mapped directly from spec */
+  --rgba-primary-04: rgba(109,215,76,0.4);
+  --rgba-primary-006: rgba(109,215,76,0.06);
+  --rgba-white-06: rgba(225,230,220,0.6);
+  --rgba-white-03: rgba(225,230,220,0.3);
+  --rgba-white-015: rgba(225,230,220,0.15);
+  --rgba-white-008: rgba(225,230,220,0.08);
+  --rgba-dark-07: rgba(20,49,19,0.7);
+  --rgba-dark-06: rgba(20,49,19,0.6);
+
   /* Typography */
   --font-display: 'Instrument Serif', serif;
   --font-sans: 'Inter', sans-serif;
@@ -28,17 +36,17 @@
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  /* CSS grid overlay: linear-gradient lines every 64px both axes, color rgba(80,255,150,0.05), 1px stroke */
+  /* CSS grid overlay: linear-gradient lines every 64px both axes, color rgba(109,215,76,0.05), 1px stroke */
   background-image: 
-    linear-gradient(rgba(80, 255, 150, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(80, 255, 150, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(109,215,76,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(109,215,76,0.05) 1px, transparent 1px);
   background-size: 64px 64px;
   /* Grid fades out toward top/bottom edges */
   mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
   -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
 }
 
-/* Custom CSS for rotating svg text since framer motion is better for entry, CSS handles continuous loop perfectly */
+/* Animations */
 @keyframes rotate-infinite {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -71,12 +79,12 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #000;
+  background: var(--c-base);
 }
 ::-webkit-scrollbar-thumb {
-  background: #222;
+  background: var(--c-dark);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #333;
+  background: var(--c-deep);
 }
