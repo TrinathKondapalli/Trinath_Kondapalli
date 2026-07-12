@@ -82,7 +82,7 @@ function CurvedMarquee() {
           fontWeight="700" 
           fontSize="20" 
           letterSpacing="2px"
-          textTransform="uppercase"
+          style={{ textTransform: 'uppercase' }}
           fill="var(--c-base)"
         >
           <textPath href="#curve-path" startOffset="0%">
