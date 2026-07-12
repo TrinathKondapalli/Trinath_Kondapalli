@@ -1,119 +1,112 @@
+import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 
 export default function Navbar() {
   return (
-    <div style={{
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      position: 'fixed',
-      top: 32,
-      left: 0,
-      zIndex: 50,
-      animation: 'fade-down 0.8s ease both',
-    }}>
+    <motion.div 
+      initial={{ y: -50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0,
+        zIndex: 50,
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '24px', // margin: 24px per spec
+      }}
+    >
       <nav style={{
+        background: 'rgba(10, 15, 10, 0.7)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: 100, // full pill
+        padding: '12px 24px',
+        height: 72,
+        width: '100%',
+        maxWidth: 1200,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        height: 88,
-        paddingLeft: 32,
-        paddingRight: 32,
-        background: 'rgba(255, 255, 255, 0.02)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        borderRadius: 24,
-        border: '1px solid var(--border)',
-        width: '90%',
-        maxWidth: 1280,
-        boxShadow: '0 8px 32px rgba(0,0,0,0.4), 0 0 30px rgba(124, 255, 79, 0.05)',
+        boxSizing: 'border-box'
       }}>
-
-        {/* ── LOGO LEFT ── */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexShrink: 0 }}>
+        
+        {/* Logo Monogram */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {/* TK Icon */}
           <div style={{
-            display: 'flex', alignItems: 'center',
-            fontFamily: 'var(--font-heading)', fontWeight: 700,
-            fontSize: 28, lineHeight: 1, letterSpacing: '-1px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 22,
+            letterSpacing: '-1px'
           }}>
-            <span style={{ color: 'var(--accent-primary)' }}>T</span>
-            <span style={{ color: 'var(--text-primary)', marginLeft: -1 }}>K</span>
+            <span style={{ color: 'var(--primary-green)' }}>T</span>
+            <span style={{ color: 'var(--text-white)' }}>K</span>
           </div>
+          {/* Name Text */}
           <div style={{
-            borderLeft: '1px solid rgba(255,255,255,0.15)',
-            paddingLeft: 16,
-            fontFamily: 'var(--font-body)', fontWeight: 500,
-            fontSize: 11, letterSpacing: '2px',
-            color: 'var(--text-primary)', lineHeight: 1.4, textTransform: 'uppercase',
+            display: 'flex', flexDirection: 'column',
+            fontFamily: 'var(--font-sans)',
+            fontWeight: 600, color: 'var(--text-white)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px'
           }}>
-            Trinadh<br />Kondapalli
+            <span style={{ fontSize: 14, lineHeight: 1 }}>TRINADH</span>
+            <span style={{ fontSize: 12, lineHeight: 1, marginTop: 2 }}>KONDAPALLI</span>
           </div>
         </div>
 
-        {/* ── NAV LINKS CENTER ── */}
+        {/* Nav Links */}
         <div className="nav-links" style={{
-          display: 'flex', alignItems: 'center',
-          gap: 36,
-          fontFamily: 'var(--font-heading)',
-          fontSize: 16, fontWeight: 500,
+          display: 'flex', alignItems: 'center', gap: 32,
+          fontFamily: 'var(--font-sans)', fontSize: 15, fontWeight: 500
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
-            <div style={{
-              width: 6, height: 6, borderRadius: '50%',
-              background: 'var(--accent-primary)',
-              boxShadow: '0 0 8px var(--accent-primary)',
-            }}/>
-            <span style={{ color: 'var(--text-primary)' }}>Home</span>
-          </div>
-          {['About','Services','Work','Process','Skills','Blog','Contact'].map(item => (
+          {['Home', 'About', 'Services', 'Work', 'Process', 'Skills', 'Blog', 'Contact'].map((item, i) => (
             <a key={item} href={`#${item.toLowerCase()}`} style={{
-              color: 'var(--text-secondary)',
+              position: 'relative',
+              color: i === 0 ? 'var(--text-white)' : 'var(--text-dim)',
               textDecoration: 'none',
-              transition: 'color 0.25s ease',
+              transition: 'color 0.3s ease',
+              display: 'flex', alignItems: 'center', gap: 6
             }}
-              onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'}
-              onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'}
+            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--primary-green)')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = i === 0 ? 'var(--text-white)' : 'var(--text-dim)')}
             >
+              {i === 0 && (
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--primary-green)' }} />
+              )}
               {item}
             </a>
           ))}
         </div>
 
-        {/* ── CTA BUTTON RIGHT ── */}
-        <button
+        {/* CTA Button */}
+        <motion.button
+          whileHover={{ scale: 1.05, filter: 'brightness(1.1)' }}
+          transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
           style={{
+            background: 'linear-gradient(135deg, var(--primary-green), var(--gradient-green-1))',
+            color: 'var(--bg-base)',
+            fontFamily: 'var(--font-sans)',
+            fontWeight: 600, fontSize: 15,
+            padding: '0 24px', height: '100%', minHeight: 48,
+            borderRadius: 100,
+            border: 'none',
             display: 'flex', alignItems: 'center', gap: 8,
-            background: 'var(--accent-primary)',
-            color: '#050505',
-            border: 'none', cursor: 'pointer',
-            height: 56, padding: '0 28px',
-            borderRadius: 16,
-            fontFamily: 'var(--font-heading)',
-            fontWeight: 600, fontSize: 16,
-            justifyContent: 'center',
-            flexShrink: 0,
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          }}
-          onMouseEnter={e => {
-            (e.currentTarget as HTMLElement).style.boxShadow = '0 0 24px var(--accent-glow)';
-            (e.currentTarget as HTMLElement).style.transform = 'scale(1.03) translateY(-2px)';
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-            (e.currentTarget as HTMLElement).style.transform = 'scale(1) translateY(0)';
+            cursor: 'pointer'
           }}
         >
           Let's Talk
-          <ArrowUpRight style={{ width: 18, height: 18, strokeWidth: 2.5 }} />
-        </button>
+          <ArrowUpRight size={16} strokeWidth={3} />
+        </motion.button>
       </nav>
       
-      {/* Basic responsive hiding for the nav center on smaller screens */}
+      {/* Hide center links on smaller screens per typical responsiveness */}
       <style>{`
         @media (max-width: 1024px) {
           .nav-links { display: none !important; }
         }
       `}</style>
-    </div>
+    </motion.div>
   );
 }
