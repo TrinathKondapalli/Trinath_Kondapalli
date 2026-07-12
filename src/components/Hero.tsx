@@ -60,7 +60,7 @@ export default function Hero() {
   const services = ["UX/UI Design", "Website Design", "Frontend Development", "Graphic Design", "Video Editing"];
 
   return (
-    <section className="hero-section" style={{
+    <section style={{
       position: 'relative',
       width: '100%',
       minHeight: '100vh',
@@ -120,7 +120,7 @@ export default function Hero() {
         }}>
           
           {/* Eyebrow */}
-          <div className="hero-eyebrow" style={{
+          <div style={{
             display: 'flex', alignItems: 'center', gap: 12,
             fontFamily: 'var(--font-heading)',
             fontSize: 13, fontWeight: 700, letterSpacing: '0.15em',
@@ -160,7 +160,7 @@ export default function Hero() {
           </p>
 
           {/* Buttons */}
-          <div className="hero-buttons" style={{
+          <div style={{
             display: 'flex', alignItems: 'center', gap: 20, marginTop: 8,
             animation: 'fade-up 0.8s 0.4s ease both',
           }}>
@@ -308,31 +308,11 @@ export default function Hero() {
       {/* Responsive adjustments */}
       <style>{`
         @media (max-width: 1024px) {
-          .hero-section {
-            padding: 140px 32px 60px !important;
-          }
           .hero-right-col {
             grid-column: 1 / -1 !important;
             margin-top: 60px;
             max-width: 500px;
             margin-inline: auto;
-          }
-          .hero-buttons {
-            flex-direction: column;
-            align-items: stretch !important;
-          }
-          .hero-buttons button {
-            width: 100%;
-            justify-content: center;
-          }
-        }
-        @media (max-width: 768px) {
-          .hero-section {
-            padding: 120px 24px 40px !important;
-          }
-          .hero-eyebrow {
-            font-size: 11px !important;
-            flex-wrap: wrap;
           }
         }
       `}</style>

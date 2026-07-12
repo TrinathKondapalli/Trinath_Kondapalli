@@ -12,11 +12,13 @@ export default function Navbar() {
       zIndex: 50,
       animation: 'fade-down 0.8s ease both',
     }}>
-      <nav className="nav-container" style={{
+      <nav style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         height: 88,
+        paddingLeft: 32,
+        paddingRight: 32,
         background: 'rgba(255, 255, 255, 0.02)',
         backdropFilter: 'blur(24px)',
         WebkitBackdropFilter: 'blur(24px)',
@@ -79,7 +81,6 @@ export default function Navbar() {
 
         {/* ── CTA BUTTON RIGHT ── */}
         <button
-          className="nav-cta"
           style={{
             display: 'flex', alignItems: 'center', gap: 8,
             background: 'var(--accent-primary)',
@@ -107,24 +108,10 @@ export default function Navbar() {
         </button>
       </nav>
       
+      {/* Basic responsive hiding for the nav center on smaller screens */}
       <style>{`
-        .nav-container {
-          padding-left: 32px;
-          padding-right: 32px;
-        }
         @media (max-width: 1024px) {
           .nav-links { display: none !important; }
-        }
-        @media (max-width: 768px) {
-          .nav-container {
-            padding-left: 16px;
-            padding-right: 16px;
-          }
-          .nav-cta {
-            padding: 0 16px !important;
-            font-size: 14px !important;
-            height: 44px !important;
-          }
         }
       `}</style>
     </div>
