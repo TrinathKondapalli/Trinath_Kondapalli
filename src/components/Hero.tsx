@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import portrait from '../assets/portrait.png';
 
@@ -135,21 +135,6 @@ export default function Hero() {
   const bgX = useTransform(smoothX, [0, 1], [-40, 40]);
   const bgY = useTransform(smoothY, [0, 1], [-40, 40]);
 
-  // Scroll Parallax for the Badge
-  const { scrollY } = useScroll();
-  const badgeScrollY = useTransform(scrollY, [0, 800], [0, -400]);
-
-  // Click-to-Explode State
-  const [isExploding, setIsExploding] = useState(false);
-
-  const handleBadgeClick = () => {
-    setIsExploding(true);
-    setTimeout(() => {
-      document.getElementById('work')?.scrollIntoView({ behavior: 'auto' }); // scroll instantly while covered
-      setTimeout(() => setIsExploding(false), 200); // shrink back quickly
-    }, 600); // wait for scale up
-  };
-
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
@@ -171,10 +156,6 @@ export default function Hero() {
       transition: { staggerChildren: 0.08, delayChildren: 0.7 }
     }
   };
-  const wordVars = {
-    hidden: { opacity: 0, y: 30 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } }
-  };
 
   return (
     <section 
@@ -188,7 +169,8 @@ export default function Hero() {
         flexDirection: 'column',
         alignItems: 'center',
         padding: '116px 24px 48px',
-        overflow: 'hidden',
+        overflowX: 'clip',
+        overflowY: 'visible', // Allow the glow to bleed into the tools marquee without a harsh line
         perspective: '1200px'
       }}
     >
@@ -210,7 +192,7 @@ export default function Hero() {
             marginBottom: 24
           }}
         >
-          Hi! I'm Trinath Kondapalli 
+          Hi! I'm Trinadh Kondapalli 
           <span style={{ color: 'var(--c-primary)' }}>•</span> 
           Based in India
         </motion.div>
@@ -225,19 +207,29 @@ export default function Hero() {
         >
           {/* Headline - Single Line */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
-            <motion.span variants={wordVars} style={{
-              fontFamily: 'var(--font-sans)', fontWeight: 700, letterSpacing: '-1px',
-              fontSize: 'clamp(32px, 4.5vw, 64px)', color: 'var(--c-white)'
-            }}>
+            <motion.span 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                fontFamily: 'var(--font-sans)', fontWeight: 700, letterSpacing: '-1px',
+                fontSize: 'clamp(32px, 4.5vw, 64px)', color: 'var(--c-white)'
+              }}
+            >
               Helping Businesses Build Better
             </motion.span>
-            <motion.span variants={wordVars} style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(32px, 4.5vw, 64px)',
-              background: 'linear-gradient(135deg, var(--c-primary), var(--c-secondary))',
-              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-              paddingRight: 8 // italic fix
-            }}>
+            <motion.span 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(32px, 4.5vw, 64px)',
+                background: 'linear-gradient(135deg, var(--c-primary), var(--c-secondary))',
+                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                paddingRight: 8 // italic fix
+              }}
+            >
               Digital Experiences
             </motion.span>
           </div>
@@ -245,12 +237,12 @@ export default function Hero() {
 
         {/* Subtext */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            fontFamily: 'var(--font-sans)', fontSize: 18, color: 'var(--c-white)',
-            maxWidth: 600, textAlign: 'center', marginTop: 24, lineHeight: 1.6
+            fontFamily: 'var(--font-sans)', fontSize: 20, color: 'rgba(255,255,255,0.72)',
+            maxWidth: 640, textAlign: 'center', marginTop: 24, lineHeight: 1.6
           }}
         >
           Designing experiences that inspire, engage, and grow businesses.
@@ -264,7 +256,7 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.9, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.9, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
         style={{
           marginTop: 24,
           position: 'relative',
@@ -313,27 +305,15 @@ export default function Hero() {
           {/* ─── CIRCULAR SCROLL BADGE ─── */}
           <motion.div style={{
             position: 'absolute', bottom: -10, right: -10,
-            y: badgeScrollY, z: 60, // Outer scroll parallax and Z-depth
-            zIndex: isExploding ? 9999 : 60 // Bring to absolute front when exploding
+            width: 120, height: 120,
+            borderRadius: '50%',
+            background: 'var(--rgba-dark-06)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid var(--rgba-white-03)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            z: 60,
+            boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
           }}>
-            <motion.div 
-              onClick={handleBadgeClick}
-              animate={{ 
-                scale: isExploding ? 120 : 1, // Explode to fill screen
-                opacity: isExploding ? 1 : 1
-              }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                width: 120, height: 120,
-                borderRadius: '50%',
-                background: 'var(--rgba-dark-06)',
-                backdropFilter: 'blur(12px)',
-                border: isExploding ? 'none' : '1px solid var(--rgba-white-03)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
-                cursor: 'pointer'
-              }}
-            >
             {/* Rotating SVG Text */}
             <svg className="anim-rotate" width="120" height="120" viewBox="0 0 120 120" style={{ position: 'absolute', inset: 0 }}>
               <defs>
@@ -354,7 +334,6 @@ export default function Hero() {
             }}>
               <ArrowDown size={20} color="var(--c-base)" strokeWidth={3} />
             </div>
-            </motion.div>
           </motion.div>
           
         </motion.div>

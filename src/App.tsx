@@ -2,7 +2,19 @@ import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import Work from './components/Work';
+import ToolsMarquee from './components/ToolsMarquee';
+import Availability from './components/Availability';
+import Services from './components/Services';
+import WhoIHelp from './components/WhoIHelp';
+import ProblemsISolve from './components/ProblemsISolve';
+import FeaturedProjects from './components/FeaturedProjects';
+import DesignProcess from './components/DesignProcess';
+import AboutMe from './components/AboutMe';
+import SkillsAndTools from './components/SkillsAndTools';
+import Testimonials from './components/Testimonials';
+import FAQ from './components/FAQ';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
 import './index.css';
 
 function CustomCursor() {
@@ -102,8 +114,20 @@ function App() {
       <Navbar />
       <main>
         <Hero />
-        <Work />
+        <ToolsMarquee />
+        <Availability />
+        <Services />
+        <WhoIHelp />
+        <ProblemsISolve />
+        <FeaturedProjects />
+        <DesignProcess />
+        <AboutMe />
+        <SkillsAndTools />
+        <Testimonials />
+        <FAQ />
+        <Contact />
       </main>
+      <Footer />
     </>
   )
 }
