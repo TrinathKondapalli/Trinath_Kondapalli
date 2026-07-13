@@ -164,7 +164,7 @@ export default function Hero() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            fontFamily: 'var(--font-sans)', fontSize: 16, color: 'var(--c-muted)',
+            fontFamily: 'var(--font-sans)', fontSize: 16, color: 'var(--c-white)',
             letterSpacing: '0.3px', display: 'flex', alignItems: 'center', gap: 12,
             marginBottom: 24
           }}
@@ -228,7 +228,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            fontFamily: 'var(--font-sans)', fontSize: 18, color: 'var(--c-muted)',
+            fontFamily: 'var(--font-sans)', fontSize: 18, color: 'var(--c-white)',
             maxWidth: 600, textAlign: 'center', marginTop: 24, lineHeight: 1.6
           }}
         >

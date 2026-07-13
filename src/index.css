@@ -3,7 +3,7 @@
   --c-primary: #6dd74c;      /* Neon green primary */
   --c-secondary: #81dd6a;    /* Secondary green gradient */
   --c-base: #081509;         /* Base background */
-  --c-white: #e1e6dc;        /* Off-white primary text */
+  --c-white: #ffffff;        /* Pure-white primary text */
   --c-deep: #386626;         /* Deep green shadow tone */
   --c-warm: #8f5229;         /* Warm brown/skin accent */
   --c-dark: #143113;         /* Dark green panel surface */
@@ -12,10 +12,10 @@
   /* RGBA references mapped directly from spec */
   --rgba-primary-04: rgba(109,215,76,0.4);
   --rgba-primary-006: rgba(109,215,76,0.06);
-  --rgba-white-06: rgba(225,230,220,0.6);
-  --rgba-white-03: rgba(225,230,220,0.3);
-  --rgba-white-015: rgba(225,230,220,0.15);
-  --rgba-white-008: rgba(225,230,220,0.08);
+  --rgba-white-06: rgba(255,255,255,0.6);
+  --rgba-white-03: rgba(255,255,255,0.3);
+  --rgba-white-015: rgba(255,255,255,0.15);
+  --rgba-white-008: rgba(255,255,255,0.08);
   --rgba-dark-07: rgba(20,49,19,0.7);
   --rgba-dark-06: rgba(20,49,19,0.6);
 
