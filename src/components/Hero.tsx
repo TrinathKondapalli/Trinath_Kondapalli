@@ -1,22 +1,30 @@
 import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowDown, ArrowUpRight } from 'lucide-react';
+import { motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
+import { ArrowDown } from 'lucide-react';
+import portrait from '../assets/portrait.png';
 
 /* ─── Dot Background System ─────────────────────── */
 function TwinklingDots() {
   const [dots, setDots] = useState<any[]>([]);
 
   useEffect(() => {
-    // Generate 20 random dots
-    const generated = Array.from({ length: 20 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100, // vw
-      y: Math.random() * 100, // vh
-      size: Math.random() * 2 + 2, // 2-4px
-      duration: Math.random() * 3 + 3, // 3-6s
-      delay: Math.random() * 2,
-      drifting: i < 2 // 1-2 dots drift for parallax depth
-    }));
+    // Generate 40 random dots
+    const generated = Array.from({ length: 40 }, (_, i) => {
+      const moveX = (Math.random() - 0.5) * 100; // random drift -50px to 50px
+      const moveY = (Math.random() - 0.5) * 100;
+      
+      return {
+        id: i,
+        x: Math.random() * 100, // %
+        y: Math.random() * 100, // %
+        size: Math.random() * 2 + 2, // 2-4px
+        duration: Math.random() * 3 + 3, // 3-6s for pulsing
+        delay: Math.random() * 2,
+        moveDuration: Math.random() * 10 + 15, // 15-25s for drifting
+        moveX,
+        moveY
+      };
+    });
     setDots(generated);
   }, []);
 
@@ -25,21 +33,21 @@ function TwinklingDots() {
       {dots.map(dot => (
         <motion.div
           key={dot.id}
-          initial={{ opacity: 0.2, x: 0 }}
+          initial={{ opacity: 0.2, x: 0, y: 0 }}
           animate={{
-            opacity: [0.2, 0.6, 0.2],
-            x: dot.drifting ? [0, 20, 0] : 0,
-            y: dot.drifting ? [0, 10, 0] : 0
+            opacity: [0.2, 0.8, 0.2],
+            x: [0, dot.moveX, 0],
+            y: [0, dot.moveY, 0]
           }}
           transition={{
             opacity: { duration: dot.duration, repeat: Infinity, ease: 'easeInOut', delay: dot.delay },
-            x: { duration: 15, repeat: Infinity, ease: 'linear' },
-            y: { duration: 15, repeat: Infinity, ease: 'linear' }
+            x: { duration: dot.moveDuration, repeat: Infinity, ease: 'easeInOut', delay: dot.delay },
+            y: { duration: dot.moveDuration, repeat: Infinity, ease: 'easeInOut', delay: dot.delay }
           }}
           style={{
             position: 'absolute',
-            left: `${dot.x}vw`,
-            top: `${dot.y}vh`,
+            left: `${dot.x}%`,
+            top: `${dot.y}%`,
             width: dot.size,
             height: dot.size,
             background: 'var(--c-primary)',
@@ -55,18 +63,31 @@ function TwinklingDots() {
 /* ─── Curved Marquee Ribbon ─────────────────────── */
 function CurvedMarquee() {
   return (
-    <div style={{
-      position: 'absolute',
-      top: '45%', // behind portrait
-      left: 0, width: '100%',
-      height: 200,
-      pointerEvents: 'none',
-      zIndex: 5,
-      overflow: 'hidden'
-    }}>
-      <svg width="100%" height="100%" viewBox="0 0 1440 200" preserveAspectRatio="none">
+    <>
+      <style>{`
+        .hero-ribbon {
+          top: 48%;
+        }
+        @media (max-width: 1024px) {
+          .hero-ribbon {
+            top: calc(48% + 30px) !important;
+          }
+        }
+      `}</style>
+      <div className="hero-ribbon" style={{
+        position: 'absolute',
+        left: '50%', 
+        transform: 'translateX(-50%)',
+        width: '100%',
+        minWidth: 1440, 
+        height: 300,
+        pointerEvents: 'none',
+        zIndex: 5,
+        overflow: 'hidden'
+      }}>
+      <svg width="100%" height="100%" viewBox="0 0 1440 300" preserveAspectRatio="none">
         <defs>
-          <path id="curve-path" d="M -100 100 Q 360 0, 720 100 T 1540 100" fill="transparent" />
+          <path id="curve-path" d="M -200 50 C 106 50, 414 250, 720 250 S 1334 50, 1640 50" fill="transparent" />
           <linearGradient id="ribbonGrad" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="var(--c-primary)" />
             <stop offset="100%" stopColor="var(--c-secondary)" />
@@ -74,24 +95,25 @@ function CurvedMarquee() {
         </defs>
         
         {/* Render thick stroke path for the ribbon background */}
-        <path d="M -100 100 Q 360 0, 720 100 T 1540 100" fill="transparent" stroke="url(#ribbonGrad)" strokeWidth="48" />
+        <path d="M -200 50 C 106 50, 414 250, 720 250 S 1334 50, 1640 50" fill="transparent" stroke="url(#ribbonGrad)" strokeWidth="48" />
 
         {/* Text on Path animated manually via CSS or motion */}
         <text 
           fontFamily="var(--font-sans)" 
           fontWeight="700" 
-          fontSize="20" 
-          letterSpacing="2px"
-          style={{ textTransform: 'uppercase' }}
+          fontSize="24" 
+          letterSpacing="1px"
           fill="var(--c-base)"
+          dominantBaseline="middle"
         >
           <textPath href="#curve-path" startOffset="0%">
-            <animate attributeName="startOffset" from="0%" to="-50%" dur="20s" repeatCount="indefinite" />
-            PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO PORTFOLIO
+            <animate attributeName="startOffset" from="0%" to="-100%" dur="30s" repeatCount="indefinite" />
+            {"UX/UI Design • Website Design • Front-end Development • Creative Content • ".repeat(30)}
           </textPath>
         </text>
       </svg>
     </div>
+    </>
   );
 }
 
@@ -100,14 +122,33 @@ export default function Hero() {
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
   
-  // Spring physics for smooth follow
-  const springConfig = { damping: 25, stiffness: 150 };
+  // Spring physics for buttery smooth, heavy gliding follow
+  const springConfig = { damping: 40, stiffness: 40, mass: 1.5 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
   
-  // Transform to rotate (-6deg to 6deg)
-  const rotateX = useTransform(smoothY, [0, 1], [6, -6]);
-  const rotateY = useTransform(smoothX, [0, 1], [-6, 6]);
+  // Transform to rotate (-15deg to 15deg for dramatic 3D)
+  const rotateX = useTransform(smoothY, [0, 1], [15, -15]);
+  const rotateY = useTransform(smoothX, [0, 1], [-15, 15]);
+
+  // Holographic shifts for background glow
+  const bgX = useTransform(smoothX, [0, 1], [-40, 40]);
+  const bgY = useTransform(smoothY, [0, 1], [-40, 40]);
+
+  // Scroll Parallax for the Badge
+  const { scrollY } = useScroll();
+  const badgeScrollY = useTransform(scrollY, [0, 800], [0, -400]);
+
+  // Click-to-Explode State
+  const [isExploding, setIsExploding] = useState(false);
+
+  const handleBadgeClick = () => {
+    setIsExploding(true);
+    setTimeout(() => {
+      document.getElementById('work')?.scrollIntoView({ behavior: 'auto' }); // scroll instantly while covered
+      setTimeout(() => setIsExploding(false), 200); // shrink back quickly
+    }, 600); // wait for scale up
+  };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -146,7 +187,7 @@ export default function Hero() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '160px 24px 96px',
+        padding: '116px 24px 48px',
         overflow: 'hidden',
         perspective: '1200px'
       }}
@@ -169,7 +210,7 @@ export default function Hero() {
             marginBottom: 24
           }}
         >
-          Hi! I'm Trinadh Kondapalli 
+          Hi! I'm Trinath Kondapalli 
           <span style={{ color: 'var(--c-primary)' }}>•</span> 
           Based in India
         </motion.div>
@@ -182,43 +223,23 @@ export default function Hero() {
             lineHeight: 1.05, maxWidth: 1100, textAlign: 'center'
           }}
         >
-          {/* Line 1 */}
+          {/* Headline - Single Line */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
             <motion.span variants={wordVars} style={{
+              fontFamily: 'var(--font-sans)', fontWeight: 700, letterSpacing: '-1px',
+              fontSize: 'clamp(32px, 4.5vw, 64px)', color: 'var(--c-white)'
+            }}>
+              Helping Businesses Build Better
+            </motion.span>
+            <motion.span variants={wordVars} style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(48px, 6vw, 88px)',
+              fontSize: 'clamp(32px, 4.5vw, 64px)',
               background: 'linear-gradient(135deg, var(--c-primary), var(--c-secondary))',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
               paddingRight: 8 // italic fix
             }}>
-              Creative
+              Digital Experiences
             </motion.span>
-            <motion.span variants={wordVars} style={{
-              fontFamily: 'var(--font-sans)', fontWeight: 700, letterSpacing: '-1px',
-              fontSize: 'clamp(48px, 6vw, 88px)', color: 'var(--c-white)'
-            }}>
-              Designer &
-            </motion.span>
-          </div>
-          
-          {/* Line 2 */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 4 }}>
-            <motion.span variants={wordVars} style={{
-              fontFamily: 'var(--font-sans)', fontWeight: 700, letterSpacing: '-1px',
-              fontSize: 'clamp(48px, 6vw, 88px)', color: 'var(--c-white)'
-            }}>
-              Developer
-            </motion.span>
-            <motion.div variants={wordVars}>
-              <div style={{
-                width: 40, height: 40, borderRadius: '50%',
-                background: 'var(--c-primary)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                transform: 'translateY(-4px)'
-              }}>
-                <ArrowUpRight size={20} color="var(--c-base)" strokeWidth={3} />
-              </div>
-            </motion.div>
           </div>
         </motion.div>
 
@@ -232,7 +253,7 @@ export default function Hero() {
             maxWidth: 600, textAlign: 'center', marginTop: 24, lineHeight: 1.6
           }}
         >
-          I build designs that solve problems, inspire action, and drive success.
+          Designing experiences that inspire, engage, and grow businesses.
         </motion.p>
       </div>
 
@@ -245,7 +266,7 @@ export default function Hero() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.9, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
         style={{
-          marginTop: 48,
+          marginTop: 24,
           position: 'relative',
           zIndex: 10,
           perspective: 1000
@@ -256,49 +277,67 @@ export default function Hero() {
           style={{
             rotateX: rotateX,
             rotateY: rotateY,
-            width: 'clamp(280px, 40vw, 420px)',
-            height: 'clamp(360px, 50vw, 520px)',
-            borderRadius: 32,
-            background: 'linear-gradient(135deg, var(--c-secondary), var(--c-deep))',
-            boxShadow: '0 0 80px 20px var(--rgba-primary-04), 0 0 40px var(--rgba-white-015)',
+            width: 'clamp(260px, 34vw, 380px)',
+            height: 'clamp(260px, 34vw, 380px)',
             position: 'relative',
             transformStyle: 'preserve-3d'
           }}
         >
+          {/* Backside Glow Effect */}
+          <motion.div style={{
+            position: 'absolute',
+            inset: -4, // expand slightly to match border
+            background: 'var(--c-primary)',
+            filter: 'blur(40px)',
+            opacity: 0.85,
+            x: bgX, y: bgY, z: -50,
+            borderRadius: '36px', // slightly larger than image
+            boxShadow: '-10px -10px 40px rgba(255, 255, 255, 0.6), 0 0 80px var(--c-primary)'
+          }} />
+
           {/* Portrait Image */}
-          <div style={{
-            position: 'absolute', inset: 0, borderRadius: 32, overflow: 'hidden',
-            boxShadow: 'inset 2px -2px 10px var(--rgba-white-06)' // Rim light effect
-          }}>
-            <img 
-              src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Portrait"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-            {/* Subtle warm tint overlay grading */}
-            <div style={{
-              position: 'absolute', inset: 0,
-              background: 'linear-gradient(to top, rgba(143,82,41,0.2) 0%, transparent 50%)',
-              pointerEvents: 'none'
-            }} />
-          </div>
+          <img
+            src={portrait}
+            alt="Portrait of Trinath Kondapalli"
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover', 
+              display: 'block', 
+              position: 'relative', 
+              zIndex: 1,
+              borderRadius: '32px'
+            }}
+          />
 
           {/* ─── CIRCULAR SCROLL BADGE ─── */}
-          <div style={{
-            position: 'absolute', bottom: -30, right: -30,
-            width: 140, height: 140,
-            borderRadius: '50%',
-            background: 'var(--rgba-dark-06)',
-            backdropFilter: 'blur(12px)',
-            border: '1px solid var(--rgba-white-03)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            transform: 'translateZ(30px)', // Pop out slightly due to 3D tilt
-            boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+          <motion.div style={{
+            position: 'absolute', bottom: -10, right: -10,
+            y: badgeScrollY, z: 60, // Outer scroll parallax and Z-depth
+            zIndex: isExploding ? 9999 : 60 // Bring to absolute front when exploding
           }}>
+            <motion.div 
+              onClick={handleBadgeClick}
+              animate={{ 
+                scale: isExploding ? 120 : 1, // Explode to fill screen
+                opacity: isExploding ? 1 : 1
+              }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                width: 120, height: 120,
+                borderRadius: '50%',
+                background: 'var(--rgba-dark-06)',
+                backdropFilter: 'blur(12px)',
+                border: isExploding ? 'none' : '1px solid var(--rgba-white-03)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                cursor: 'pointer'
+              }}
+            >
             {/* Rotating SVG Text */}
-            <svg className="anim-rotate" width="140" height="140" viewBox="0 0 140 140" style={{ position: 'absolute', inset: 0 }}>
+            <svg className="anim-rotate" width="120" height="120" viewBox="0 0 120 120" style={{ position: 'absolute', inset: 0 }}>
               <defs>
-                <path id="badge-path" d="M 70, 70 m -50, 0 a 50,50 0 1,1 100,0 a 50,50 0 1,1 -100,0" />
+                <path id="badge-path" d="M 60, 60 m -43, 0 a 43,43 0 1,1 86,0 a 43,43 0 1,1 -86,0" />
               </defs>
               <text fontSize="11" fill="var(--c-white)" fontWeight="600" letterSpacing="2px">
                 <textPath href="#badge-path" startOffset="0">
@@ -315,7 +354,8 @@ export default function Hero() {
             }}>
               <ArrowDown size={20} color="var(--c-base)" strokeWidth={3} />
             </div>
-          </div>
+            </motion.div>
+          </motion.div>
           
         </motion.div>
       </motion.div>
