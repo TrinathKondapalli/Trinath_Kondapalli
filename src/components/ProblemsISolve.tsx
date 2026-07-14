@@ -1,237 +1,222 @@
-import { motion } from 'framer-motion';
-import { XCircle, CheckCircle2, ArrowRight } from 'lucide-react';
 
-const comparisons = [
+const philosophies = [
   {
-    problem: 'Outdated Website',
-    solution: 'Modern UX/UI Design'
+    title: 'Think first',
+    desc: 'Great design starts with deep understanding. Strategy, architecture, and user psychology before a single pixel is drawn.',
+    tag: 'Strategy · Research'
   },
   {
-    problem: 'Low Conversion Rate',
-    solution: 'Conversion-Focused Websites'
+    title: 'Ship fast',
+    desc: 'Speed to market is a feature. Modern frameworks and lean processes deliver quality without the bloat.',
+    tag: 'React · Next.js'
   },
   {
-    problem: 'Weak Brand Identity',
-    solution: 'Strong Visual Identity'
-  },
-  {
-    problem: 'Slow Performance',
-    solution: 'Fast Frontend Development'
-  },
-  {
-    problem: 'Confusing Navigation',
-    solution: 'Responsive Design'
-  },
-  {
-    problem: 'Poor User Experience',
-    solution: 'Better User Experience'
+    title: 'Iterate always',
+    desc: 'Launch is the starting line. Continuous refinement on real data ensures the product grows with its users.',
+    tag: 'Analytics · A/B'
   }
 ];
 
 export default function ProblemsISolve() {
   return (
-    <section style={{
+    <section id="philosophy" style={{
       position: 'relative',
       width: '100%',
-      padding: '140px 24px',
+      minHeight: '100vh',
+      padding: '120px 24px',
       display: 'flex',
       flexDirection: 'column',
+      justifyContent: 'center',
       alignItems: 'center',
-      zIndex: 10
+      zIndex: 10,
+      background: '#081509',
+      overflow: 'hidden'
     }}>
       <style>{`
-        .problems-container {
+        /* Dot Grid Background Pattern */
+        .philosophy-bg {
+          position: absolute;
+          inset: 0;
+          background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+          background-size: 32px 32px;
+          opacity: 0.04;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .philosophy-content {
+          position: relative;
+          z-index: 10;
+          width: 100%;
+          max-width: 1440px;
           display: flex;
           flex-direction: column;
-          gap: 24px;
-          width: 100%;
-          max-width: 1000px;
         }
 
-        .comparison-row {
-          display: grid;
-          grid-template-columns: 1fr auto 1fr;
-          align-items: center;
-          gap: 32px;
-          width: 100%;
-        }
-
-        .comparison-card {
-          padding: 24px 32px;
-          border-radius: 28px;
-          background: var(--rgba-dark-06);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(109,215,76,0.05);
+        .headline-wrapper {
           display: flex;
-          align-items: center;
-          gap: 16px;
-          transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+          flex-direction: column;
+          align-items: flex-start;
+          margin-bottom: 120px;
         }
 
-        .comparison-card.problem {
-          border-color: rgba(255,255,255,0.05);
+        .headline-line {
+          font-family: var(--font-sans);
+          font-size: clamp(60px, 10vw, 160px);
+          font-weight: 800;
+          line-height: 0.9;
+          letter-spacing: -3px;
+          color: var(--c-white);
+          text-transform: uppercase;
         }
 
-        .comparison-card.solution {
-          border-color: rgba(109,215,76,0.15);
+        .headline-italic {
+          font-family: var(--font-display);
+          font-style: italic;
+          font-weight: 400;
+          color: rgba(255,255,255,0.4);
+          text-transform: lowercase;
+          letter-spacing: -1px;
+          padding-left: 10vw; /* Indent for rhythm */
+        }
+        
+        .headline-accent {
+          color: var(--c-primary);
+          padding-left: 5vw;
         }
 
-        .comparison-card:hover {
-          transform: translateY(-4px);
+        .philosophy-cards {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          width: 100%;
+          border: 1px solid rgba(255,255,255,0.06);
+          background: rgba(255,255,255,0.06); /* Creates 1px dividers */
+          gap: 1px;
+          border-radius: 24px;
+          overflow: hidden;
         }
 
-        .comparison-card.problem:hover {
-          border-color: rgba(255,255,255,0.15);
-          box-shadow: 0 10px 40px -10px rgba(255,255,255,0.05);
+        .phil-card {
+          padding: 28px 24px;
+          background: #0d1f0d;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          transition: background 0.4s ease;
         }
 
-        .comparison-card.solution:hover {
-          border-color: rgba(109,215,76,0.3);
-          box-shadow: 0 10px 40px -10px rgba(109,215,76,0.15);
+        .phil-card:hover {
+          background: #0f260f;
         }
 
-        /* Responsive Breakpoints */
-        @media (max-width: 768px) {
-          .comparison-row {
-            grid-template-columns: 1fr;
-            gap: 16px;
-          }
-          
-          .connection-arrow {
-            transform: rotate(90deg);
-            margin: 0 auto;
-          }
+        .phil-index {
+          font-family: var(--font-sans);
+          font-size: 11px;
+          color: rgba(100,220,100,0.5);
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+          font-weight: 600;
+        }
+
+        .phil-title {
+          font-family: var(--font-sans);
+          font-size: 20px;
+          font-weight: 700;
+          color: var(--c-white);
+          margin-top: 20px;
+          margin-bottom: 0;
+          line-height: 1.2;
+        }
+
+        .phil-desc {
+          font-family: var(--font-sans);
+          font-size: 13px;
+          color: rgba(255,255,255,0.45);
+          line-height: 1.65;
+          margin-top: 12px;
+          margin-bottom: 32px;
+        }
+        
+        .phil-tag {
+          margin-top: auto;
+          font-family: var(--font-sans);
+          font-size: 11px;
+          font-weight: 500;
+          color: rgba(100,220,100,0.7);
+          border: 0.5px solid rgba(100,220,100,0.25);
+          border-radius: 20px;
+          padding: 6px 12px;
+          letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 1024px) {
+          .headline-line { letter-spacing: -2px; }
+          .philosophy-cards { grid-template-columns: 1fr; border: none; background: transparent; gap: 0; }
+          .phil-card { border: 1px solid rgba(255,255,255,0.06); border-bottom: none; }
+          .phil-card:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
+          .headline-italic { padding-left: 24px; }
+          .headline-accent { padding-left: 12px; }
         }
       `}</style>
 
-      {/* Eyebrow Pill */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          padding: '6px 16px',
-          background: 'var(--rgba-dark-06)',
-          border: '1px solid var(--rgba-white-03)',
-          borderRadius: 100,
-          marginBottom: 32
-        }}
-      >
-        <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-        <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-          PROBLEMS I SOLVE
-        </span>
-        <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-      </motion.div>
+      <div className="philosophy-bg" />
 
-      {/* Headline */}
-      <motion.h2 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 'clamp(40px, 5vw, 72px)',
-          fontWeight: 800,
-          color: 'var(--c-white)',
-          textAlign: 'center',
-          letterSpacing: '-2px',
-          marginBottom: 32,
-          lineHeight: 1.1
-        }}
-      >
-        Every <br/>
-        Problem <br/>
-        Has a{' '}
-        <span style={{
-          fontFamily: 'var(--font-display)',
-          fontStyle: 'italic',
-          fontWeight: 400,
-          background: 'linear-gradient(135deg, #6DD74C, #81DD6A)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          paddingRight: '8px'
-        }}>
-          Better Experience.
-        </span>
-      </motion.h2>
-
-      {/* Subhead */}
-      <motion.p
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 20,
-          color: 'rgba(255,255,255,0.72)',
-          textAlign: 'center',
-          maxWidth: 760,
-          lineHeight: 1.6,
-          marginBottom: 80
-        }}
-      >
-        I identify usability, branding, and performance challenges, then transform them into intuitive digital experiences that help businesses grow.
-      </motion.p>
-
-      {/* Comparison Layout */}
-      <div className="problems-container">
-        {comparisons.map((item, i) => (
-          <motion.div 
-            key={i}
-            className="comparison-row"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      <div className="philosophy-content">
+        
+        {/* Massive Rhythmic Headline */}
+        <div className="headline-wrapper">
+          <div 
+            className="headline-line reveal"
+            style={{ transitionDelay: '0ms' }}
           >
-            {/* Problem (Left) */}
-            <div className="comparison-card problem">
-              <XCircle size={24} color="rgba(255,255,255,0.4)" strokeWidth={2} />
-              <span style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 18,
-                fontWeight: 500,
-                color: 'rgba(255,255,255,0.6)'
-              }}>
-                {item.problem}
-              </span>
-            </div>
+            Every
+          </div>
+          
+          <div 
+            className="headline-line headline-italic reveal"
+            style={{ transitionDelay: '100ms' }}
+          >
+            problem
+          </div>
+          
+          <div 
+            className="headline-line headline-accent reveal"
+            style={{ transitionDelay: '200ms' }}
+          >
+            has a
+          </div>
+          
+          <div 
+            className="headline-line headline-italic reveal"
+            style={{ transitionDelay: '300ms' }}
+          >
+            digital
+          </div>
 
-            {/* Glowing Arrow (Center) */}
-            <div className="connection-arrow" style={{
-              width: 48,
-              height: 48,
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: 'rgba(109,215,76,0.05)',
-              border: '1px solid rgba(109,215,76,0.15)',
-              boxShadow: '0 0 20px rgba(109,215,76,0.1)'
-            }}>
-              <ArrowRight size={20} color="var(--c-primary)" />
-            </div>
+          <div 
+            className="headline-line reveal"
+            style={{ transitionDelay: '400ms' }}
+          >
+            experience
+          </div>
+        </div>
 
-            {/* Solution (Right) */}
-            <div className="comparison-card solution">
-              <CheckCircle2 size={24} color="var(--c-primary)" strokeWidth={2} />
-              <span style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 18,
-                fontWeight: 600,
-                color: 'var(--c-white)'
-              }}>
-                {item.solution}
-              </span>
+        {/* 3-Column Philosophy Cards */}
+        <div className="philosophy-cards">
+          {philosophies.map((phil, i) => (
+            <div
+              key={i}
+              className="phil-card reveal"
+              style={{ transitionDelay: `${500 + (i * 100)}ms` }}
+            >
+              <div className="phil-index">0{i + 1}</div>
+              <h3 className="phil-title">{phil.title}</h3>
+              <p className="phil-desc">{phil.desc}</p>
+              <div className="phil-tag">{phil.tag}</div>
             </div>
-          </motion.div>
-        ))}
+          ))}
+        </div>
+
       </div>
     </section>
   );

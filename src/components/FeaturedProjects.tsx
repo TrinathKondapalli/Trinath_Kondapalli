@@ -1,185 +1,408 @@
-import { motion } from 'framer-motion';
-import { ArrowRight, Layout, Activity, MonitorSmartphone } from 'lucide-react';
-import SplitText from './SplitText';
-import BorderGlow from './BorderGlow';
+import { useState, useRef } from 'react';
+import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 
 const projects = [
   {
-    title: 'Healthcare Website',
+    title: 'Healthcare Platform',
+    slug: 'healthcare-platform',
     category: 'UX/UI Design',
-    desc: 'Modern healthcare platform focused on trust, accessibility, and patient experience.',
-    tech: ['Figma', 'React', 'Tailwind'],
-    icon: Activity,
-    image: 'https://images.unsplash.com/photo-1576091160550-2173ff9e9e9c?auto=format&fit=crop&q=80&w=800'
+    result: '↑ 40% conversion',
+    className: 'card-hero', // spans 6 cols
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1600'
   },
   {
     title: 'Finance Dashboard',
+    slug: 'finance-dashboard',
     category: 'Product Design',
-    desc: 'A clean financial dashboard designed to simplify complex data and improve decision-making.',
-    tech: ['UI/UX', 'Design System', 'Prototyping'],
-    icon: Layout,
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800'
+    result: '↓ 25% churn rate',
+    className: 'card-half', // spans 3 cols
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200'
   },
   {
-    title: 'Personal Portfolio',
-    category: 'Website Design & Frontend',
-    desc: 'A premium personal portfolio designed to attract clients through modern UI, storytelling, and performance.',
-    tech: ['React', 'Framer Motion', 'GSAP'],
-    icon: MonitorSmartphone,
-    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800'
+    title: 'Premium Portfolio',
+    slug: 'premium-portfolio',
+    category: 'Web Design',
+    result: '↑ 80% engagement',
+    className: 'card-half', // spans 3 cols
+    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200'
+  },
+  {
+    title: 'E-Commerce App',
+    slug: 'ecommerce-app',
+    category: 'Mobile UX',
+    result: '↑ 120% mobile sales',
+    className: 'card-third', // spans 2 cols
+    image: 'https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    title: 'SaaS Architecture',
+    slug: 'saas-architecture',
+    category: 'Design System',
+    result: '↑ $10k MRR growth',
+    className: 'card-third', // spans 2 cols
+    image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    title: 'AI Interface',
+    slug: 'ai-interface',
+    category: 'UX Engineering',
+    result: '↓ 40% task time',
+    className: 'card-third', // spans 2 cols
+    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800'
   }
 ];
 
+function ProjectCard({ project, index }: { project: any, index: number }) {
+  const cardRef = useRef<HTMLAnchorElement>(null);
+  const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0, scale: 1 });
+  const [overlay, setOverlay] = useState({ x: 0, y: 0, opacity: 0 });
+  
+  // Parallax offsets
+  const [parallax, setParallax] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!cardRef.current) return;
+    // Only apply on hover capable devices
+    if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
+
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // Percentage from -1 to 1
+    const xPct = (x / rect.width - 0.5) * 2;
+    const yPct = (y / rect.height - 0.5) * 2;
+    
+    // Max tilt ±8 degrees
+    setTilt({
+      rotateX: yPct * -8,
+      rotateY: xPct * 8,
+      scale: 1.02
+    });
+    
+    // Opposite shift for parallax (image shifts up to 15px)
+    setParallax({
+      x: xPct * -15,
+      y: yPct * -15
+    });
+    
+    setOverlay({ x, y, opacity: 0.2 });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ rotateX: 0, rotateY: 0, scale: 1 });
+    setParallax({ x: 0, y: 0 });
+    setOverlay(prev => ({ ...prev, opacity: 0 }));
+  };
+
+  return (
+    <Link
+      to={`/case-study/${project.slug}`}
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={`editorial-card reveal ${project.className}`}
+      style={{ 
+        transitionDelay: `${index * 80}ms`, 
+        display: 'block', 
+        textDecoration: 'none',
+        transform: `perspective(800px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale(${tilt.scale})`
+      }}
+    >
+      {/* Image Parallax Wrapper */}
+      <div 
+        style={{ 
+          width: '100%', height: '100%', overflow: 'hidden',
+          transform: `translate(${parallax.x}px, ${parallax.y}px)`,
+          transition: overlay.opacity > 0 ? 'transform 0.1s ease' : 'transform 0.5s ease-out'
+        }}
+      >
+        <img src={project.image} alt={project.title} className="editorial-img" />
+      </div>
+      
+      {/* Dynamic Mouse Highlight */}
+      <div 
+        className="mouse-highlight"
+        style={{
+          transform: `translate(${overlay.x - 100}px, ${overlay.y - 100}px)`,
+          opacity: overlay.opacity
+        }}
+      />
+      
+      <div className="editorial-gradient" />
+      <div className="editorial-overlay" />
+
+      <div className="view-case-study-btn">
+        View Case Study <ArrowUpRight size={18} strokeWidth={3} />
+      </div>
+
+      <div className="project-number">
+        0{index + 1}
+      </div>
+
+      <div className="text-bar">
+        <div className="text-bar-left">
+          <div className="category-pill">{project.category}</div>
+          <h3 className="project-title">{project.title}</h3>
+        </div>
+        <div className="project-result">
+          {project.result}
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 export default function FeaturedProjects() {
+  const [hoveredImage, setHoveredImage] = useState<string | null>(null);
+  
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 25, stiffness: 120, mass: 0.5 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
+
   return (
     <section id="work" style={{
       position: 'relative',
       width: '100%',
-      padding: '140px 24px',
+      padding: '160px 24px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      zIndex: 10
+      zIndex: 10,
+      background: 'var(--c-base)'
     }}>
       <style>{`
-        .projects-grid {
+        .editorial-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 32px;
+          grid-template-columns: repeat(6, 1fr);
+          gap: 24px;
           width: 100%;
-          max-width: 1280px;
+          max-width: 1440px;
         }
 
-        .project-card {
+        .card-hero { grid-column: span 6; height: 640px; }
+        .card-half { grid-column: span 3; height: 540px; }
+        .card-third { grid-column: span 2; height: 440px; }
+
+        .editorial-card {
           position: relative;
-          display: flex;
-          flex-direction: column;
-          cursor: pointer;
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          transition: transform 0.4s ease;
-        }
-
-        .project-card:hover {
-          transform: translateY(-8px);
-        }
-
-        .project-img-wrapper {
-          width: 100%;
-          height: 240px;
+          border-radius: 24px;
           overflow: hidden;
-          position: relative;
-          border-radius: 32px 32px 0 0;
+          cursor: pointer;
+          background: #000;
+          transform-style: preserve-3d;
+          will-change: transform;
+          transition: transform 0.5s ease-out;
         }
 
-        .project-img {
+        @media (hover: hover) {
+          .editorial-card:hover {
+            transition: transform 0.1s ease;
+          }
+        }
+
+        /* Mouse highlight overlay */
+        .mouse-highlight {
+          position: absolute;
+          top: 0; left: 0;
+          width: 200px;
+          height: 200px;
+          background: #ffffff;
+          border-radius: 50%;
+          filter: blur(60px);
+          pointer-events: none;
+          z-index: 5;
+          transition: opacity 0.5s ease;
+          will-change: transform;
+        }
+
+        /* Image treatment */
+        .editorial-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
         }
 
-        .project-card:hover .project-img {
+        .editorial-card:hover .editorial-img {
           transform: scale(1.05);
+          filter: grayscale(40%) contrast(1.1);
         }
 
-        .project-img-overlay {
+        /* The green hover tint overlay */
+        .editorial-overlay {
           position: absolute;
           inset: 0;
-          background: linear-gradient(to bottom, transparent, rgba(8, 21, 9, 0.8));
-          z-index: 1;
+          background: rgba(109,215,76,0.15);
+          opacity: 0;
+          transition: opacity 0.5s ease;
+          pointer-events: none;
         }
 
-        .project-content {
-          padding: 32px;
+        .editorial-card:hover .editorial-overlay {
+          opacity: 1;
+        }
+
+        /* Permanent gradient so text is readable */
+        .editorial-gradient {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to bottom, 
+            rgba(0,0,0,0.4) 0%, 
+            transparent 30%, 
+            transparent 60%, 
+            rgba(0,0,0,0.8) 100%
+          );
+          pointer-events: none;
+        }
+
+        /* Project Number (Top Left) */
+        .project-number {
+          position: absolute;
+          top: 24px;
+          left: 24px;
+          font-family: var(--font-display);
+          font-style: italic;
+          font-size: 14px;
+          font-weight: 400;
+          color: rgba(255,255,255,0.6);
+          z-index: 20;
+          transform: translateZ(20px);
+        }
+
+        /* Text Bar (Bottom Anchored) */
+        .text-bar {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          padding: 32px 32px;
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          z-index: 20;
+          transform: translateY(16px) translateZ(30px);
+          opacity: 0.8;
+          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+        }
+
+        .editorial-card:hover .text-bar {
+          transform: translateY(0) translateZ(30px);
+          opacity: 1;
+        }
+
+        .text-bar-left {
           display: flex;
           flex-direction: column;
-          flex-grow: 1;
-        }
-
-        .project-category {
-          font-family: var(--font-sans);
-          font-size: 13px;
-          font-weight: 600;
-          letter-spacing: 1px;
-          text-transform: uppercase;
-          color: var(--c-primary);
-          margin-bottom: 12px;
+          gap: 12px;
         }
 
         .project-title {
           font-family: var(--font-sans);
-          font-size: 24px;
+          font-size: clamp(24px, 3vw, 40px);
           font-weight: 700;
           color: var(--c-white);
-          margin-bottom: 16px;
-          letter-spacing: -0.5px;
+          letter-spacing: -1px;
+          line-height: 1;
+          margin: 0;
         }
 
-        .project-desc {
-          font-family: var(--font-sans);
-          font-size: 16px;
-          color: rgba(255,255,255,0.6);
-          line-height: 1.6;
-          margin-bottom: 24px;
-          flex-grow: 1;
-        }
-
-        .project-tech {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          margin-bottom: 32px;
-        }
-
-        .tech-pill {
-          padding: 6px 12px;
-          border-radius: 100px;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.05);
-          font-family: var(--font-sans);
-          font-size: 12px;
-          color: rgba(255,255,255,0.5);
-        }
-
-        .view-btn {
+        .category-pill {
           display: inline-flex;
           align-items: center;
-          gap: 8px;
+          padding: 6px 12px;
+          border-radius: 100px;
+          background: rgba(255,255,255,0.1);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(255,255,255,0.15);
           font-family: var(--font-sans);
-          font-size: 15px;
+          font-size: 11px;
           font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 1px;
           color: var(--c-white);
-          transition: color 0.3s ease;
+          width: fit-content;
         }
 
-        .project-card:hover .view-btn {
+        .project-result {
+          font-family: var(--font-display);
+          font-size: 18px;
+          font-style: italic;
           color: var(--c-primary);
         }
 
-        .view-arrow {
-          transition: transform 0.3s ease;
+        .view-case-study-btn {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) scale(0.9);
+          background: var(--c-primary);
+          color: var(--c-base);
+          padding: 16px 32px;
+          border-radius: 100px;
+          font-family: var(--font-sans);
+          font-weight: 700;
+          font-size: 16px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          opacity: 0;
+          transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          z-index: 30;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+          transform: translate(-50%, -50%) scale(0.9) translateZ(40px);
         }
 
-        .project-card:hover .view-arrow {
-          transform: translateX(6px);
+        .editorial-card:hover .view-case-study-btn {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1) translateZ(40px);
         }
 
-        /* Responsive Breakpoints */
         @media (max-width: 1024px) {
-          .projects-grid { grid-template-columns: repeat(2, 1fr); }
+          .card-hero { grid-column: span 6; height: 500px; }
+          .card-half { grid-column: span 6; height: 460px; }
+          .card-third { grid-column: span 3; height: 400px; }
         }
 
         @media (max-width: 768px) {
-          .projects-grid { grid-template-columns: 1fr; }
+          .editorial-grid { display: flex; flex-direction: column; }
+          .card-hero, .card-half, .card-third { height: 400px; }
+          .text-bar { flex-direction: column; align-items: flex-start; gap: 16px; transform: translateY(0); opacity: 1; }
+          .view-case-study-btn { display: none; }
+          
+          .typo-row {
+            grid-template-columns: 40px 1fr !important;
+            padding: 24px 0 !important;
+          }
+          .typo-category { display: none !important; }
+        }
+
+        /* Typographic Row Hover Effects */
+        .typo-row {
+          position: relative;
+          transition: opacity 0.3s ease;
+        }
+        .typographic-list:hover .typo-row:not(:hover) {
+          opacity: 0.3;
+        }
+        .typo-title {
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+        }
+        .typo-row:hover .typo-title {
+          transform: translateX(24px);
+          color: var(--c-primary);
         }
       `}</style>
 
       {/* Eyebrow Pill */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
+      <div 
+        className="reveal"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -188,133 +411,89 @@ export default function FeaturedProjects() {
           background: 'var(--rgba-dark-06)',
           border: '1px solid var(--rgba-white-03)',
           borderRadius: 100,
-          marginBottom: 32
+          marginBottom: 80
         }}
       >
         <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
         <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-          SELECTED WORK
+          SELECTED WORK — 06 PROJECTS
         </span>
         <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-      </motion.div>
+      </div>
 
-      {/* Headline */}
-      <h2 style={{
-        fontFamily: 'var(--font-sans)',
-        fontSize: 'clamp(40px, 5vw, 72px)',
-        fontWeight: 800,
-        color: 'var(--c-white)',
-        textAlign: 'center',
-        letterSpacing: '-2px',
-        marginBottom: 32,
-        lineHeight: 1.1,
-        maxWidth: 820
-      }}>
-        <SplitText text="Turning Ideas Into" splitType="words" duration={0.7} />{' '}
-        <motion.span
-          initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontStyle: 'italic',
-            fontWeight: 400,
-            background: 'linear-gradient(135deg, #6DD74C, #81DD6A)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            paddingRight: '8px',
-            display: 'inline-block'
-          }}
-        >
-          Digital Experiences.
-        </motion.span>
-      </h2>
-
-      {/* Subhead */}
-      <motion.p
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 20,
-          color: 'rgba(255,255,255,0.72)',
-          textAlign: 'center',
-          maxWidth: 760,
-          lineHeight: 1.6,
-          marginBottom: 80
-        }}
-      >
-        Every project is designed with strategy, user experience, and business goals in mind. Here are a few selected works that showcase my approach to solving real-world problems through design.
-      </motion.p>
-
-      {/* Projects Grid */}
-      <div className="projects-grid">
-        {projects.map((project, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            data-cursor-text="View"
-          >
-            <BorderGlow
-              className="project-card"
-              backgroundColor="rgba(20,49,19,0.6)"
-              borderRadius={32}
-              glowColor="106 63 57"
-              colors={['#6dd74c', '#81dd6a', '#143113']}
-              glowIntensity={0.9}
-            >
-              {/* Mockup Image */}
-              <div className="project-img-wrapper">
-                <img src={project.image} alt={project.title} className="project-img" />
-                <div className="project-img-overlay" />
-
-                {/* Floating Icon Badge over image */}
-                <div style={{
-                  position: 'absolute',
-                  top: 24,
-                  right: 24,
-                  width: 48,
-                  height: 48,
-                  borderRadius: '50%',
-                  background: 'rgba(8, 21, 9, 0.4)',
-                  backdropFilter: 'blur(8px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  zIndex: 2
-                }}>
-                  <project.icon size={20} color="var(--c-white)" />
-                </div>
-              </div>
-
-              {/* Content Details */}
-              <div className="project-content">
-                <div className="project-category">{project.category}</div>
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-desc">{project.desc}</p>
-
-                <div className="project-tech">
-                  {project.tech.map((t, idx) => (
-                    <span key={idx} className="tech-pill">{t}</span>
-                  ))}
-                </div>
-
-                <div className="view-btn">
-                  View Case Study
-                  <ArrowRight size={16} className="view-arrow" strokeWidth={2.5} />
-                </div>
-              </div>
-            </BorderGlow>
-          </motion.div>
+      {/* Editorial Grid (Top 3 only) */}
+      <div className="editorial-grid">
+        {projects.slice(0, 3).map((project, i) => (
+          <ProjectCard key={i} project={project} index={i} />
         ))}
       </div>
+
+      {/* Typographic List (Bottom 3) */}
+      <div 
+        className="typographic-list" 
+        onMouseMove={(e) => {
+          mouseX.set(e.clientX + 40);
+          mouseY.set(e.clientY - 160);
+        }}
+        style={{ width: '100%', maxWidth: 1440, marginTop: 80, display: 'flex', flexDirection: 'column' }}
+      >
+        {projects.slice(3).map((project, i) => (
+          <Link 
+            key={i + 3}
+            to={`/case-study/${project.slug}`}
+            className="typo-row reveal"
+            onMouseEnter={() => setHoveredImage(project.image)}
+            onMouseLeave={() => setHoveredImage(null)}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '80px 1fr auto',
+              alignItems: 'center',
+              padding: '40px 0',
+              borderTop: '1px solid var(--rgba-white-03)',
+              textDecoration: 'none',
+              color: 'var(--c-white)',
+              borderBottom: i === projects.slice(3).length - 1 ? '1px solid var(--rgba-white-03)' : 'none',
+              transitionDelay: `${i * 100}ms`
+            }}
+          >
+            <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 16, color: 'rgba(255,255,255,0.4)' }}>
+              0{i + 4}
+            </div>
+            <div className="typo-title" style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: 400, letterSpacing: '-0.5px' }}>
+              {project.title}
+            </div>
+            <div className="typo-category" style={{ fontFamily: 'var(--font-sans)', fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: 1 }}>
+              {project.category}
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* Hover Image */}
+      <AnimatePresence>
+        {hoveredImage && (
+          <motion.div
+            id="hover-img"
+            initial={{ opacity: 0, scale: 0.94 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            style={{
+              position: 'fixed',
+              top: 0, left: 0,
+              x: smoothX, y: smoothY,
+              width: 320, height: 420,
+              borderRadius: 12,
+              overflow: 'hidden',
+              pointerEvents: 'none',
+              zIndex: 100,
+              boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+            }}
+          >
+            <img src={hoveredImage} alt="Project Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

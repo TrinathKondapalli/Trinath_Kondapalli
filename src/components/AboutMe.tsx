@@ -1,27 +1,19 @@
-import { motion } from 'framer-motion';
-import { Sparkles, Target, BookOpen, ShieldCheck, ArrowRight } from 'lucide-react';
+import { ArrowRight, Download } from 'lucide-react';
 import portrait from '../assets/portrait.jpg';
+import GlobalMagneticButton from './GlobalMagneticButton';
 
-const highlights = [
+const values = [
   {
-    icon: Sparkles,
-    title: 'Creative Thinking',
-    desc: 'Designing solutions that solve real problems.'
+    title: 'Form Follows Function.',
+    desc: 'Aesthetic beauty is meaningless if the user is confused. I balance striking visuals with airtight usability.'
   },
   {
-    icon: Target,
-    title: 'Business Focus',
-    desc: 'Every decision is aligned with business goals.'
+    title: 'Systems Over Pages.',
+    desc: 'I do not design isolated screens. I build cohesive, modular design systems that scale effortlessly as your product grows.'
   },
   {
-    icon: BookOpen,
-    title: 'Continuous Learning',
-    desc: 'Always improving through new technologies and trends.'
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Quality First',
-    desc: 'Focused on delivering polished and thoughtful work.'
+    title: 'Obsessive Polish.',
+    desc: 'The difference between good and great is in the micro-interactions. I sweat the invisible details that others ignore.'
   }
 ];
 
@@ -30,276 +22,209 @@ export default function AboutMe() {
     <section id="about" style={{
       position: 'relative',
       width: '100%',
-      padding: '140px 24px',
+      padding: '160px 24px',
       display: 'flex',
       justifyContent: 'center',
-      zIndex: 10
+      zIndex: 10,
+      background: 'var(--c-base)'
     }}>
       <style>{`
-        .about-container {
+        .about-spread {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 64px;
-          max-width: 1280px;
+          gap: 80px;
+          max-width: 1440px;
           width: 100%;
-          align-items: center;
+          align-items: stretch;
         }
 
-        .about-left {
+        /* Left Side: Editorial Photo */
+        .photo-column {
           position: relative;
           width: 100%;
-          aspect-ratio: 4 / 5;
-          border-radius: 32px;
-          border: 1px solid rgba(109,215,76,0.1);
-          background: linear-gradient(180deg, rgba(109,215,76,0.05) 0%, rgba(8, 21, 9, 0.5) 100%);
+          min-height: 700px;
+          border-radius: 24px;
           overflow: hidden;
-          box-shadow: 0 0 60px -20px rgba(109,215,76,0.2);
+          background: #000;
         }
 
-        .about-portrait {
+        .photo-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          object-position: center bottom;
-          filter: contrast(1.1) brightness(0.9);
-          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+          object-position: center 20%;
+          filter: contrast(1.15) grayscale(20%);
         }
 
-        .about-left:hover .about-portrait {
-          transform: scale(1.05);
-        }
-
-        /* Decorative Background Elements behind the image */
-        .about-glow-blob {
+        /* Subtle green vignette on the right edge */
+        .photo-vignette {
           position: absolute;
-          width: 60%;
-          height: 60%;
-          background: radial-gradient(circle, rgba(109,215,76,0.2) 0%, rgba(0,0,0,0) 70%);
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          z-index: -1;
-          filter: blur(40px);
+          inset: 0;
+          background: linear-gradient(to left, rgba(109,215,76,0.15) 0%, transparent 30%),
+                      linear-gradient(to top, rgba(8, 21, 9, 0.8) 0%, transparent 40%);
+          pointer-events: none;
         }
 
-        .about-floating-card {
-          position: absolute;
-          bottom: 40px;
-          right: -20px;
-          background: rgba(8, 21, 9, 0.8);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(109,215,76,0.2);
-          padding: 16px 24px;
-          border-radius: 16px;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
-          animation: float 6s ease-in-out infinite;
-          z-index: 2;
-        }
-
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
-          100% { transform: translateY(0px); }
-        }
-
-        .about-right {
+        /* Right Side: Typography */
+        .text-column {
           display: flex;
           flex-direction: column;
-          align-items: flex-start;
+          justify-content: center;
+          padding: 40px 0;
         }
 
-        .highlights-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
-          width: 100%;
-          margin-top: 40px;
-          margin-bottom: 48px;
+        .manifesto {
+          font-family: var(--font-sans);
+          font-size: clamp(32px, 4vw, 48px);
+          font-weight: 800;
+          line-height: 1.1;
+          letter-spacing: -1.5px;
+          color: var(--c-white);
+          margin-bottom: 64px;
         }
 
-        .highlight-card {
-          background: var(--rgba-dark-06);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(109,215,76,0.05);
-          padding: 24px;
-          border-radius: 24px;
-          transition: border-color 0.4s ease, transform 0.4s ease;
+        .values-list {
+          display: flex;
+          flex-direction: column;
+          gap: 32px;
+          margin-bottom: 64px;
         }
 
-        .highlight-card:hover {
-          border-color: rgba(109,215,76,0.3);
-          transform: translateY(-4px);
+        .value-item {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
         }
 
-        .about-cta {
+        .value-text {
+          font-family: var(--font-sans);
+          font-size: 18px;
+          line-height: 1.6;
+        }
+
+        .value-title {
+          font-weight: 700;
+          color: var(--c-white);
+          margin-right: 8px;
+        }
+
+        .value-desc {
+          font-weight: 400;
+          color: rgba(255,255,255,0.6);
+        }
+
+        .cta-group {
+          display: flex;
+          gap: 16px;
+          align-items: center;
+        }
+
+        .btn {
           display: inline-flex;
           align-items: center;
           gap: 12px;
-          padding: 16px 32px;
-          background: rgba(109,215,76,0.1);
-          border: 1px solid rgba(109,215,76,0.3);
+          padding: 18px 32px;
           border-radius: 100px;
           font-family: var(--font-sans);
           font-size: 16px;
           font-weight: 600;
-          color: var(--c-primary);
           cursor: pointer;
-          transition: all 0.3s ease;
-          box-shadow: 0 0 20px rgba(109,215,76,0.0);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .about-cta:hover {
-          background: rgba(109,215,76,0.15);
-          border-color: var(--c-primary);
-          box-shadow: 0 0 20px rgba(109,215,76,0.2);
+        .btn-solid {
+          background: var(--c-primary);
+          color: #081509;
+          border: 1px solid var(--c-primary);
+        }
+
+        .btn-solid:hover {
+          background: #81DD6A;
+          transform: translateY(-2px);
+          box-shadow: 0 10px 30px -10px rgba(109,215,76,0.4);
+        }
+
+        .btn-ghost {
+          background: transparent;
+          color: var(--c-white);
+          border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-ghost:hover {
+          background: rgba(255,255,255,0.05);
+          border-color: rgba(255,255,255,0.4);
           transform: translateY(-2px);
         }
 
-        /* Responsive Breakpoints */
         @media (max-width: 1024px) {
-          .about-container { grid-template-columns: 1fr; gap: 48px; }
-          .about-left { max-width: 600px; margin: 0 auto; aspect-ratio: 1; }
-          .about-floating-card { right: 20px; }
+          .about-spread { grid-template-columns: 1fr; gap: 48px; }
+          .photo-column { min-height: 500px; }
+          .text-column { padding: 0; }
         }
 
         @media (max-width: 640px) {
-          .highlights-grid { grid-template-columns: 1fr; }
-          .about-floating-card { display: none; } /* Hide on small mobile to save space */
+          .cta-group { flex-direction: column; width: 100%; }
+          .btn { width: 100%; justify-content: center; }
         }
       `}</style>
 
-      <div className="about-container">
-        {/* LEFT COLUMN: Portrait */}
-        <motion.div 
-          className="about-left"
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      <div className="about-spread">
+        {/* LEFT COLUMN: Editorial Photo */}
+        <div 
+          className="photo-column reveal"
+          style={{ transitionDelay: '0ms' }}
         >
-          <div className="about-glow-blob" />
-          <img src={portrait} alt="Trinadh Kondapalli" className="about-portrait" />
+          <img src={portrait} alt="Trinadh Kondapalli" className="photo-img" />
+          <div className="photo-vignette" />
+        </div>
+
+        {/* RIGHT COLUMN: Manifesto & Values */}
+        <div className="text-column">
           
-          {/* Floating Element */}
-          <div className="about-floating-card">
-            <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 10px var(--c-primary)' }} />
-            <span style={{ fontFamily: 'var(--font-sans)', fontSize: 14, fontWeight: 600, color: 'var(--c-white)' }}>
-              5+ Years Experience
-            </span>
-          </div>
-        </motion.div>
-
-        {/* RIGHT COLUMN: Content */}
-        <motion.div 
-          className="about-right"
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-        >
-          {/* Eyebrow Pill */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            padding: '6px 16px',
-            background: 'var(--rgba-dark-06)',
-            border: '1px solid var(--rgba-white-03)',
-            borderRadius: 100,
-            marginBottom: 32
-          }}>
-            <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-            <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-              ABOUT ME
-            </span>
-            <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+          <div
+            className="manifesto reveal"
+            style={{ transitionDelay: '100ms' }}
+          >
+            I build digital products that make people feel something.
           </div>
 
-          {/* Headline */}
-          <h2 style={{
-            fontFamily: 'var(--font-sans)',
-            fontSize: 'clamp(40px, 4vw, 64px)',
-            fontWeight: 800,
-            color: 'var(--c-white)',
-            letterSpacing: '-2px',
-            marginBottom: 24,
-            lineHeight: 1.1
-          }}>
-            Designing <br/>
-            Experiences <br/>
-            <span style={{
-              fontFamily: 'var(--font-display)',
-              fontStyle: 'italic',
-              fontWeight: 400,
-              background: 'linear-gradient(135deg, #6DD74C, #81DD6A)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              paddingRight: '8px'
-            }}>
-              With Purpose.
-            </span>
-          </h2>
-
-          {/* Description */}
-          <p style={{
-            fontFamily: 'var(--font-sans)',
-            fontSize: 18,
-            color: 'rgba(255,255,255,0.72)',
-            maxWidth: 720,
-            lineHeight: 1.7
-          }}>
-            Hi, I'm Trinadh Kondapalli, a UX/UI Designer and Frontend Developer passionate about creating modern digital experiences that are simple, intuitive, and built around real business goals. I believe great design is not just about how it looks—it's about how it works and the value it creates.
-          </p>
-
-          {/* Highlight Cards Grid */}
-          <div className="highlights-grid">
-            {highlights.map((item, i) => (
-              <motion.div 
+          <div className="values-list">
+            {values.map((val, i) => (
+              <div 
                 key={i}
-                className="highlight-card"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: 0.2 + (i * 0.1), duration: 0.6 }}
+                className="value-item reveal"
+                style={{ transitionDelay: `${200 + (i * 100)}ms` }}
               >
-                <item.icon size={24} color="var(--c-primary)" style={{ marginBottom: 16 }} />
-                <h3 style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: 18,
-                  fontWeight: 600,
-                  color: 'var(--c-white)',
-                  marginBottom: 8
-                }}>
-                  {item.title}
-                </h3>
-                <p style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: 14,
-                  color: 'rgba(255,255,255,0.6)',
-                  lineHeight: 1.5
-                }}>
-                  {item.desc}
-                </p>
-              </motion.div>
+                <div className="value-text">
+                  <span className="value-title">{val.title}</span>
+                  <span className="value-desc">{val.desc}</span>
+                </div>
+              </div>
             ))}
           </div>
 
-          {/* CTA */}
-          <motion.button 
-            className="about-cta"
-            whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6 }}
+          <div 
+            className="cta-group reveal"
+            style={{ transitionDelay: '500ms' }}
           >
-            Let's Build Something Amazing
-            <ArrowRight size={18} strokeWidth={2.5} />
-          </motion.button>
-        </motion.div>
+            <GlobalMagneticButton
+              className="btn btn-solid"
+              onClick={() => window.location.href = '#contact'}
+              style={{
+                fontFamily: 'var(--font-sans)', fontSize: 16, fontWeight: 600,
+                border: '1px solid var(--c-primary)'
+              }}
+            >
+              Book a call
+              <ArrowRight size={18} strokeWidth={2.5} />
+            </GlobalMagneticButton>
+            <a href="/cv.pdf" className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
+              Download CV
+              <Download size={18} strokeWidth={2.5} />
+            </a>
+          </div>
+
+        </div>
       </div>
     </section>
   );

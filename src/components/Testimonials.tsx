@@ -1,264 +1,279 @@
-import { motion } from 'framer-motion';
-import { Quote, Star } from 'lucide-react';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
-const testimonials = [
-  {
-    name: 'Michael Chen',
-    role: 'Founder & CEO, TechFlow',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=200',
-    text: "Trinadh transformed our outdated platform into a modern, high-converting experience. The new design not only looks stunning but has significantly improved our user engagement. Highly recommended for any serious startup."
-  },
+const featuredTestimonial = {
+  name: 'Michael Chen',
+  role: 'Founder & CEO, TechFlow',
+  logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg', // Abstract proxy for monochrome logo
+  text: "Trinadh transformed our outdated platform into a modern, high-converting experience. The new design not only looks stunning, but it increased conversions by 3× in the first month alone. He is the rare designer who actually understands business."
+};
+
+const supportingTestimonials = [
   {
     name: 'Sarah Jenkins',
-    role: 'Product Director, ScaleUp',
+    role: 'Product Director',
     image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
-    text: "Working with Trinadh was an absolute pleasure. His attention to detail, deep understanding of UX strategy, and ability to execute complex frontend tasks flawlessly sets him apart from anyone else we've worked with."
+    text: "His attention to detail and ability to execute complex frontend tasks flawlessly sets him apart from anyone else."
   },
   {
     name: 'David Rodriguez',
-    role: 'Head of Marketing, Elevate',
+    role: 'Head of Marketing',
     image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200',
-    text: "Exceptional quality and professionalism. He truly understands how to align design with business goals. The brand identity and website he delivered exceeded all our expectations and elevated our entire brand."
+    text: "Exceptional quality and professionalism. The brand identity he delivered exceeded all our expectations."
+  },
+  {
+    name: 'Emma Watson',
+    role: 'Creative Director',
+    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200',
+    text: "Trinadh does not just build websites, he builds digital ecosystems. Fast, responsive, and incredibly polished."
   }
 ];
 
 export default function Testimonials() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  // Parallax for the quote mark (moves up as user scrolls down)
+  const quoteY = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
   return (
-    <section style={{
+    <section ref={sectionRef} id="testimonials" style={{
       position: 'relative',
       width: '100%',
-      padding: '140px 24px',
+      padding: '160px 24px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      zIndex: 10
+      zIndex: 10,
+      background: '#0a1a0a',
+      overflow: 'hidden'
     }}>
       <style>{`
-        .testimonials-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 32px;
+        .testimonials-container {
           width: 100%;
-          max-width: 1280px;
-        }
-
-        .testimonial-card {
-          position: relative;
+          max-width: 1200px;
           display: flex;
           flex-direction: column;
-          padding: 40px;
-          border-radius: 32px;
-          background: var(--rgba-dark-06);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(109,215,76,0.05);
-          transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
-        }
-
-        .testimonial-card:hover {
-          transform: translateY(-8px);
-          border-color: rgba(109,215,76,0.3);
-          box-shadow: 0 10px 40px -10px rgba(109,215,76,0.15);
-        }
-
-        .testimonial-header {
-          display: flex;
           align-items: center;
-          gap: 16px;
-          margin-bottom: 24px;
         }
 
-        .client-img {
-          width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          object-fit: cover;
-          border: 2px solid rgba(109,215,76,0.2);
-        }
-
-        .client-info {
+        /* Giant Featured Quote Section */
+        .featured-quote-wrapper {
+          position: relative;
+          width: 100%;
+          max-width: 680px; 
           display: flex;
           flex-direction: column;
-          gap: 4px;
+          align-items: center;
+          text-align: center;
+          margin-bottom: 120px;
         }
 
-        .client-name {
+        .giant-quote-mark {
+          position: absolute;
+          top: -60px;
+          left: -40px;
+          font-family: serif;
+          font-size: 120px;
+          line-height: 1;
+          color: #6ddc6d;
+          opacity: 0.4;
+          font-weight: 300;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .featured-text {
           font-family: var(--font-sans);
-          font-size: 18px;
+          font-size: 22px;
+          font-weight: 300;
+          line-height: 1.8;
+          color: var(--c-white);
+          margin-bottom: 40px;
+          position: relative;
+          z-index: 1;
+        }
+
+        .featured-divider {
+          width: 40px;
+          height: 1px;
+          background: rgba(255,255,255,0.2);
+          margin-bottom: 32px;
+        }
+
+        .featured-author {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .featured-name {
+          font-family: var(--font-sans);
+          font-size: 15px;
           font-weight: 700;
           color: var(--c-white);
         }
 
-        .client-role {
-          font-family: var(--font-sans);
-          font-size: 14px;
-          color: rgba(255,255,255,0.6);
-        }
-
-        .stars-container {
-          display: flex;
-          gap: 4px;
-          margin-bottom: 24px;
-        }
-
-        .testimonial-text {
-          font-family: var(--font-sans);
-          font-size: 16px;
-          line-height: 1.7;
-          color: rgba(255,255,255,0.8);
-          flex-grow: 1;
-        }
-
-        .quote-icon {
-          position: absolute;
-          top: 32px;
-          right: 32px;
-          color: rgba(109,215,76,0.1);
-        }
-
-        .linkedin-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          margin-top: 32px;
+        .featured-role {
           font-family: var(--font-sans);
           font-size: 13px;
-          font-weight: 600;
-          color: rgba(255,255,255,0.4);
-          transition: color 0.3s ease;
-          cursor: pointer;
+          color: rgba(255,255,255,0.5);
         }
 
-        .linkedin-badge:hover {
-          color: #0A66C2; /* LinkedIn Brand Color on hover, or primary green */
+        .company-logo {
+          width: 80px;
+          margin-top: 16px;
+          opacity: 0.8;
+          filter: grayscale(100%) brightness(200%);
         }
 
-        /* Responsive Breakpoints */
+        /* Supporting Quotes Strip */
+        .supporting-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+          width: 100%;
+        }
+
+        .support-card {
+          background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.05);
+          padding: 40px 32px;
+          border-radius: 24px;
+          display: flex;
+          flex-direction: column;
+          transition: transform 0.4s ease, border-color 0.4s ease;
+        }
+
+        .support-card:hover {
+          transform: translateY(-8px);
+          border-color: rgba(109,215,76,0.2);
+        }
+
+        .support-text {
+          font-family: var(--font-sans);
+          font-size: 14px;
+          color: rgba(255,255,255,0.7);
+          line-height: 1.6;
+          flex-grow: 1;
+          margin-bottom: 32px;
+        }
+
+        .support-author {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .support-img {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          object-fit: cover;
+          filter: grayscale(20%);
+        }
+
+        .support-name {
+          font-family: var(--font-sans);
+          font-size: 16px;
+          font-weight: 700;
+          color: var(--c-white);
+        }
+
+        .support-role {
+          font-family: var(--font-sans);
+          font-size: 13px;
+          color: rgba(255,255,255,0.5);
+        }
+
         @media (max-width: 1024px) {
-          .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+          .supporting-grid { grid-template-columns: repeat(2, 1fr); }
+          .support-card:last-child { display: none; /* Hide 3rd on tablet to keep grid even */ }
         }
 
         @media (max-width: 768px) {
-          .testimonials-grid { grid-template-columns: 1fr; }
-          .testimonial-card { padding: 32px 24px; }
+          .giant-quote-mark { left: -10px; font-size: 120px; top: -40px; }
+          .supporting-grid { grid-template-columns: 1fr; }
+          .support-card:last-child { display: flex; }
         }
       `}</style>
 
-      {/* Eyebrow Pill */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          padding: '6px 16px',
-          background: 'var(--rgba-dark-06)',
-          border: '1px solid var(--rgba-white-03)',
-          borderRadius: 100,
-          marginBottom: 32
-        }}
-      >
-        <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-        <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-          TESTIMONIALS
-        </span>
-        <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-      </motion.div>
+      <div className="testimonials-container">
+        
+        {/* Eyebrow Pill */}
+        <div 
+          className="reveal"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            padding: '6px 16px',
+            background: 'var(--rgba-dark-06)',
+            border: '1px solid var(--rgba-white-03)',
+            borderRadius: 100,
+            marginBottom: 80
+          }}
+        >
+          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
+            WHAT CLIENTS SAY
+          </span>
+          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+        </div>
 
-      {/* Headline */}
-      <motion.h2 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 'clamp(40px, 5vw, 72px)',
-          fontWeight: 800,
-          color: 'var(--c-white)',
-          textAlign: 'center',
-          letterSpacing: '-2px',
-          marginBottom: 32,
-          lineHeight: 1.1
-        }}
-      >
-        What <br/>
-        <span style={{
-          fontFamily: 'var(--font-display)',
-          fontStyle: 'italic',
-          fontWeight: 400,
-          background: 'linear-gradient(135deg, #6DD74C, #81DD6A)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          paddingRight: '8px'
-        }}>
-          Clients
-        </span> <br/>
-        Say.
-      </motion.h2>
-
-      {/* Subhead */}
-      <motion.p
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 20,
-          color: 'rgba(255,255,255,0.72)',
-          textAlign: 'center',
-          maxWidth: 760,
-          lineHeight: 1.6,
-          marginBottom: 80
-        }}
-      >
-        Building meaningful relationships is just as important as building exceptional digital experiences. Here's what clients have to say about working with me.
-      </motion.p>
-
-      {/* Testimonials Grid */}
-      <div className="testimonials-grid">
-        {testimonials.map((item, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="testimonial-card"
+        {/* Featured Hero Quote */}
+        <div className="featured-quote-wrapper">
+          <motion.div 
+            className="giant-quote-mark"
+            style={{ y: quoteY }}
           >
-            {/* Massive Background Quote Icon */}
-            <Quote size={80} className="quote-icon" fill="currentColor" strokeWidth={0} />
+            “
+          </motion.div>
+          
+          <p 
+            className="featured-text reveal"
+            style={{ transitionDelay: '100ms' }}
+          >
+            "{featuredTestimonial.text}"
+          </p>
 
-            {/* Client Info */}
-            <div className="testimonial-header">
-              <img src={item.image} alt={item.name} className="client-img" />
-              <div className="client-info">
-                <span className="client-name">{item.name}</span>
-                <span className="client-role">{item.role}</span>
+          <div className="featured-divider reveal" style={{ transitionDelay: '150ms' }} />
+
+          <div 
+            className="featured-author reveal"
+            style={{ transitionDelay: '200ms' }}
+          >
+            <div className="featured-name">{featuredTestimonial.name}</div>
+            <div className="featured-role">{featuredTestimonial.role}</div>
+            <img src={featuredTestimonial.logo} alt="Company Logo" className="company-logo" />
+          </div>
+        </div>
+
+        {/* Supporting Quotes Row */}
+        <div className="supporting-grid">
+          {supportingTestimonials.map((item, i) => (
+            <div 
+              key={i}
+              className="support-card reveal"
+              style={{ transitionDelay: `${300 + (i * 100)}ms` }}
+            >
+              <p className="support-text">"{item.text}"</p>
+              
+              <div className="support-author">
+                <img src={item.image} alt={item.name} className="support-img" />
+                <div>
+                  <div className="support-name">{item.name}</div>
+                  <div className="support-role">{item.role}</div>
+                </div>
               </div>
             </div>
+          ))}
+        </div>
 
-            {/* 5-Star Rating */}
-            <div className="stars-container">
-              {[...Array(5)].map((_, idx) => (
-                <Star key={idx} size={16} fill="var(--c-primary)" color="var(--c-primary)" />
-              ))}
-            </div>
-
-            {/* Quote Text */}
-            <p className="testimonial-text">
-              "{item.text}"
-            </p>
-
-            {/* LinkedIn Verification */}
-            <div className="linkedin-badge">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-              Verified via LinkedIn
-            </div>
-          </motion.div>
-        ))}
       </div>
     </section>
   );

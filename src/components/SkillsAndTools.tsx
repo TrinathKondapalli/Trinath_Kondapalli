@@ -1,31 +1,34 @@
-import { motion } from 'framer-motion';
-import { PenTool, Code, Palette, Video, Bot } from 'lucide-react';
 
 const skills = [
   {
-    icon: PenTool,
-    title: 'UX/UI Design',
-    tools: ['Figma', 'Adobe XD', 'Wireframing', 'Prototyping', 'Design Systems']
+    type: 'large',
+    label: 'Core expertise',
+    title: 'UX/UI & Web Design',
+    desc: 'Pixel-perfect interfaces built on user psychology and modern aesthetics. Wireframes to high-converting landing pages.',
+    pills: ['Figma', 'Framer', 'Webflow', 'Prototyping'],
+    stat: { value: '40+', label: 'interfaces shipped' },
+    className: 'bento-large',
   },
   {
-    icon: Code,
-    title: 'Frontend',
-    tools: ['HTML', 'CSS', 'JavaScript', 'React', 'Next.js']
+    type: 'small',
+    label: 'React & Next.js',
+    title: 'Frontend Dev',
+    pills: ['React', 'TypeScript', 'Tailwind'],
+    className: 'bento-small',
   },
   {
-    icon: Palette,
+    type: 'small',
+    label: 'Visual identity',
     title: 'Graphic Design',
-    tools: ['Photoshop', 'Illustrator', 'Canva', 'Branding']
+    pills: ['Illustrator', 'Branding'],
+    className: 'bento-small',
   },
   {
-    icon: Video,
-    title: 'Video Editing',
-    tools: ['Premiere Pro', 'After Effects', 'DaVinci Resolve', 'CapCut']
-  },
-  {
-    icon: Bot,
-    title: 'AI & Productivity',
-    tools: ['ChatGPT', 'Google AI Studio', 'Gemini', 'Framer', 'GitHub']
+    type: 'wide',
+    label: 'Storytelling',
+    title: 'Video & Motion',
+    desc: 'After Effects, Premiere, and motion design that gives interfaces a heartbeat.',
+    className: 'bento-wide',
   }
 ];
 
@@ -34,111 +37,179 @@ export default function SkillsAndTools() {
     <section id="skills" style={{
       position: 'relative',
       width: '100%',
-      padding: '140px 24px',
+      padding: '160px 24px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      zIndex: 10
+      zIndex: 10,
+      background: 'var(--c-base)',
+      overflow: 'hidden'
     }}>
       <style>{`
+        /* Subtle Background Grid Pattern */
+        .skills-bg-pattern {
+          position: absolute;
+          inset: 0;
+          background-image: 
+            linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+          background-size: 64px 64px;
+          background-position: center center;
+          pointer-events: none;
+          z-index: 0;
+          mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+          -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+        }
+
         .skills-grid {
           display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          gap: 24px;
+          grid-template-columns: repeat(3, 1fr);
+          grid-template-rows: repeat(2, minmax(200px, auto));
+          gap: 8px;
           width: 100%;
-          max-width: 1440px;
+          max-width: 1200px;
+          position: relative;
+          z-index: 10;
         }
+
+        .bento-large { grid-column: span 1; grid-row: span 2; }
+        .bento-small { grid-column: span 1; grid-row: span 1; }
+        .bento-wide  { grid-column: span 2; grid-row: span 1; }
 
         .skill-card {
           position: relative;
           display: flex;
           flex-direction: column;
-          padding: 32px 24px;
-          border-radius: 28px;
-          border: 1px solid rgba(109,215,76,0.05);
-          background: var(--rgba-dark-06);
-          backdrop-filter: blur(12px);
+          padding: 22px;
+          border-radius: 12px;
+          border: 0.5px solid rgba(255,255,255,0.07);
+          background: #0f2210;
           overflow: hidden;
-          cursor: default;
-          transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
         }
 
         .skill-card:hover {
-          transform: translateY(-8px);
-          border-color: rgba(109,215,76,0.3);
-          box-shadow: 0 10px 40px -10px rgba(109,215,76,0.15);
+          transform: translateY(-4px);
+          border-color: rgba(109,215,76,0.2);
         }
 
-        .skill-icon-wrap {
-          width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          background: rgba(109,215,76,0.05);
-          border: 1px solid rgba(109,215,76,0.15);
-          display: flex;
-          align-items: center;
-          justify-content: center;
+        .card-label {
+          font-family: var(--font-sans);
+          font-size: 10px;
+          text-transform: uppercase;
+          color: var(--c-primary);
+          letter-spacing: 0.05em;
+          font-weight: 600;
+        }
+
+        .card-title {
+          font-family: var(--font-sans);
+          color: var(--c-white);
+          font-weight: 700;
+          letter-spacing: -0.5px;
+        }
+
+        .bento-large .card-title {
+          font-size: 22px;
+          margin-top: 16px;
+          margin-bottom: 12px;
+        }
+
+        .bento-small .card-title {
+          font-size: 18px;
+          margin-top: 12px;
+          margin-bottom: 16px;
+        }
+
+        .card-desc {
+          font-family: var(--font-sans);
+          font-size: 12px;
+          color: rgba(255,255,255,0.6);
+          line-height: 1.5;
           margin-bottom: 24px;
-          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
         }
 
-        .skill-card:hover .skill-icon-wrap {
-          transform: translateY(-4px) scale(1.1);
-          background: rgba(109,215,76,0.1);
+        .pill-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+          margin-top: auto;
         }
 
-        .skill-list {
-          list-style: none;
-          padding: 0;
-          margin: 0;
+        .skill-pill {
+          font-family: var(--font-sans);
+          font-size: 10px;
+          padding: 4px 10px;
+          border: 0.5px solid rgba(255,255,255,0.1);
+          border-radius: 100px;
+          color: rgba(255,255,255,0.6);
+          white-space: nowrap;
+        }
+
+        .card-stat {
+          margin-top: 24px;
+          display: flex;
+          align-items: baseline;
+          gap: 8px;
+        }
+
+        .stat-value {
+          font-family: var(--font-sans);
+          font-size: 28px;
+          font-weight: 700;
+          color: rgba(100,220,100,0.7);
+        }
+
+        .stat-label {
+          font-family: var(--font-sans);
+          font-size: 11px;
+          color: rgba(255,255,255,0.5);
+        }
+
+        /* Wide card specific layout */
+        .bento-wide {
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .wide-content {
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          max-width: 75%;
         }
 
-        .skill-item {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          font-family: var(--font-sans);
-          font-size: 15px;
-          color: rgba(255,255,255,0.7);
-          transition: color 0.3s ease, transform 0.3s ease;
+        .wide-content .card-title {
+          font-size: 18px;
+          margin-top: 12px;
+          margin-bottom: 8px;
+        }
+        
+        .wide-content .card-desc {
+          margin-bottom: 0;
         }
 
-        .skill-card:hover .skill-item {
-          color: rgba(255,255,255,0.9);
-        }
-
-        .skill-bullet {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: rgba(109,215,76,0.3);
-          transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .skill-card:hover .skill-bullet {
-          background: var(--c-primary);
-          transform: scale(1.5);
-          box-shadow: 0 0 8px var(--c-primary);
-        }
-
-        /* Responsive Breakpoints */
-        @media (max-width: 1280px) {
-          .skills-grid { grid-template-columns: repeat(3, 1fr); max-width: 1000px; }
+        .wide-deco {
+          font-size: 42px;
+          color: rgba(100,220,100,0.12);
+          line-height: 1;
         }
 
         @media (max-width: 768px) {
-          .skills-grid { grid-template-columns: 1fr; max-width: 400px; }
+          .skills-grid { grid-template-columns: 1fr; }
+          .bento-large, .bento-small, .bento-wide { grid-column: span 1; grid-row: auto; }
+          .bento-wide { flex-direction: column; align-items: flex-start; }
+          .wide-content { max-width: 100%; }
+          .wide-deco { display: none; }
         }
       `}</style>
 
+      {/* Grid Pattern Background */}
+      <div className="skills-bg-pattern" />
+
       {/* Eyebrow Pill */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
+      <div 
+        className="reveal"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -147,120 +218,61 @@ export default function SkillsAndTools() {
           background: 'var(--rgba-dark-06)',
           border: '1px solid var(--rgba-white-03)',
           borderRadius: 100,
-          marginBottom: 32
+          marginBottom: 40,
+          position: 'relative',
+          zIndex: 10
         }}
       >
         <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
         <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-          SKILLS & TOOLS
+          SKILLS & ARSENAL
         </span>
         <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-      </motion.div>
+      </div>
 
-      {/* Headline */}
-      <motion.h2 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 'clamp(40px, 5vw, 72px)',
-          fontWeight: 800,
-          color: 'var(--c-white)',
-          textAlign: 'center',
-          letterSpacing: '-2px',
-          marginBottom: 32,
-          lineHeight: 1.1
-        }}
-      >
-        Technology <br/>
-        Meets <br/>
-        <span style={{
-          fontFamily: 'var(--font-display)',
-          fontStyle: 'italic',
-          fontWeight: 400,
-          background: 'linear-gradient(135deg, #6DD74C, #81DD6A)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          paddingRight: '8px'
-        }}>
-          Creativity.
-        </span>
-      </motion.h2>
-
-      {/* Subhead */}
-      <motion.p
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 20,
-          color: 'rgba(255,255,255,0.72)',
-          textAlign: 'center',
-          maxWidth: 760,
-          lineHeight: 1.6,
-          marginBottom: 80
-        }}
-      >
-        I combine design thinking, modern development, and creative storytelling to deliver digital experiences that are visually engaging, technically robust, and business-focused.
-      </motion.p>
-
-      {/* Skills Grid */}
+      {/* Asymmetric Bento Grid */}
       <div className="skills-grid">
         {skills.map((skill, i) => (
-          <motion.div
+          <div
             key={i}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="skill-card"
+            className={`skill-card reveal ${skill.className}`}
+            style={{ transitionDelay: `${i * 100}ms` }}
           >
-            {/* Number Watermark */}
-            <div style={{
-              position: 'absolute',
-              top: 24,
-              right: 24,
-              fontFamily: 'var(--font-display)',
-              fontSize: '48px',
-              fontStyle: 'italic',
-              color: 'rgba(255,255,255,0.04)',
-              fontWeight: 800,
-              pointerEvents: 'none'
-            }}>
-              0{i + 1}
-            </div>
-
-            {/* Icon */}
-            <div className="skill-icon-wrap">
-              <skill.icon size={24} color="var(--c-primary)" strokeWidth={1.5} />
-            </div>
-
-            {/* Title */}
-            <h3 style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: 22,
-              fontWeight: 700,
-              color: 'var(--c-white)',
-              marginBottom: 24,
-              letterSpacing: '-0.5px'
-            }}>
-              {skill.title}
-            </h3>
-
-            {/* Tools List */}
-            <ul className="skill-list">
-              {skill.tools.map((tool, idx) => (
-                <li key={idx} className="skill-item">
-                  <div className="skill-bullet" />
-                  {tool}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+            {skill.type === 'wide' ? (
+              <>
+                <div className="wide-content">
+                  <div className="card-label">{skill.label}</div>
+                  <h3 className="card-title">{skill.title}</h3>
+                  <p className="card-desc">{skill.desc}</p>
+                </div>
+                <div className="wide-deco">▶</div>
+              </>
+            ) : (
+              <>
+                <div className="card-label">{skill.label}</div>
+                <h3 className="card-title">{skill.title}</h3>
+                
+                {skill.desc && (
+                  <p className="card-desc">{skill.desc}</p>
+                )}
+                
+                {skill.pills && (
+                  <div className="pill-group">
+                    {skill.pills.map((pill, j) => (
+                      <div key={j} className="skill-pill">{pill}</div>
+                    ))}
+                  </div>
+                )}
+                
+                {skill.stat && (
+                  <div className="card-stat">
+                    <div className="stat-value">{skill.stat.value}</div>
+                    <div className="stat-label">{skill.stat.label}</div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         ))}
       </div>
     </section>

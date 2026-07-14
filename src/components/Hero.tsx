@@ -149,15 +149,6 @@ export default function Hero() {
     mouseY.set(0.5);
   };
 
-  // Stagger variants
-  const containerVars = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.08, delayChildren: 0.7 }
-    }
-  };
-
   return (
     <section id="home"
       onMouseMove={handleMouseMove}
@@ -183,11 +174,10 @@ export default function Hero() {
       <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         
         {/* Eyebrow */}
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        <div
+          className="reveal"
           style={{
+            transitionDelay: '600ms',
             fontFamily: 'var(--font-sans)', fontSize: 16, color: 'var(--c-white)',
             letterSpacing: '0.3px', display: 'flex', alignItems: 'center', gap: 12,
             marginBottom: 24
@@ -196,11 +186,10 @@ export default function Hero() {
           Hi! I'm Trinadh Kondapalli 
           <span style={{ color: 'var(--c-primary)' }}>•</span> 
           Based in India
-        </motion.div>
+        </div>
 
         {/* Headline */}
-        <motion.div 
-          variants={containerVars} initial="hidden" animate="show"
+        <div 
           style={{
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             lineHeight: 1.05, maxWidth: 1100, textAlign: 'center'
@@ -218,11 +207,10 @@ export default function Hero() {
                 fontSize: 'clamp(32px, 4.5vw, 64px)', color: 'var(--c-white)'
               }}
             />
-            <motion.span
-              initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.9, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            <span
+              className="reveal"
               style={{
+                transitionDelay: '850ms',
                 fontFamily: 'var(--font-display)',
                 fontSize: 'clamp(32px, 4.5vw, 64px)',
                 background: 'linear-gradient(135deg, var(--c-primary), var(--c-secondary))',
@@ -232,33 +220,31 @@ export default function Hero() {
               }}
             >
               Digital Experiences
-            </motion.span>
+            </span>
           </div>
-        </motion.div>
+        </div>
 
         {/* Subtext */}
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        <p
+          className="reveal"
           style={{
+            transitionDelay: '800ms',
             fontFamily: 'var(--font-sans)', fontSize: 20, color: 'rgba(255,255,255,0.72)',
             maxWidth: 640, textAlign: 'center', marginTop: 24, lineHeight: 1.6
           }}
         >
           Designing experiences that inspire, engage, and grow businesses.
-        </motion.p>
+        </p>
       </div>
 
       {/* ─── CURVED RIBBON (Background) ─── */}
       <CurvedMarquee />
 
       {/* ─── PORTRAIT CARD ─── */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.9, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+      <div
+        className="reveal"
         style={{
+          transitionDelay: '1200ms',
           marginTop: 24,
           position: 'relative',
           zIndex: 10,
@@ -338,7 +324,7 @@ export default function Hero() {
           </motion.div>
           
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }

@@ -1,66 +1,142 @@
-import { motion } from 'framer-motion';
-
 const tools = [
-  { name: 'Figma', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg' },
-  { name: 'Framer', url: 'https://cdn.simpleicons.org/framer/white' },
-  { name: 'VS Code', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg' },
-  { name: 'React', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg' },
-  { name: 'Next.js', url: 'https://cdn.simpleicons.org/nextdotjs/white' }, 
-  { name: 'TypeScript', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg' },
-  { name: 'Tailwind', url: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg' },
-  { name: 'Webflow', url: 'https://cdn.simpleicons.org/webflow/white' },
+  'Figma', 'React', 'Next.js', 'TypeScript', 'Tailwind', 
+  'Framer', 'GSAP', 'Node.js', 'Webflow', 'After Effects'
 ];
+
+// Double the array to ensure seamless infinite looping
+const displayTools = [...tools, ...tools, ...tools, ...tools];
 
 export default function ToolsMarquee() {
   return (
-    <div style={{
+    <section id="tools" style={{
       width: '100%',
-      padding: '20px 0',
-      marginTop: '50px',
+      background: '#0d0d0d', // 2-3% lighter than the #0a0a0a base
+      padding: '64px 0',
       display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      overflow: 'hidden',
       position: 'relative',
       zIndex: 20
     }}>
-      {/* Premium Glassmorphism Dock */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 'clamp(20px, 3vw, 48px)', // responsive gap
-        padding: '20px 40px',
-        background: 'var(--rgba-dark-06)', // subtle dark glass
-        backdropFilter: 'blur(16px)',
-        border: '1px solid var(--rgba-white-03)',
-        borderRadius: '100px', // pill shape
-        boxShadow: '0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)'
-      }}>
-        {tools.map((tool, i) => (
-          <motion.div 
-            key={`${tool.name}-${i}`}
-            whileHover={{ 
-              scale: 1.6, 
-              y: -12, // pop upwards
-              rotate: (i % 2 === 0 ? 3 : -3) // slight playful tilt
-            }}
-            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-            style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center' }}
-            title={tool.name}
-          >
-            <motion.img 
-              whileHover={{ opacity: 1, filter: 'drop-shadow(0 10px 20px rgba(109,215,76,0.3))' }}
-              initial={{ opacity: 0.7 }}
-              src={tool.url} 
-              alt={tool.name} 
-              style={{
-                height: 32,
-                width: 'auto',
-                objectFit: 'contain',
-              }}
-            />
-          </motion.div>
-        ))}
+      <style>{`
+        .marquee-headline {
+          font-family: var(--font-sans);
+          font-size: 12px;
+          font-weight: 500;
+          font-variant: small-caps;
+          letter-spacing: 1.5px;
+          color: rgba(255, 255, 255, 0.4);
+          margin-bottom: 40px;
+          padding-left: 5%;
+        }
+
+        .marquee-wrapper {
+          width: 100%;
+          overflow: hidden;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+        }
+
+        /* Gradient masks for smooth fade on edges */
+        .marquee-wrapper::before,
+        .marquee-wrapper::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 15%;
+          z-index: 2;
+          pointer-events: none;
+        }
+        
+        .marquee-wrapper::before {
+          left: 0;
+          background: linear-gradient(to right, #0d0d0d, transparent);
+        }
+
+        .marquee-wrapper::after {
+          right: 0;
+          background: linear-gradient(to left, #0d0d0d, transparent);
+        }
+
+        .marquee-track {
+          display: flex;
+          white-space: nowrap;
+          width: fit-content;
+          animation: marquee 35s linear infinite;
+        }
+        
+        .marquee-track.reverse {
+          animation-direction: reverse;
+        }
+
+        .marquee-item {
+          display: flex;
+          align-items: center;
+          font-family: var(--font-sans);
+          font-size: 28px;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 0.5);
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+        }
+
+        .marquee-track.reverse .marquee-item {
+          font-size: 16px;
+          opacity: 0.5; /* 50% of the parent which is already 50% = 0.25 effective */
+        }
+
+        .marquee-dot {
+          color: #6ddc6d;
+          margin: 0 32px;
+          font-weight: 700;
+        }
+        
+        .marquee-track.reverse .marquee-dot {
+          margin: 0 24px;
+        }
+
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+
+        @media (max-width: 768px) {
+          .marquee-item { font-size: 20px; }
+          .marquee-track.reverse .marquee-item { font-size: 14px; }
+          .marquee-dot { margin: 0 20px; }
+          .marquee-headline { padding-left: 24px; }
+        }
+      `}</style>
+
+      <div className="marquee-headline">
+        Tools I reach for
       </div>
-    </div>
+
+      <div className="marquee-wrapper">
+        {/* Row 1: Forward, Large */}
+        <div className="marquee-track">
+          {displayTools.map((tool, index) => (
+            <div key={`r1-${index}`} className="marquee-item">
+              {tool}
+              <span className="marquee-dot">·</span>
+            </div>
+          ))}
+        </div>
+        
+        {/* Row 2: Reverse, Small */}
+        <div className="marquee-track reverse">
+          {displayTools.map((tool, index) => (
+            <div key={`r2-${index}`} className="marquee-item">
+              {tool}
+              <span className="marquee-dot">·</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

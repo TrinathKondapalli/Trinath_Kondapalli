@@ -1,52 +1,15 @@
-import { useState, useRef } from 'react';
-import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowUpRight, Menu, X, ArrowLeft } from 'lucide-react';
 
-function MagneticButton({ children, className, style }: any) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
-  
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const springConfig = { damping: 15, stiffness: 150, mass: 0.1 };
-  const smoothX = useSpring(x, springConfig);
-  const smoothY = useSpring(y, springConfig);
-
-  const handleMouse = (e: React.MouseEvent) => {
-    if (!ref.current) return;
-    const { clientX, clientY } = e;
-    const { height, width, left, top } = ref.current.getBoundingClientRect();
-    const middleX = clientX - (left + width / 2);
-    const middleY = clientY - (top + height / 2);
-    x.set(middleX * 0.3); // Magnetic pull intensity
-    y.set(middleY * 0.3);
-  };
-
-  const reset = () => {
-    setIsHovered(false);
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <motion.button
-      ref={ref}
-      className={className}
-      onMouseMove={handleMouse}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={reset}
-      animate={{ scale: isHovered ? 1.05 : 1, filter: isHovered ? 'brightness(1.1)' : 'brightness(1)' }}
-      transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-      style={{ ...style, x: smoothX, y: smoothY }}
-    >
-      {children}
-    </motion.button>
-  );
-}
+import GlobalMagneticButton from './GlobalMagneticButton';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === '/';
 
   const navItems = ['Home', 'About', 'Services', 'Work', 'Process', 'Skills', 'Contact'];
 
@@ -83,49 +46,72 @@ export default function Navbar() {
         boxSizing: 'border-box'
       }}>
         
-        {/* Logo Monogram */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 22,
-            letterSpacing: '-1px'
-          }}>
-            <span style={{ color: 'var(--c-primary)' }}>T</span>
-            <span style={{ color: 'var(--c-white)' }}>K</span>
-          </div>
-          <div style={{
-            display: 'flex', flexDirection: 'column',
-            fontFamily: 'var(--font-sans)',
-            fontWeight: 600, color: 'var(--c-white)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.5px'
-          }}>
-            <span style={{ fontSize: 14, lineHeight: 1 }}>TRINATH</span>
-            <span style={{ fontSize: 12, lineHeight: 1, marginTop: 2 }}>KONDAPALLI</span>
-          </div>
-        </div>
+        {/* Logo Monogram or Back Button */}
+        {!isHome ? (
+          <button 
+            onClick={() => navigate('/')}
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 8, 
+              background: 'none', 
+              border: 'none', 
+              color: 'var(--c-white)', 
+              fontFamily: 'var(--font-sans)', 
+              fontWeight: 600, 
+              fontSize: 14, 
+              cursor: 'pointer',
+              textTransform: 'uppercase',
+              letterSpacing: 1,
+              padding: 0
+            }}
+          >
+            <ArrowLeft size={16} />
+            Back to all work
+          </button>
+        ) : (
+          <a href="/#home" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', cursor: 'pointer' }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 22,
+              letterSpacing: '-1px'
+            }}>
+              <span style={{ color: 'var(--c-primary)' }}>T</span>
+              <span style={{ color: 'var(--c-white)' }}>K</span>
+            </div>
+            <div style={{
+              display: 'flex', flexDirection: 'column',
+              fontFamily: 'var(--font-sans)',
+              fontWeight: 600, color: 'var(--c-white)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>
+              <span style={{ fontSize: 14, lineHeight: 1 }}>TRINATH</span>
+              <span style={{ fontSize: 12, lineHeight: 1, marginTop: 2 }}>KONDAPALLI</span>
+            </div>
+          </a>
+        )}
 
         {/* Desktop Nav Links */}
         <div className="nav-links" style={{
           display: 'flex', alignItems: 'center', gap: 32,
           fontFamily: 'var(--font-sans)', fontSize: 15, fontWeight: 500
         }}>
-          {navItems.map((item, i) => (
-            <a key={item} href={`#${item.toLowerCase()}`} style={{
+          {isHome && navItems.map((item) => (
+            <a key={item} href={`/#${item.toLowerCase()}`} style={{
               position: 'relative', color: 'var(--c-white)', textDecoration: 'none',
               transition: 'color 0.3s ease', display: 'flex', alignItems: 'center', gap: 6
             }}
             onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--c-secondary)')}
             onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--c-white)')}
             >
-              {i === 0 && <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--c-primary)' }} />}
               {item}
             </a>
           ))}
         </div>
 
         {/* Desktop CTA Button */}
-        <MagneticButton
+        <GlobalMagneticButton
           className="cta-btn"
           style={{
             background: 'linear-gradient(135deg, var(--c-primary), var(--c-secondary))',
@@ -136,7 +122,7 @@ export default function Navbar() {
         >
           Let's Talk
           <ArrowUpRight size={16} strokeWidth={3} />
-        </MagneticButton>
+        </GlobalMagneticButton>
 
         {/* Mobile Hamburger Button */}
         <button className="mobile-menu-btn" onClick={() => setIsOpen(!isOpen)} style={{
@@ -181,8 +167,8 @@ export default function Navbar() {
               boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
             }}
           >
-            {navItems.map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setIsOpen(false)} style={{
+            {isHome && navItems.map((item) => (
+              <a key={item} href={`/#${item.toLowerCase()}`} onClick={() => setIsOpen(false)} style={{
                 color: 'var(--c-white)', textDecoration: 'none', fontSize: 18, fontWeight: 500,
                 fontFamily: 'var(--font-sans)', padding: '8px 0', borderBottom: '1px solid var(--rgba-white-008)'
               }}>

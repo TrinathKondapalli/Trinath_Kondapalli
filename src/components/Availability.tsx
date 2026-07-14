@@ -34,30 +34,29 @@ const cards = [
 
 function BentoCard({ card }: { card: any }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className={card.className}
-      style={{
-        position: 'relative',
-        display: 'flex',
-        flexDirection: card.className === 'bento-card-wide' ? 'row' : 'column',
-        alignItems: card.className === 'bento-card-wide' ? 'center' : 'flex-start',
-        gap: card.className === 'bento-card-wide' ? '40px' : '0',
-        justifyContent: card.className === 'bento-card-wide' ? 'flex-start' : 'space-between',
-        padding: card.featured ? '48px' : '40px',
-        overflow: 'hidden',
-        borderRadius: '32px',
-        border: '1px solid var(--rgba-white-03)',
-        background: 'var(--rgba-dark-06)',
-        backdropFilter: 'blur(12px)',
-        cursor: 'default',
-        width: '100%',
-        height: '100%'
-      }}
-    >
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className={`${card.className} bento-card-interactive`}
+        style={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: card.className === 'bento-card-wide' ? 'row' : 'column',
+          alignItems: card.className === 'bento-card-wide' ? 'center' : 'flex-start',
+          gap: card.className === 'bento-card-wide' ? '40px' : '0',
+          justifyContent: card.className === 'bento-card-wide' ? 'flex-start' : 'space-between',
+          padding: card.featured ? '48px' : '40px',
+          overflow: 'hidden',
+          borderRadius: '32px',
+          border: '1px solid var(--rgba-white-03)',
+          background: 'var(--rgba-dark-06)',
+          backdropFilter: 'blur(12px)',
+          width: '100%',
+          height: '100%'
+        }}
+      >
       <div 
         className="bento-icon-wrapper"
         style={{
@@ -81,9 +80,27 @@ function BentoCard({ card }: { card: any }) {
           fontWeight: 600,
           color: 'var(--c-white)',
           marginBottom: '12px',
-          letterSpacing: '-0.5px'
+          letterSpacing: '-0.5px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          flexWrap: 'wrap'
         }}>
           {card.title}
+          {card.featured && (
+             <span style={{
+               display: 'flex', alignItems: 'center', gap: 6,
+               padding: '4px 10px', borderRadius: 100,
+               background: 'rgba(109,215,76,0.1)',
+               border: '1px solid rgba(109,215,76,0.2)',
+               fontSize: 12, fontWeight: 600, color: 'var(--c-primary)',
+               letterSpacing: 1, textTransform: 'uppercase',
+               marginLeft: '4px'
+             }}>
+               <span className="live-dot" />
+               Live
+             </span>
+          )}
         </h3>
         <p style={{
           fontFamily: 'var(--font-sans)',
@@ -122,6 +139,39 @@ export default function Availability() {
         .bento-card-wide { grid-column: span 2; grid-row: span 1; }
         .bento-card-square { grid-column: span 1; grid-row: span 1; }
 
+        .bento-card-interactive {
+          transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+        }
+
+        .bento-card-interactive .bento-icon-wrapper {
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
+        }
+
+        .bento-card-interactive:hover {
+          transform: translateY(-4px);
+          border-color: rgba(109,215,76,0.2) !important;
+          box-shadow: 0 10px 40px -10px rgba(109,215,76,0.15) !important;
+        }
+
+        .bento-card-interactive:hover .bento-icon-wrapper {
+          transform: scale(1.15);
+          background: rgba(109,215,76,0.1) !important;
+        }
+
+        .live-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: var(--c-primary);
+          box-shadow: 0 0 8px var(--c-primary);
+          animation: pulse-dot 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-dot {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.4; transform: scale(0.8); }
+        }
+
         /* Responsive Breakpoints */
         @media (max-width: 1024px) {
           .bento-grid { grid-template-columns: repeat(2, 1fr); }
@@ -135,7 +185,7 @@ export default function Availability() {
             grid-column: span 1; 
             grid-row: span 1; 
           }
-          .bento-card-wide > div {
+          .bento-card-wide {
             flex-direction: column !important;
             align-items: flex-start !important;
             gap: 24px !important;

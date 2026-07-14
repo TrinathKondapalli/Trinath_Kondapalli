@@ -4,55 +4,40 @@ import { Plus, Minus } from 'lucide-react';
 
 const faqs = [
   {
-    question: "What services do you provide?",
-    answer: "I specialize in UX/UI Design, Website Design, Frontend Development, and Video Editing. I focus on creating premium, end-to-end digital experiences that drive business results."
+    question: "How do I know we're a good fit before committing?",
+    answer: "Every project starts with a free 30-minute discovery call — no pitch, just conversation. If I'm not the right person for what you need, I'll tell you and point you in a better direction."
   },
   {
-    question: "Do you work with international clients?",
-    answer: "Absolutely. I work with clients worldwide. My workflow is fully optimized for remote collaboration with clear communication, milestone updates, and flexible meeting times."
+    question: "What does your typical project timeline look like?",
+    answer: "Most projects run 4–8 weeks depending on scope. A landing page is 2 weeks. A full product with design system is 6–10. I'll give you a precise breakdown in the discovery call, not a vague estimate."
   },
   {
-    question: "How long does a project take?",
-    answer: "Project timelines vary depending on the scope and complexity. A typical website redesign usually takes 4-6 weeks from the initial discovery phase to the final launch."
+    question: "Do you work with early-stage startups or only established businesses?",
+    answer: "Both. Some of my best work has been with founders at pre-seed building their first product. Budget-conscious doesn't mean low-quality — it means we prioritize ruthlessly."
   },
   {
-    question: "How much does a project cost?",
-    answer: "Pricing is completely project-based. Every business has unique needs, so I create custom proposals after our discovery call based on your specific goals, scope, and timeline."
+    question: "What happens if I need changes after the project launches?",
+    answer: "Every project includes 2 rounds of revisions and a 30-day post-launch support window. After that, I offer a monthly retainer if you want an ongoing design partner."
   },
   {
-    question: "Do you offer frontend development?",
-    answer: "Yes! I don't just stop at design. I build out the designs into highly performant, production-ready frontend code using modern stacks like React, Next.js, and Framer Motion."
-  },
-  {
-    question: "How many revisions are included?",
-    answer: "I typically include 2-3 structured rounds of revisions per project phase. This ensures we have plenty of room to refine the design and ensure it perfectly aligns with your vision."
-  },
-  {
-    question: "What tools do you use?",
-    answer: "For design, my tool of choice is Figma. For development, I rely on React, Next.js, Tailwind, and animation libraries like Framer Motion and GSAP to bring designs to life."
-  },
-  {
-    question: "How do we get started?",
-    answer: "Simply reach out via the contact form or send me an email. We'll schedule a brief discovery call to discuss your goals, project scope, and see if we're a good fit to work together."
+    question: "Do you hand off to developers or build it yourself?",
+    answer: "Both. I write clean React + Tailwind, or I deliver Figma files with a full dev handoff spec that any developer can build from. You choose."
   }
 ];
 
-function FAQItem({ faq, index }: { faq: any, index: number }) {
-  const [isOpen, setIsOpen] = useState(false);
+function FAQItem({ faq, index, isOpen, toggleOpen }: { faq: any, index: number, isOpen: boolean, toggleOpen: () => void }) {
+  const num = (index + 1).toString().padStart(2, '0');
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ delay: index * 0.1, duration: 0.6 }}
-      className={`faq-card ${isOpen ? 'open' : ''}`}
-      onClick={() => setIsOpen(!isOpen)}
+    <div 
+      className={`faq-row reveal ${isOpen ? 'active' : ''}`}
+      style={{ transitionDelay: `${index * 100}ms` }}
     >
-      <div className="faq-header">
+      <div className="faq-header" onClick={toggleOpen}>
+        <div className="faq-num">{num}</div>
         <h3 className="faq-question">{faq.question}</h3>
-        <div className="faq-icon-wrap">
-          {isOpen ? <Minus size={18} color="var(--c-primary)" /> : <Plus size={18} color="var(--c-primary)" />}
+        <div className={`faq-icon ${isOpen ? 'open' : ''}`}>
+          {isOpen ? <Minus size={20} strokeWidth={1.5} /> : <Plus size={20} strokeWidth={1.5} />}
         </div>
       </div>
       
@@ -62,127 +47,201 @@ function FAQItem({ faq, index }: { faq: any, index: number }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="faq-answer-wrap"
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            style={{ overflow: 'hidden' }}
           >
-            <p className="faq-answer">{faq.answer}</p>
+            <div className="faq-answer-wrapper">
+              <p className="faq-answer">{faq.answer}</p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
 
 export default function FAQ() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggleOpen = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
-    <section style={{
+    <section id="faq" style={{
       position: 'relative',
       width: '100%',
-      padding: '140px 24px',
+      padding: '160px 24px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      zIndex: 10
+      zIndex: 10,
+      background: 'var(--c-base)'
     }}>
       <style>{`
         .faq-container {
           width: 100%;
-          max-width: 800px;
+          max-width: 900px;
           display: flex;
           flex-direction: column;
-          gap: 16px;
         }
 
-        .faq-card {
-          background: var(--rgba-dark-06);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(109,215,76,0.05);
-          border-radius: 32px;
-          padding: 24px 32px;
-          cursor: pointer;
-          transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
-          overflow: hidden;
+        .faq-row {
+          width: 100%;
+          border-bottom: 1px solid rgba(255,255,255,0.05);
+          border-left: 2px solid transparent;
+          display: flex;
+          flex-direction: column;
+          transition: border-color 0.3s ease;
         }
 
-        .faq-card:hover {
-          border-color: rgba(109,215,76,0.2);
-          box-shadow: 0 10px 40px -10px rgba(109,215,76,0.1);
-          transform: translateY(-2px);
+        .faq-row.active {
+          border-left: 2px solid #6ddc6d;
         }
 
-        .faq-card.open {
-          border-color: rgba(109,215,76,0.3);
-          box-shadow: 0 10px 40px -10px rgba(109,215,76,0.15);
+        .faq-row:first-child {
+          border-top: 1px solid rgba(255,255,255,0.05);
         }
 
         .faq-header {
-          display: flex;
-          justify-content: space-between;
+          display: grid;
+          grid-template-columns: 60px 1fr 60px;
           align-items: center;
-          gap: 24px;
+          padding: 32px 0;
+          cursor: pointer;
+          transition: padding 0.3s ease;
+        }
+
+        .faq-num {
+          font-family: var(--font-display);
+          font-style: italic;
+          font-size: 24px;
+          color: rgba(255,255,255,0.2);
+          transition: color 0.3s ease;
+        }
+
+        .faq-row:hover .faq-num {
+          color: rgba(109,215,76,0.6);
+        }
+        
+        .faq-row.active .faq-num {
+          color: #6ddc6d;
         }
 
         .faq-question {
           font-family: var(--font-sans);
-          font-size: 18px;
-          font-weight: 600;
+          font-size: 16px;
+          font-weight: 500;
           color: var(--c-white);
           margin: 0;
-          line-height: 1.4;
-          transition: color 0.3s ease;
+          letter-spacing: -0.2px;
+          transition: color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .faq-card:hover .faq-question {
+        .faq-row:hover .faq-question {
+          transform: translateX(8px);
+        }
+
+        .faq-icon {
+          display: flex;
+          justify-content: flex-end;
+          color: rgba(255,255,255,0.4);
+          transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .faq-row:hover .faq-icon {
+          color: var(--c-white);
+        }
+
+        .faq-icon.open {
           color: var(--c-primary);
         }
 
-        .faq-icon-wrap {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          background: rgba(109,215,76,0.05);
-          border: 1px solid rgba(109,215,76,0.15);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .faq-card:hover .faq-icon-wrap {
-          background: rgba(109,215,76,0.1);
-        }
-
-        .faq-answer-wrap {
-          overflow: hidden;
+        .faq-answer-wrapper {
+          padding-left: 60px;
+          padding-right: 60px;
+          padding-bottom: 40px;
         }
 
         .faq-answer {
           font-family: var(--font-sans);
-          font-size: 16px;
+          font-size: 14px;
+          font-weight: 400;
           color: rgba(255,255,255,0.6);
-          line-height: 1.6;
+          line-height: 1.7;
           margin: 0;
-          padding-top: 16px;
+          padding-left: 20px;
+          border-left: 2px solid rgba(109,215,76,0.5); /* Subtle green border */
+        }
+
+        /* Bottom CTA Strip */
+        .faq-cta-strip {
+          margin-top: 80px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          padding: 40px 0;
+          width: 100%;
+          border-top: 1px solid rgba(255,255,255,0.05);
+          font-family: var(--font-sans);
+        }
+
+        .faq-cta-text {
+          font-size: 18px;
+          color: rgba(255,255,255,0.6);
+        }
+
+        .faq-cta-link {
+          font-size: 18px;
+          font-weight: 600;
+          color: var(--c-white);
+          text-decoration: none;
+          position: relative;
+          transition: color 0.3s ease;
+        }
+
+        .faq-cta-link::after {
+          content: "";
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 100%;
+          height: 1px;
+          background: var(--c-white);
+          transition: background 0.3s ease;
+        }
+
+        .faq-cta-link:hover {
+          color: var(--c-primary);
+        }
+
+        .faq-cta-link:hover::after {
+          background: var(--c-primary);
         }
 
         /* Responsive Breakpoints */
         @media (max-width: 768px) {
-          .faq-card {
-            padding: 24px;
-            border-radius: 24px;
+          .faq-header {
+            grid-template-columns: 40px 1fr 40px;
+            padding: 24px 0;
           }
-          .faq-question {
-            font-size: 16px;
+          .faq-answer-wrapper {
+            padding-left: 0;
+            padding-right: 0;
+            padding-bottom: 24px;
+          }
+          .faq-cta-strip {
+            flex-direction: column;
+            gap: 16px;
+            text-align: center;
           }
         }
       `}</style>
 
       {/* Eyebrow Pill */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
+      <div 
+        className="reveal"
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -191,72 +250,38 @@ export default function FAQ() {
           background: 'var(--rgba-dark-06)',
           border: '1px solid var(--rgba-white-03)',
           borderRadius: 100,
-          marginBottom: 32
+          marginBottom: 40
         }}
       >
         <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
         <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-          FAQ
+          QUESTIONS YOU MAY HAVE
         </span>
         <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-      </motion.div>
-
-      {/* Headline */}
-      <motion.h2 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 'clamp(40px, 5vw, 72px)',
-          fontWeight: 800,
-          color: 'var(--c-white)',
-          textAlign: 'center',
-          letterSpacing: '-2px',
-          marginBottom: 32,
-          lineHeight: 1.1
-        }}
-      >
-        Questions <br/>
-        You May <br/>
-        <span style={{
-          fontFamily: 'var(--font-display)',
-          fontStyle: 'italic',
-          fontWeight: 400,
-          background: 'linear-gradient(135deg, #6DD74C, #81DD6A)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          paddingRight: '8px'
-        }}>
-          Have.
-        </span>
-      </motion.h2>
-
-      {/* Subhead */}
-      <motion.p
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 20,
-          color: 'rgba(255,255,255,0.72)',
-          textAlign: 'center',
-          maxWidth: 720,
-          lineHeight: 1.6,
-          marginBottom: 80
-        }}
-      >
-        Everything you need to know before starting your project. If you still have questions, feel free to get in touch.
-      </motion.p>
+      </div>
 
       {/* Accordion List */}
       <div className="faq-container">
         {faqs.map((faq, idx) => (
-          <FAQItem key={idx} faq={faq} index={idx} />
+          <FAQItem 
+            key={idx} 
+            faq={faq} 
+            index={idx} 
+            isOpen={openIndex === idx} 
+            toggleOpen={() => toggleOpen(idx)} 
+          />
         ))}
+      </div>
+
+      {/* Bottom CTA Strip */}
+      <div 
+        className="faq-cta-strip reveal"
+        style={{ transitionDelay: '400ms' }}
+      >
+        <span className="faq-cta-text">Have a different question?</span>
+        <a href="mailto:hello@trinadh.com" className="faq-cta-link">
+          hello@trinadh.com
+        </a>
       </div>
     </section>
   );

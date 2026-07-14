@@ -1,35 +1,34 @@
 import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useScroll, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import { ReactLenis } from 'lenis/react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import ToolsMarquee from './components/ToolsMarquee';
-import Availability from './components/Availability';
-import Services from './components/Services';
-import WhoIHelp from './components/WhoIHelp';
-import ProblemsISolve from './components/ProblemsISolve';
-import FeaturedProjects from './components/FeaturedProjects';
-import DesignProcess from './components/DesignProcess';
-import AboutMe from './components/AboutMe';
-import SkillsAndTools from './components/SkillsAndTools';
-import Testimonials from './components/Testimonials';
-import FAQ from './components/FAQ';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
+import Home from './pages/Home';
+import CaseStudy from './pages/CaseStudy';
 import './index.css';
+
+// A component to automatically scroll to top when route changes
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 
 function CustomCursor() {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   
-  // Spring config for smooth trailing effect
-  const springConfig = { damping: 25, stiffness: 400, mass: 0.5 };
+  // Spring config for smooth trailing effect (lerp equivalent in framer-motion)
+  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
   const smoothX = useSpring(cursorX, springConfig);
   const smoothY = useSpring(cursorY, springConfig);
 
   const [isVisible, setIsVisible] = useState(false);
   const [isHoveringLink, setIsHoveringLink] = useState(false);
-  const [cursorText, setCursorText] = useState<string | null>(null);
+  const [isMouseDown, setIsMouseDown] = useState(false);
 
   useEffect(() => {
     // Only run on desktop devices that support hover, and never for users who asked for reduced motion
@@ -38,7 +37,7 @@ function CustomCursor() {
     if (!mediaQuery.matches || reducedMotionQuery.matches) return;
 
     const moveCursor = (e: MouseEvent) => {
-      cursorX.set(e.clientX); // Set exact cursor position
+      cursorX.set(e.clientX);
       cursorY.set(e.clientY);
       if (!isVisible) setIsVisible(true);
     };
@@ -46,10 +45,7 @@ function CustomCursor() {
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (target && typeof target.closest === 'function') {
-        const textTarget = target.closest<HTMLElement>('[data-cursor-text]');
-        setCursorText(textTarget ? textTarget.dataset.cursorText ?? null : null);
-
-        if (textTarget || target.closest('a') || target.closest('button')) {
+        if (target.closest('a') || target.closest('button') || target.closest('.editorial-card') || target.closest('.project-card')) {
           setIsHoveringLink(true);
         } else {
           setIsHoveringLink(false);
@@ -59,24 +55,32 @@ function CustomCursor() {
 
     const handleMouseLeave = () => setIsVisible(false);
     const handleMouseEnter = () => setIsVisible(true);
+    const handleMouseDown = () => setIsMouseDown(true);
+    const handleMouseUp = () => setIsMouseDown(false);
 
     window.addEventListener('mousemove', moveCursor);
     window.addEventListener('mouseover', handleMouseOver);
+    window.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mouseup', handleMouseUp);
     document.body.addEventListener('mouseleave', handleMouseLeave);
     document.body.addEventListener('mouseenter', handleMouseEnter);
 
-    // Hide the native cursor everywhere except form fields, where a visible caret cue still matters
+    // Hide the native cursor everywhere except form fields
     document.body.style.cursor = 'none';
     const style = document.createElement('style');
     style.innerHTML = `
-      * { cursor: none !important; }
-      input, textarea, select, [contenteditable="true"] { cursor: auto !important; }
+      @media (pointer: fine) {
+        * { cursor: none !important; }
+        input, textarea, select, [contenteditable="true"] { cursor: auto !important; }
+      }
     `;
     document.head.appendChild(style);
 
     return () => {
       window.removeEventListener('mousemove', moveCursor);
       window.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mouseup', handleMouseUp);
       document.body.removeEventListener('mouseleave', handleMouseLeave);
       document.body.removeEventListener('mouseenter', handleMouseEnter);
       document.body.style.cursor = 'auto';
@@ -87,53 +91,58 @@ function CustomCursor() {
   if (!isVisible) return null;
 
   return (
-    <motion.div
-      style={{
-        position: 'fixed',
-        left: 0, top: 0,
-        x: smoothX,
-        y: smoothY,
-        pointerEvents: 'none',
-        zIndex: 99999,
-        mixBlendMode: 'difference',
-      }}
-    >
+    <>
+      {/* Outer trailing circle */}
       <motion.div
-        animate={{
-          width: isHoveringLink ? 80 : 20,
-          height: isHoveringLink ? 80 : 20,
-          x: isHoveringLink ? -40 : -10, // Center offset
-          y: isHoveringLink ? -40 : -10, // Center offset
-          backgroundColor: isHoveringLink ? 'transparent' : '#ffffff',
-          border: isHoveringLink ? '1px solid #ffffff' : '0px solid #ffffff',
-        }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
+        id="cursor"
         style={{
-          borderRadius: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          position: 'fixed',
+          left: 0, top: 0,
+          x: smoothX,
+          y: smoothY,
+          pointerEvents: 'none',
+          zIndex: 9999,
+          translateX: '-50%',
+          translateY: '-50%'
         }}
-      >
-        {cursorText && (
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.15 }}
-            style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: 13,
-              fontWeight: 600,
-              letterSpacing: '0.5px',
-              color: '#ffffff',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {cursorText}
-          </motion.span>
-        )}
-      </motion.div>
-    </motion.div>
+        animate={{
+          width: isHoveringLink ? 48 : 32,
+          height: isHoveringLink ? 48 : 32,
+          border: isHoveringLink ? '1.5px solid rgba(100, 220, 100, 1)' : '1.5px solid rgba(100, 220, 100, 0.6)',
+          borderRadius: '50%',
+          scale: isMouseDown ? 0.8 : 1
+        }}
+        transition={{ 
+          width: { duration: 0.3, ease: 'easeOut' },
+          height: { duration: 0.3, ease: 'easeOut' },
+          border: { duration: 0.3, ease: 'easeOut' },
+          scale: { duration: 0.1 }
+        }}
+      />
+      
+      {/* Inner instant dot */}
+      <motion.div
+        id="cursor-dot"
+        style={{
+          position: 'fixed',
+          left: 0, top: 0,
+          x: cursorX,
+          y: cursorY,
+          width: 5,
+          height: 5,
+          background: '#6ddc6d',
+          borderRadius: '50%',
+          pointerEvents: 'none',
+          zIndex: 9999,
+          translateX: '-50%',
+          translateY: '-50%'
+        }}
+        animate={{
+          scale: isMouseDown ? 0.8 : 1
+        }}
+        transition={{ scale: { duration: 0.1 } }}
+      />
+    </>
   );
 }
 
@@ -173,31 +182,150 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
-function App() {
+function useScrollReveal() {
   const prefersReducedMotion = usePrefersReducedMotion();
 
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      // Instantly make everything visible if reduced motion is requested
+      const instantReveal = () => {
+        document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+          el.classList.add('visible');
+          if (el.classList.contains('stat-num') && !el.classList.contains('counted')) {
+            el.classList.add('counted');
+            const endVal = parseInt((el as HTMLElement).dataset.countTo || '0', 10);
+            const suffix = (el as HTMLElement).dataset.suffix || '';
+            el.textContent = endVal + suffix;
+          }
+        });
+      };
+      instantReveal();
+      const mo = new MutationObserver(instantReveal);
+      mo.observe(document.body, { childList: true, subtree: true });
+      return () => mo.disconnect();
+    }
+
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    const animateValue = (obj: Element, start: number, end: number, duration: number) => {
+      let startTimestamp: number | null = null;
+      const step = (timestamp: number) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const currentCount = Math.floor(easeOutCubic(progress) * (end - start) + start);
+        const suffix = (obj as HTMLElement).dataset.suffix || '';
+        obj.textContent = currentCount + suffix;
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        } else {
+          obj.textContent = end + suffix;
+        }
+      };
+      window.requestAnimationFrame(step);
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          
+          if (entry.target.classList.contains('stat-num') && !entry.target.classList.contains('counted')) {
+            entry.target.classList.add('counted');
+            const endVal = parseInt((entry.target as HTMLElement).dataset.countTo || '0', 10);
+            animateValue(entry.target, 0, endVal, 1200);
+          }
+          
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '50px' });
+
+    const observeElements = () => {
+      document.querySelectorAll('.reveal:not(.observed)').forEach(el => {
+        el.classList.add('observed');
+        io.observe(el);
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+           el.classList.add('visible');
+        }
+      });
+    };
+
+    // Extreme fallback: Force everything to show after 1.5s just in case IntersectionObserver entirely fails in this environment
+    const failsafe = setTimeout(() => {
+      document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+        el.classList.add('visible');
+        if (el.classList.contains('stat-num') && !el.classList.contains('counted')) {
+          el.classList.add('counted');
+          const endVal = parseInt((el as HTMLElement).dataset.countTo || '0', 10);
+          animateValue(el, 0, endVal, 1200);
+        }
+      });
+    }, 1500);
+
+    observeElements();
+    
+    const mo = new MutationObserver(observeElements);
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      clearTimeout(failsafe);
+      io.disconnect();
+      mo.disconnect();
+    };
+  }, [prefersReducedMotion]);
+}
+
+function AnimatedRoutes() {
+  const location = useLocation();
+  
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route 
+          path="/" 
+          element={
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -20 }} 
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              <Home />
+            </motion.div>
+          } 
+        />
+        <Route 
+          path="/case-study/:id" 
+          element={
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -20 }} 
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              <CaseStudy />
+            </motion.div>
+          } 
+        />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
+function App() {
+  const prefersReducedMotion = usePrefersReducedMotion();
+  useScrollReveal();
+
   const content = (
-    <>
+    <BrowserRouter>
+      <ScrollToTop />
       <ScrollProgress />
       <CustomCursor />
       <Navbar />
-      <main>
-        <Hero />
-        <ToolsMarquee />
-        <Availability />
-        <Services />
-        <WhoIHelp />
-        <ProblemsISolve />
-        <FeaturedProjects />
-        <DesignProcess />
-        <AboutMe />
-        <SkillsAndTools />
-        <Testimonials />
-        <FAQ />
-        <Contact />
-      </main>
+      <AnimatedRoutes />
       <Footer />
-    </>
+    </BrowserRouter>
   );
 
   // Skip Lenis entirely for users who've asked for reduced motion — fall back to native scroll.
