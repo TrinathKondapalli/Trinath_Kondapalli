@@ -1,3 +1,5 @@
+import Reveal from './Reveal';
+import StatNumber from './StatNumber';
 
 const skills = [
   {
@@ -86,6 +88,7 @@ export default function SkillsAndTools() {
           background: #0f2210;
           overflow: hidden;
           transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+          height: 100%;
         }
 
         .skill-card:hover {
@@ -153,19 +156,6 @@ export default function SkillsAndTools() {
           gap: 8px;
         }
 
-        .stat-value {
-          font-family: var(--font-sans);
-          font-size: 28px;
-          font-weight: 700;
-          color: rgba(100,220,100,0.7);
-        }
-
-        .stat-label {
-          font-family: var(--font-sans);
-          font-size: 11px;
-          color: rgba(255,255,255,0.5);
-        }
-
         /* Wide card specific layout */
         .bento-wide {
           flex-direction: row;
@@ -208,77 +198,68 @@ export default function SkillsAndTools() {
       <div className="skills-bg-pattern" />
 
       {/* Eyebrow Pill */}
-      <div 
-        className="reveal"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          padding: '6px 16px',
-          background: 'var(--rgba-dark-06)',
-          border: '1px solid var(--rgba-white-03)',
-          borderRadius: 100,
-          marginBottom: 40,
-          position: 'relative',
-          zIndex: 10
-        }}
-      >
-        <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-        <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-          SKILLS & ARSENAL
-        </span>
-        <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-      </div>
+      <Reveal>
+        <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            padding: '6px 16px',
+            background: 'var(--rgba-dark-06)',
+            border: '1px solid var(--rgba-white-03)',
+            borderRadius: 100,
+            marginBottom: 40,
+            position: 'relative',
+            zIndex: 10
+          }}
+        >
+          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
+            SKILLS & ARSENAL
+          </span>
+          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+        </div>
+      </Reveal>
 
       {/* Asymmetric Bento Grid */}
       <div className="skills-grid">
         {skills.map((skill, i) => (
-          <div
-            key={i}
-            className={`skill-card reveal ${skill.className}`}
-            style={{ transitionDelay: `${i * 100}ms` }}
-          >
-            {skill.type === 'wide' ? (
-              <>
-                <div className="wide-content">
+          <Reveal key={i} delay={i * 100} style={{ height: '100%' }}>
+            <div className={`skill-card ${skill.className}`}>
+              {skill.type === 'wide' ? (
+                <>
+                  <div className="wide-content">
+                    <div className="card-label">{skill.label}</div>
+                    <h3 className="card-title">{skill.title}</h3>
+                    <p className="card-desc">{skill.desc}</p>
+                  </div>
+                  <div className="wide-deco">▶</div>
+                </>
+              ) : (
+                <>
                   <div className="card-label">{skill.label}</div>
                   <h3 className="card-title">{skill.title}</h3>
-                  <p className="card-desc">{skill.desc}</p>
-                </div>
-                <div className="wide-deco">▶</div>
-              </>
-            ) : (
-              <>
-                <div className="card-label">{skill.label}</div>
-                <h3 className="card-title">{skill.title}</h3>
-                
-                {skill.desc && (
-                  <p className="card-desc">{skill.desc}</p>
-                )}
-                
-                {skill.pills && (
-                  <div className="pill-group">
-                    {skill.pills.map((pill, j) => (
-                      <div key={j} className="skill-pill">{pill}</div>
-                    ))}
-                  </div>
-                )}
-                
-                {skill.stat && (
-                  <div className="card-stat">
-                    <div 
-                      className="stat-value stat-num reveal" 
-                      data-count-to={skill.stat.value}
-                      data-suffix={skill.stat.suffix}
-                    >
-                      0{skill.stat.suffix}
+                  
+                  {skill.desc && (
+                    <p className="card-desc">{skill.desc}</p>
+                  )}
+                  
+                  {skill.pills && (
+                    <div className="pill-group">
+                      {skill.pills.map((pill, j) => (
+                         <div key={j} className="skill-pill">{pill}</div>
+                      ))}
                     </div>
-                    <div className="stat-label">{skill.stat.label}</div>
-                  </div>
-                )}
-              </>
-            )}
-          </div>
+                  )}
+                  
+                  {skill.stat && (
+                    <div className="card-stat">
+                      <StatNumber value={skill.stat.value} suffix={skill.stat.suffix} label={skill.stat.label} />
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </Reveal>
         ))}
       </div>
     </section>

@@ -3,6 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import portrait from '../assets/portrait.jpg';
 import SplitText from './SplitText';
+import Reveal from './Reveal';
 
 /* ─── Dot Background System ─────────────────────── */
 function TwinklingDots() {
@@ -174,19 +175,19 @@ export default function Hero() {
       <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         
         {/* Eyebrow */}
-        <div
-          className="reveal"
-          style={{
-            transitionDelay: '600ms',
-            fontFamily: 'var(--font-sans)', fontSize: 16, color: 'var(--c-white)',
-            letterSpacing: '0.3px', display: 'flex', alignItems: 'center', gap: 12,
-            marginBottom: 24
-          }}
-        >
-          Hi! I'm Trinadh Kondapalli 
-          <span style={{ color: 'var(--c-primary)' }}>•</span> 
-          Based in India
-        </div>
+        <Reveal delay={600}>
+          <div
+            style={{
+              fontFamily: 'var(--font-sans)', fontSize: 16, color: 'var(--c-white)',
+              letterSpacing: '0.3px', display: 'flex', alignItems: 'center', gap: 12,
+              marginBottom: 24
+            }}
+          >
+            Hi! I'm Trinadh Kondapalli 
+            <span style={{ color: 'var(--c-primary)' }}>•</span> 
+            Based in India
+          </div>
+        </Reveal>
 
         {/* Headline */}
         <div 
@@ -207,50 +208,52 @@ export default function Hero() {
                 fontSize: 'clamp(32px, 4.5vw, 64px)', color: 'var(--c-white)'
               }}
             />
-            <span
-              className="reveal"
-              style={{
-                transitionDelay: '850ms',
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(32px, 4.5vw, 64px)',
-                background: 'linear-gradient(135deg, var(--c-primary), var(--c-secondary))',
-                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                paddingRight: 8, // italic fix
-                display: 'inline-block'
-              }}
-            >
-              Digital Experiences
-            </span>
+            <Reveal delay={850}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(32px, 4.5vw, 64px)',
+                  background: 'linear-gradient(135deg, var(--c-primary), var(--c-secondary))',
+                  WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                  paddingRight: 8, // italic fix
+                  display: 'inline-block'
+                }}
+              >
+                Digital Experiences
+              </span>
+            </Reveal>
           </div>
         </div>
 
         {/* Subtext */}
-        <p
-          className="reveal"
-          style={{
-            transitionDelay: '800ms',
-            fontFamily: 'var(--font-sans)', fontSize: 20, color: 'rgba(255,255,255,0.72)',
-            maxWidth: 640, textAlign: 'center', marginTop: 24, lineHeight: 1.6
-          }}
-        >
-          Designing experiences that inspire, engage, and grow businesses.
-        </p>
+        <Reveal delay={800}>
+          <p
+            style={{
+              fontFamily: 'var(--font-sans)', fontSize: 20, color: 'rgba(255,255,255,0.72)',
+              maxWidth: 640, textAlign: 'center', marginTop: 24, lineHeight: 1.6
+            }}
+          >
+            Designing experiences that inspire, engage, and grow businesses.
+          </p>
+        </Reveal>
       </div>
 
       {/* ─── CURVED RIBBON (Background) ─── */}
       <CurvedMarquee />
 
       {/* ─── PORTRAIT CARD ─── */}
-      <div
-        className="reveal"
-        style={{
-          transitionDelay: '1200ms',
+      <Reveal delay={1200} style={{
           marginTop: 24,
           position: 'relative',
           zIndex: 10,
           perspective: 1000
-        }}
-      >
+      }}>
+        <div
+          style={{
+            width: '100%',
+            height: '100%'
+          }}
+        >
         <motion.div
           className="anim-float"
           style={{
@@ -298,7 +301,7 @@ export default function Hero() {
             backdropFilter: 'blur(12px)',
             border: '1px solid var(--rgba-white-03)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            z: 60,
+            zIndex: 20,
             boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
           }}>
             {/* Rotating SVG Text */}
@@ -324,7 +327,8 @@ export default function Hero() {
           </motion.div>
           
         </motion.div>
-      </div>
+        </div>
+      </Reveal>
     </section>
   );
 }

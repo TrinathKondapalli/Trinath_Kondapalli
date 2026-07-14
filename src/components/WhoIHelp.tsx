@@ -1,3 +1,26 @@
+import { useCountUp } from '../hooks/useCountUp';
+
+function BigStat({ stat, delayMs }: any) {
+  // Use duration 1600ms, value is stat.value
+  const { count, ref } = useCountUp(stat.value, 1600);
+  
+  return (
+    <div 
+      className="metric-col reveal"
+      style={{ transitionDelay: `${delayMs}ms` }}
+    >
+      <div className="metric-number" ref={ref}>
+        {count}{stat.suffix}
+      </div>
+      
+      <div className="metric-bottom">
+        <span className="metric-label">{stat.label}</span>
+        <span className="metric-note">{stat.note}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function WhoIHelp() {
   const stats = [
     { value: 40, suffix: '+', label: 'projects delivered', note: '↑ 2024' },
@@ -95,20 +118,7 @@ export default function WhoIHelp() {
 
       <div className="metrics-grid">
         {stats.map((stat, i) => (
-          <div 
-            key={i}
-            className="metric-col reveal"
-            style={{ transitionDelay: `${i * 80}ms` }}
-          >
-            <div className="metric-number">
-              <span className="stat-num" data-count-to={stat.value} data-suffix={stat.suffix}>0{stat.suffix}</span>
-            </div>
-            
-            <div className="metric-bottom">
-              <span className="metric-label">{stat.label}</span>
-              <span className="metric-note">{stat.note}</span>
-            </div>
-          </div>
+          <BigStat key={i} stat={stat} delayMs={i * 80} />
         ))}
       </div>
     </section>
