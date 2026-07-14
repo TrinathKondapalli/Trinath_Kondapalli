@@ -167,7 +167,9 @@ export default function DesignProcess() {
         @media (max-width: 768px) {
           .accordion-header {
             grid-template-columns: 60px 1fr 40px;
-            padding: 32px 0;
+            padding: 24px 0;
+            min-height: 56px;
+            align-items: center;
           }
           .accordion-row.active .accordion-header {
             padding-top: 40px;

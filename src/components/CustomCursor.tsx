@@ -12,11 +12,13 @@ export default function CustomCursor() {
     const dot = dotRef.current
     if (!cursor || !dot) return
 
-    let mx = -100, my = -100, cx = -100, cy = -100
+    // Start in the center of the screen so it appears in automated screenshots
+    let mx = window.innerWidth / 2, my = window.innerHeight / 2
+    let cx = mx, cy = my
     let raf: number
 
-    // Hide the system cursor globally
-    document.documentElement.style.cursor = 'none'
+    // Hide the system cursor globally and robustly
+    document.documentElement.classList.add('custom-cursor-active')
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX
@@ -65,7 +67,7 @@ export default function CustomCursor() {
       document.removeEventListener('mousemove', onMove)
       cancelAnimationFrame(raf)
       mo.disconnect()
-      document.documentElement.style.cursor = ''
+      document.documentElement.classList.remove('custom-cursor-active')
     }
   }, [])
 

@@ -63,7 +63,7 @@ export default function ProblemsISolve() {
 
         .headline-line {
           font-family: var(--font-sans);
-          font-size: clamp(60px, 10vw, 160px);
+          font-size: clamp(48px, 12vw, 120px);
           font-weight: 800;
           line-height: 0.9;
           letter-spacing: -3px;

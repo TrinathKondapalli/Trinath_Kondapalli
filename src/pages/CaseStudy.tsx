@@ -246,6 +246,21 @@ export default function CaseStudy() {
 
   return (
     <div style={s.page as any}>
+      <style>{`
+        .case-stats-grid {
+          display: grid;
+          grid-template-columns: repeat(${study.results.length}, 1fr);
+          gap: 48px;
+          max-width: 800px;
+          margin: 0 auto;
+        }
+        @media (max-width: 640px) {
+          .case-stats-grid {
+            grid-template-columns: 1fr;
+            gap: 32px;
+          }
+        }
+      `}</style>
       {/* Scroll progress bar */}
       <div style={{ position: 'fixed', top: 0, left: 0, height: 2, width: `${scrollPct}%`, background: '#6ddc6d', zIndex: 10000, transition: 'width .1s linear', pointerEvents: 'none' }} />
 
@@ -276,7 +291,7 @@ export default function CaseStudy() {
 
       {/* Hero image */}
       <Reveal>
-        <img src={study.heroImage} alt={study.title} loading="lazy" style={{ width: '100%', maxHeight: 560, objectFit: 'cover', display: 'block' }} />
+        <img src={study.heroImage} alt={study.title} loading="eager" fetchPriority="high" decoding="async" width="1600" height="900" style={{ width: '100%', maxHeight: 560, objectFit: 'cover', display: 'block' }} />
       </Reveal>
 
       {/* Overview bar */}
@@ -326,7 +341,7 @@ export default function CaseStudy() {
           {study.screens.map((screen: any, i: number) => (
             <Reveal key={i} delay={i * 100}>
               <div style={{ borderRadius: 12, overflow: 'hidden', background: '#0d1f0d' }}>
-                <img src={screen.image} alt={screen.caption} loading="lazy" style={{ width: '100%', display: 'block' }} />
+                <img src={screen.image} alt={screen.caption} loading="lazy" width="800" height="600" style={{ width: '100%', display: 'block' }} />
                 {screen.caption && (
                   <div style={{ padding: '12px 16px', fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>{screen.caption}</div>
                 )}
@@ -339,7 +354,7 @@ export default function CaseStudy() {
       {/* Results */}
       <div style={{ background: '#0d1f0d', padding: '80px 5vw', textAlign: 'center' }}>
         <Reveal><p style={{ ...s.label as any, marginBottom: 56 }}>Results</p></Reveal>
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${study.results.length},1fr)`, gap: 48, maxWidth: 800, margin: '0 auto' }}>
+        <div className="case-stats-grid">
           {study.results.map((r: any, i: number) => (
             <ResultStat key={i} {...r} />
           ))}

@@ -27,7 +27,13 @@
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html.custom-cursor-active,
+html.custom-cursor-active * {
+  cursor: none !important;
 }
 
 /* Background Grid Overlay System */

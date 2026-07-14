@@ -173,7 +173,7 @@ export default function Hero() {
       <TwinklingDots />
 
       {/* ─── HERO CONTENT (Centered) ─── */}
-      <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ position: 'relative', zIndex: 20, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         
         {/* Eyebrow */}
         <Reveal delay={600}>
@@ -241,17 +241,20 @@ export default function Hero() {
       {/* ─── CURVED RIBBON (Background) ─── */}
       <CurvedMarquee />
 
-      {/* ─── PORTRAIT CARD ─── */}
-      <Reveal delay={1200} style={{
+      {/* ─── PORTRAIT CARD (No artificial delay for LCP) ─── */}
+      <div style={{
           marginTop: 24,
           position: 'relative',
           zIndex: 10,
-          perspective: 1000
+          perspective: 1000,
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center'
       }}>
         <div
           style={{
-            width: '100%',
-            height: '100%'
+            width: 'auto',
+            height: 'auto'
           }}
         >
         <motion.div
@@ -283,6 +286,7 @@ export default function Hero() {
             alt="Portrait of Trinath Kondapalli"
             loading="eager"
             fetchPriority="high"
+            decoding="async"
             style={{ 
               width: '100%', 
               height: '100%', 
@@ -330,7 +334,7 @@ export default function Hero() {
           
         </motion.div>
         </div>
-      </Reveal>
+      </div>
     </section>
   );
 }

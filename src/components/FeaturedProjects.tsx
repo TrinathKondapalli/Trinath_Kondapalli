@@ -35,19 +35,21 @@ export default function FeaturedProjects() {
 
         .typo-row {
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          padding: 24px 20px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          justify-content: space-between;
+          padding: 24px 0;
+          border-bottom: 0.5px solid rgba(255,255,255,0.08);
+          cursor: pointer;
+          transition: padding-left 0.2s ease, background 0.3s ease;
           text-decoration: none;
           color: var(--c-white);
-          transition: background 0.3s ease;
           width: 100%;
           max-width: 1440px;
         }
 
         .typo-row:hover {
-          background: rgba(109, 220, 109, 0.04);
+          padding-left: 12px;
+          background: rgba(109, 220, 109, 0.02);
         }
 
         .typo-num {
@@ -129,10 +131,15 @@ export default function FeaturedProjects() {
         {projects.slice(3).map((project, i) => (
           <Reveal key={project.index} delay={i * 100}>
             <Link to={project.href} className="typo-row" data-cursor-hover="true">
-              <div className="typo-num">0{project.index}</div>
-              <div className="typo-title">{project.title}</div>
-              <div className="typo-category">{project.category}</div>
-              <div className="typo-result">{project.result}</div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+                <div className="typo-num">0{project.index}</div>
+                <div className="typo-title">{project.title}</div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+                <div className="typo-category">{project.category}</div>
+                <div className="typo-result">{project.result}</div>
+                <div style={{ color: 'var(--c-primary)', fontSize: '20px' }}>→</div>
+              </div>
             </Link>
           </Reveal>
         ))}
