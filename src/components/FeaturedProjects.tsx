@@ -30,7 +30,7 @@ const projects = [
 
 export default function FeaturedProjects() {
   return (
-    <section style={{
+    <section id="work" style={{
       position: 'relative',
       width: '100%',
       padding: '140px 24px',

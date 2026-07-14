@@ -158,7 +158,7 @@ export default function Hero() {
   };
 
   return (
-    <section 
+    <section id="home"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{

@@ -4,7 +4,7 @@ import { ArrowRight, Mail, MapPin } from 'lucide-react';
 export default function Contact() {
 
   return (
-    <section style={{
+    <section id="contact" style={{
       position: 'relative',
       width: '100%',
       padding: '140px 24px',

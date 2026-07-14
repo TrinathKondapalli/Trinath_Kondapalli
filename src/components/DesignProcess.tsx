@@ -42,7 +42,7 @@ const steps = [
 
 export default function DesignProcess() {
   return (
-    <section style={{
+    <section id="process" style={{
       position: 'relative',
       width: '100%',
       padding: '140px 24px',

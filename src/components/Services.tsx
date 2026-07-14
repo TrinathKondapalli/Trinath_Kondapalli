@@ -41,7 +41,7 @@ const servicesData = [
 
 export default function Services() {
   return (
-    <section style={{
+    <section id="services" style={{
       position: 'relative',
       width: '100%',
       padding: '140px 24px',

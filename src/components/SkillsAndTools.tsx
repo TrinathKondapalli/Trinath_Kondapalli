@@ -31,7 +31,7 @@ const skills = [
 
 export default function SkillsAndTools() {
   return (
-    <section style={{
+    <section id="skills" style={{
       position: 'relative',
       width: '100%',
       padding: '140px 24px',

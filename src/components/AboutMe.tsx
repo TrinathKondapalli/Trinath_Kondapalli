@@ -27,7 +27,7 @@ const highlights = [
 
 export default function AboutMe() {
   return (
-    <section style={{
+    <section id="about" style={{
       position: 'relative',
       width: '100%',
       padding: '140px 24px',

@@ -48,7 +48,7 @@ function MagneticButton({ children, className, style }: any) {
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navItems = ['Home', 'About', 'Services', 'Work', 'Process', 'Skills', 'Blog', 'Contact'];
+  const navItems = ['Home', 'About', 'Services', 'Work', 'Process', 'Skills', 'Contact'];
 
   return (
     <motion.div 
