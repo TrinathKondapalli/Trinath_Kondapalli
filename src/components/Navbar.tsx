@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Menu, X, ArrowLeft } from 'lucide-react';
@@ -7,6 +7,15 @@ import GlobalMagneticButton from './GlobalMagneticButton';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 40);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
@@ -29,13 +38,15 @@ export default function Navbar() {
         pointerEvents: 'none', 
       }}
     >
-      <nav style={{
-        pointerEvents: 'auto', 
-        background: 'var(--rgba-dark-07)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        border: '1px solid var(--rgba-white-008)',
-        borderRadius: 100, 
+      <nav 
+        className={isScrolled ? 'scrolled' : ''}
+        style={{
+          pointerEvents: 'auto', 
+          background: 'var(--rgba-dark-07)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          border: '1px solid var(--rgba-white-008)',
+          borderRadius: 100, 
         padding: '12px 24px',
         height: 72,
         width: '100%',
@@ -114,7 +125,6 @@ export default function Navbar() {
         <GlobalMagneticButton
           className="cta-btn"
           style={{
-            background: 'linear-gradient(135deg, var(--c-primary), var(--c-secondary))',
             color: 'var(--c-base)', fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: 15,
             padding: '0 24px', height: '100%', minHeight: 48, borderRadius: 100, border: 'none',
             display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer'
@@ -190,6 +200,18 @@ export default function Navbar() {
       
       {/* Hide center links on smaller screens */}
       <style>{`
+        nav { transition: background 0.3s; }
+        nav.scrolled { background: rgba(10,26,10,0.85) !important; backdrop-filter: blur(12px) !important; }
+
+        .cta-btn { 
+          background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
+          transition: transform 0.2s, background 0.2s !important; 
+        }
+        .cta-btn:hover { 
+          transform: scale(1.04); 
+          background: #5acc5a !important; 
+        }
+
         .mobile-menu-btn { display: none !important; }
         @media (max-width: 1024px) {
           .nav-links { display: none !important; }

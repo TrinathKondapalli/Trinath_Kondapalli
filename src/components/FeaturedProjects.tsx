@@ -25,14 +25,72 @@ export default function FeaturedProjects() {
       <style>{`
         .editorial-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 24px;
+          width: 100%;
+          max-width: 1440px;
+          margin-bottom: 64px;
+        }
+
+        .typo-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 24px 20px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          text-decoration: none;
+          color: var(--c-white);
+          transition: background 0.3s ease;
           width: 100%;
           max-width: 1440px;
         }
 
+        .typo-row:hover {
+          background: rgba(109, 220, 109, 0.04);
+        }
+
+        .typo-num {
+          font-family: var(--font-display);
+          font-style: italic;
+          color: rgba(255, 255, 255, 0.4);
+          font-size: 16px;
+          width: 60px;
+        }
+
+        .typo-title {
+          font-family: var(--font-sans);
+          font-size: clamp(20px, 3vw, 32px);
+          font-weight: 500;
+          flex: 1;
+        }
+
+        .typo-category {
+          font-family: var(--font-sans);
+          font-size: 14px;
+          color: rgba(255, 255, 255, 0.5);
+          width: 200px;
+          text-align: right;
+        }
+        
+        .typo-result {
+          font-family: var(--font-sans);
+          font-size: 14px;
+          color: var(--c-primary);
+          font-weight: 600;
+          width: 200px;
+          text-align: right;
+        }
+
+        @media (max-width: 1024px) {
+          .editorial-grid { grid-template-columns: repeat(2, 1fr); }
+          .typo-category { display: none; }
+        }
+
         @media (max-width: 768px) {
           .editorial-grid { grid-template-columns: 1fr; }
+          .typo-row { padding: 16px 12px; }
+          .typo-num { width: 40px; }
+          .typo-result { width: 140px; text-align: right; }
         }
       `}</style>
 
@@ -58,10 +116,24 @@ export default function FeaturedProjects() {
         </div>
       </Reveal>
 
-      {/* Projects Grid */}
+      {/* Projects Grid (Top 3) */}
       <div className="editorial-grid">
-        {projects.map((project) => (
+        {projects.slice(0, 3).map((project) => (
           <ProjectCard key={project.index} {...project} />
+        ))}
+      </div>
+
+      {/* Typographic Rows (Remaining) */}
+      <div style={{ width: '100%', maxWidth: 1440, display: 'flex', flexDirection: 'column' }}>
+        {projects.slice(3).map((project, i) => (
+          <Reveal key={project.index} delay={i * 100}>
+            <a href={project.href} className="typo-row" data-cursor-hover="true">
+              <div className="typo-num">0{project.index}</div>
+              <div className="typo-title">{project.title}</div>
+              <div className="typo-category">{project.category}</div>
+              <div className="typo-result">{project.result}</div>
+            </a>
+          </Reveal>
         ))}
       </div>
     </section>
