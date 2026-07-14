@@ -6,25 +6,25 @@ const processSteps = [
   {
     num: '01',
     title: 'Obsessive discovery',
-    desc: 'I spend more time asking questions than designing. Every project starts with a 90-minute client session to uncover not just what you want, but why.',
-    deliverables: ['Brief', 'Competitive audit', 'User personas']
+    desc: 'I spend the first week asking questions, not making decisions. Every project starts with a deep-dive session to uncover not just what you want, but why.',
+    deliverables: ['Brief', 'Competitive audit', 'User research']
   },
   {
     num: '02',
     title: 'Strategic architecture',
-    desc: 'Information architecture before any visuals. I map every user flow and content hierarchy so no design decision is made blind.',
-    deliverables: ['Site map', 'User flows', 'Content structure']
+    desc: 'Information architecture before pixels. I map every user flow so no design decision is ever arbitrary.',
+    deliverables: ['Sitemap', 'User flows', 'Content hierarchy']
   },
   {
     num: '03',
     title: 'Pixel-perfect UI',
-    desc: 'Every component is built to a 4px grid with defined tokens for color, type, and spacing. Nothing is arbitrary.',
-    deliverables: ['Design system', 'Hi-fi mockups', 'Prototype']
+    desc: 'Every component is on a 4px grid with defined tokens for color, type, and spacing. Nothing is guessed.',
+    deliverables: ['Design system', 'Hi-fi mockups', 'Interactive prototype']
   },
   {
     num: '04',
     title: 'Flawless execution',
-    desc: 'I write the code, or I stay in the room while it\'s written. Handoff isn\'t a hand-off — it\'s a collaboration.',
+    desc: 'I stay in the room during build. Handoff is a collaboration, not a file dump.',
     deliverables: ['Responsive build', 'QA checklist', 'Launch']
   }
 ];
@@ -75,25 +75,25 @@ export default function DesignProcess() {
 
         .accordion-header {
           display: grid;
-          grid-template-columns: 100px 1fr 60px;
+          grid-template-columns: 80px 1fr 80px;
           align-items: center;
-          padding: 48px 0;
+          padding: 32px 0;
           transition: padding 0.4s ease;
         }
 
         /* When open, increase top padding slightly for breathing room */
         .accordion-row.active .accordion-header {
-          padding-top: 64px;
-          padding-bottom: 32px;
+          padding-top: 40px;
+          padding-bottom: 24px;
         }
 
         .step-num {
-          font-family: var(--font-display);
-          font-size: 32px;
-          font-weight: 400;
-          font-style: italic;
-          color: rgba(255,255,255,0.2);
+          font-family: var(--font-sans);
+          font-size: 14px;
+          font-weight: 500;
+          color: rgba(255,255,255,0.4);
           transition: color 0.4s ease;
+          text-align: left;
         }
 
         .accordion-row.active .step-num {
@@ -102,33 +102,27 @@ export default function DesignProcess() {
 
         .step-title {
           font-family: var(--font-sans);
-          font-size: clamp(32px, 4vw, 56px);
+          font-size: 18px;
           font-weight: 700;
-          color: rgba(255,255,255,0.5);
-          letter-spacing: -1.5px;
-          transition: color 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-          transform-origin: left;
-        }
-
-        .accordion-row:hover .step-title {
           color: rgba(255,255,255,0.8);
-          transform: translateX(12px);
+          letter-spacing: -0.5px;
+          transition: color 0.4s ease;
+          text-align: center;
         }
 
         .accordion-row.active .step-title {
           color: var(--c-white);
-          transform: translateX(12px);
         }
 
         .icon-wrap {
           display: flex;
           justify-content: flex-end;
-          color: rgba(255,255,255,0.3);
+          color: rgba(255,255,255,0.5);
           transition: color 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .accordion-row:hover .icon-wrap {
-          color: rgba(255,255,255,0.8);
+          color: var(--c-white);
         }
 
         .accordion-row.active .icon-wrap {
@@ -137,9 +131,9 @@ export default function DesignProcess() {
         }
 
         .accordion-content-inner {
-          padding-left: 100px;
-          padding-right: 60px;
-          padding-bottom: 64px;
+          padding-left: 80px;
+          padding-right: 80px;
+          padding-bottom: 40px;
           display: grid;
           grid-template-columns: 1.5fr 1fr;
           gap: 64px;
@@ -272,8 +266,7 @@ export default function DesignProcess() {
           return (
             <div
               key={i}
-              className={`accordion-row reveal ${isActive ? 'active' : ''}`}
-              style={{ transitionDelay: `${i * 100}ms` }}
+              className={`accordion-row ${isActive ? 'active' : ''}`}
               onClick={() => toggleAccordion(i)}
             >
               {/* Row Header (Always Visible) */}

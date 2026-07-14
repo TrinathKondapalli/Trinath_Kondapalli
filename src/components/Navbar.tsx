@@ -11,7 +11,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
 
-  const navItems = ['Home', 'About', 'Services', 'Work', 'Process', 'Skills', 'Contact'];
+  const navItems = ['Home', 'About', 'Services', 'Work', 'Process', 'Contact'];
 
   return (
     <motion.div 

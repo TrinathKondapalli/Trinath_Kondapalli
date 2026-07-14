@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
 
 const projects = [
   {
@@ -131,25 +130,23 @@ function ProjectCard({ project, index }: { project: any, index: number }) {
         }}
       />
       
-      <div className="editorial-gradient" />
-      <div className="editorial-overlay" />
-
-      <div className="view-case-study-btn">
-        View Case Study <ArrowUpRight size={18} strokeWidth={3} />
-      </div>
-
+      <div className="card-hover-overlay" />
+      
+      {/* Top Left Project Number */}
       <div className="project-number">
         0{index + 1}
       </div>
 
-      <div className="text-bar">
-        <div className="text-bar-left">
-          <div className="category-pill">{project.category}</div>
-          <h3 className="project-title">{project.title}</h3>
-        </div>
-        <div className="project-result">
-          {project.result}
-        </div>
+      {/* Bottom Left Result Pill */}
+      <div className="result-pill-persistent">
+        {project.result}
+      </div>
+
+      {/* Centered Hover Block */}
+      <div className="hover-center-block">
+        <h3 className="hover-project-title">{project.title}</h3>
+        <div className="hover-project-result">{project.result}</div>
+        <div className="hover-view-case-study">View case study →</div>
       </div>
     </Link>
   );
@@ -234,32 +231,18 @@ export default function FeaturedProjects() {
           filter: grayscale(40%) contrast(1.1);
         }
 
-        /* The green hover tint overlay */
-        .editorial-overlay {
+        /* Dark Hover Overlay */
+        .card-hover-overlay {
           position: absolute;
           inset: 0;
-          background: rgba(109,215,76,0.15);
+          background: rgba(0,0,0,0.45);
           opacity: 0;
-          transition: opacity 0.5s ease;
+          transition: opacity 0.25s ease;
           pointer-events: none;
+          z-index: 10;
         }
-
-        .editorial-card:hover .editorial-overlay {
+        .editorial-card:hover .card-hover-overlay {
           opacity: 1;
-        }
-
-        /* Permanent gradient so text is readable */
-        .editorial-gradient {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            to bottom, 
-            rgba(0,0,0,0.4) 0%, 
-            transparent 30%, 
-            transparent 60%, 
-            rgba(0,0,0,0.8) 100%
-          );
-          pointer-events: none;
         }
 
         /* Project Number (Top Left) */
@@ -267,101 +250,78 @@ export default function FeaturedProjects() {
           position: absolute;
           top: 24px;
           left: 24px;
-          font-family: var(--font-display);
-          font-style: italic;
-          font-size: 14px;
-          font-weight: 400;
+          font-family: var(--font-sans);
+          font-size: 11px;
+          font-weight: 500;
           color: rgba(255,255,255,0.6);
           z-index: 20;
           transform: translateZ(20px);
         }
 
-        /* Text Bar (Bottom Anchored) */
-        .text-bar {
+        /* Persistent Result Pill (Bottom Left) */
+        .result-pill-persistent {
           position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          padding: 32px 32px;
-          display: flex;
-          align-items: flex-end;
-          justify-content: space-between;
-          z-index: 20;
-          transform: translateY(16px) translateZ(30px);
-          opacity: 0.8;
-          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
-        }
-
-        .editorial-card:hover .text-bar {
-          transform: translateY(0) translateZ(30px);
-          opacity: 1;
-        }
-
-        .text-bar-left {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        .project-title {
-          font-family: var(--font-sans);
-          font-size: clamp(24px, 3vw, 40px);
-          font-weight: 700;
-          color: var(--c-white);
-          letter-spacing: -1px;
-          line-height: 1;
-          margin: 0;
-        }
-
-        .category-pill {
-          display: inline-flex;
-          align-items: center;
-          padding: 6px 12px;
-          border-radius: 100px;
-          background: rgba(255,255,255,0.1);
-          backdrop-filter: blur(8px);
-          border: 1px solid rgba(255,255,255,0.15);
+          bottom: 24px;
+          left: 24px;
           font-family: var(--font-sans);
           font-size: 11px;
           font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          color: var(--c-white);
-          width: fit-content;
+          color: rgba(100,220,100,0.8);
+          background: rgba(100,220,100,0.1);
+          border: 1px solid rgba(100,220,100,0.2);
+          border-radius: 100px;
+          padding: 6px 12px;
+          z-index: 20;
+          transform: translateZ(20px);
         }
 
-        .project-result {
-          font-family: var(--font-display);
-          font-size: 18px;
-          font-style: italic;
-          color: var(--c-primary);
-        }
-
-        .view-case-study-btn {
+        /* Centered Hover Block */
+        .hover-center-block {
           position: absolute;
           top: 50%;
           left: 50%;
-          transform: translate(-50%, -50%) scale(0.9);
-          background: var(--c-primary);
-          color: var(--c-base);
-          padding: 16px 32px;
-          border-radius: 100px;
-          font-family: var(--font-sans);
-          font-weight: 700;
-          font-size: 16px;
+          transform: translate(-50%, -40%) translateZ(40px);
           display: flex;
+          flex-direction: column;
           align-items: center;
-          gap: 12px;
+          gap: 6px;
           opacity: 0;
-          transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
           z-index: 30;
-          box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-          transform: translate(-50%, -50%) scale(0.9) translateZ(40px);
+          text-align: center;
+          pointer-events: none;
+          width: 90%;
+        }
+        .editorial-card:hover .hover-center-block {
+          opacity: 1;
+          transform: translate(-50%, -50%) translateZ(40px);
+        }
+        
+        .hover-project-title {
+          font-family: var(--font-sans);
+          font-size: 16px;
+          font-weight: 700;
+          color: var(--c-white);
+          margin: 0;
+          letter-spacing: 0;
+        }
+        
+        .hover-project-result {
+          font-family: var(--font-sans);
+          font-size: 13px;
+          color: var(--c-primary);
+          font-weight: 500;
         }
 
-        .editorial-card:hover .view-case-study-btn {
-          opacity: 1;
-          transform: translate(-50%, -50%) scale(1) translateZ(40px);
+        .hover-view-case-study {
+          margin-top: 12px;
+          font-family: var(--font-sans);
+          font-size: 12px;
+          font-weight: 600;
+          color: var(--c-white);
+          opacity: 0.7;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
         }
 
         @media (max-width: 1024px) {
@@ -373,8 +333,6 @@ export default function FeaturedProjects() {
         @media (max-width: 768px) {
           .editorial-grid { display: flex; flex-direction: column; }
           .card-hero, .card-half, .card-third { height: 400px; }
-          .text-bar { flex-direction: column; align-items: flex-start; gap: 16px; transform: translateY(0); opacity: 1; }
-          .view-case-study-btn { display: none; }
           
           .typo-row {
             grid-template-columns: 40px 1fr !important;

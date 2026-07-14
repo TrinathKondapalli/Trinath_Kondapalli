@@ -5,23 +5,23 @@ import { Plus, Minus } from 'lucide-react';
 const faqs = [
   {
     question: "How do I know we're a good fit before committing?",
-    answer: "Every project starts with a free 30-minute discovery call — no pitch, just conversation. If I'm not the right person for what you need, I'll tell you and point you in a better direction."
+    answer: "Every project starts with a free 30-min discovery call. No pitch — just conversation. If I'm not the right fit, I'll say so."
   },
   {
-    question: "What does your typical project timeline look like?",
-    answer: "Most projects run 4–8 weeks depending on scope. A landing page is 2 weeks. A full product with design system is 6–10. I'll give you a precise breakdown in the discovery call, not a vague estimate."
+    question: "What's your typical project timeline?",
+    answer: "Most projects run 4–8 weeks. A landing page is 2 weeks. A full product with design system is 6–10. You'll get a precise breakdown in the discovery call."
   },
   {
-    question: "Do you work with early-stage startups or only established businesses?",
-    answer: "Both. Some of my best work has been with founders at pre-seed building their first product. Budget-conscious doesn't mean low-quality — it means we prioritize ruthlessly."
+    question: "Do you work with early-stage startups?",
+    answer: "Yes. Some of my best work is with pre-seed founders building their first product. Budget-conscious doesn't mean low-quality."
   },
   {
-    question: "What happens if I need changes after the project launches?",
-    answer: "Every project includes 2 rounds of revisions and a 30-day post-launch support window. After that, I offer a monthly retainer if you want an ongoing design partner."
+    question: "What if I need changes after launch?",
+    answer: "Every project includes 2 revision rounds and a 30-day post-launch support window."
   },
   {
-    question: "Do you hand off to developers or build it yourself?",
-    answer: "Both. I write clean React + Tailwind, or I deliver Figma files with a full dev handoff spec that any developer can build from. You choose."
+    question: "Do you build it yourself or hand off to developers?",
+    answer: "Both. I write React + Tailwind, or deliver a complete Figma handoff spec any developer can build from."
   }
 ];
 
@@ -30,8 +30,7 @@ function FAQItem({ faq, index, isOpen, toggleOpen }: { faq: any, index: number, 
 
   return (
     <div 
-      className={`faq-row reveal ${isOpen ? 'active' : ''}`}
-      style={{ transitionDelay: `${index * 100}ms` }}
+      className={`faq-row ${isOpen ? 'active' : ''}`}
     >
       <div className="faq-header" onClick={toggleOpen}>
         <div className="faq-num">{num}</div>

@@ -6,7 +6,7 @@ const skills = [
     title: 'UX/UI & Web Design',
     desc: 'Pixel-perfect interfaces built on user psychology and modern aesthetics. Wireframes to high-converting landing pages.',
     pills: ['Figma', 'Framer', 'Webflow', 'Prototyping'],
-    stat: { value: '40+', label: 'interfaces shipped' },
+    stat: { value: 40, suffix: '+', label: 'interfaces shipped' },
     className: 'bento-large',
   },
   {
@@ -266,7 +266,13 @@ export default function SkillsAndTools() {
                 
                 {skill.stat && (
                   <div className="card-stat">
-                    <div className="stat-value">{skill.stat.value}</div>
+                    <div 
+                      className="stat-value stat-num reveal" 
+                      data-count-to={skill.stat.value}
+                      data-suffix={skill.stat.suffix}
+                    >
+                      0{skill.stat.suffix}
+                    </div>
                     <div className="stat-label">{skill.stat.label}</div>
                   </div>
                 )}

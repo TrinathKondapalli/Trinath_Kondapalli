@@ -3,8 +3,8 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 
 const featuredTestimonial = {
   name: 'Michael Chen',
-  role: 'Founder & CEO, TechFlow',
-  logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg', // Abstract proxy for monochrome logo
+  role: 'Founder & CEO',
+  company: 'TechFlow',
   text: "Trinadh transformed our outdated platform into a modern, high-converting experience. The new design not only looks stunning, but it increased conversions by 3× in the first month alone. He is the rare designer who actually understands business."
 };
 
@@ -74,13 +74,13 @@ export default function Testimonials() {
 
         .giant-quote-mark {
           position: absolute;
-          top: -60px;
-          left: -40px;
+          top: -40px;
+          left: -20px;
           font-family: serif;
-          font-size: 120px;
+          font-size: 100px;
           line-height: 1;
           color: #6ddc6d;
-          opacity: 0.4;
+          opacity: 0.35;
           font-weight: 300;
           pointer-events: none;
           z-index: 0;
@@ -91,16 +91,16 @@ export default function Testimonials() {
           font-size: 22px;
           font-weight: 300;
           line-height: 1.8;
-          color: var(--c-white);
+          color: rgba(255,255,255,0.92);
           margin-bottom: 40px;
           position: relative;
           z-index: 1;
         }
 
         .featured-divider {
-          width: 40px;
+          width: 80px;
           height: 1px;
-          background: rgba(255,255,255,0.2);
+          background: rgba(255,255,255,0.1);
           margin-bottom: 32px;
         }
 
@@ -124,11 +124,11 @@ export default function Testimonials() {
           color: rgba(255,255,255,0.5);
         }
 
-        .company-logo {
-          width: 80px;
-          margin-top: 16px;
-          opacity: 0.8;
-          filter: grayscale(100%) brightness(200%);
+        .featured-company {
+          font-family: var(--font-sans);
+          font-size: 13px;
+          font-weight: 600;
+          color: rgba(255,255,255,0.7);
         }
 
         /* Supporting Quotes Strip */
@@ -142,8 +142,8 @@ export default function Testimonials() {
         .support-card {
           background: rgba(255,255,255,0.02);
           border: 1px solid rgba(255,255,255,0.05);
-          padding: 40px 32px;
-          border-radius: 24px;
+          padding: 24px;
+          border-radius: 20px;
           display: flex;
           flex-direction: column;
           transition: transform 0.4s ease, border-color 0.4s ease;
@@ -156,11 +156,11 @@ export default function Testimonials() {
 
         .support-text {
           font-family: var(--font-sans);
-          font-size: 14px;
+          font-size: 13px;
           color: rgba(255,255,255,0.7);
           line-height: 1.6;
           flex-grow: 1;
-          margin-bottom: 32px;
+          margin-bottom: 24px;
         }
 
         .support-author {
@@ -248,8 +248,9 @@ export default function Testimonials() {
             style={{ transitionDelay: '200ms' }}
           >
             <div className="featured-name">{featuredTestimonial.name}</div>
-            <div className="featured-role">{featuredTestimonial.role}</div>
-            <img src={featuredTestimonial.logo} alt="Company Logo" className="company-logo" />
+            <div className="featured-role">
+              {featuredTestimonial.role}, <span className="featured-company">{featuredTestimonial.company}</span>
+            </div>
           </div>
         </div>
 

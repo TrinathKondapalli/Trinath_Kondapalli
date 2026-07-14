@@ -89,6 +89,26 @@ export default function CaseStudy() {
           position: relative;
         }
 
+        .cs-back-btn {
+          position: absolute;
+          top: 40px;
+          left: 5%;
+          font-family: var(--font-sans);
+          font-size: 14px;
+          color: rgba(255,255,255,0.5);
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: color 0.3s ease, transform 0.3s ease;
+          z-index: 50;
+        }
+
+        .cs-back-btn:hover {
+          color: var(--c-white);
+          transform: translateX(-4px);
+        }
+
         .cs-hero-img-container {
           position: relative;
           width: 100%;
@@ -332,13 +352,14 @@ export default function CaseStudy() {
 
       {/* Hero Section */}
       <section className="case-study-hero">
+        <Link to="/" className="cs-back-btn">← Back to work</Link>
         <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', marginBottom: 48, zIndex: 2 }}>
           <h1 className="reveal" style={{
             fontFamily: 'var(--font-sans)',
-            fontSize: 'clamp(40px, 6vw, 80px)',
+            fontSize: '48px',
             fontWeight: 700,
             color: 'var(--c-white)',
-            letterSpacing: '-2px',
+            letterSpacing: '-1.5px',
             lineHeight: 1.1,
             marginBottom: 24,
             transitionDelay: '0ms'
@@ -347,10 +368,11 @@ export default function CaseStudy() {
           </h1>
           <p className="reveal" style={{
             fontFamily: 'var(--font-sans)',
-            fontSize: 'clamp(18px, 2vw, 24px)',
+            fontSize: '20px',
+            fontWeight: 300,
             color: 'rgba(255,255,255,0.7)',
             maxWidth: 800,
-            lineHeight: 1.5,
+            lineHeight: 1.6,
             transitionDelay: '100ms'
           }}>
             {project.description}

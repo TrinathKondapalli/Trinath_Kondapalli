@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useScroll, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import { ReactLenis } from 'lenis/react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import CaseStudy from './pages/CaseStudy';
+import CaseStudy from './pages/CaseStudy.tsx';
+
 import './index.css';
 
 // A component to automatically scroll to top when route changes
@@ -18,130 +19,76 @@ function ScrollToTop() {
 }
 
 function CustomCursor() {
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-  
-  // Spring config for smooth trailing effect (lerp equivalent in framer-motion)
-  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
-  const smoothX = useSpring(cursorX, springConfig);
-  const smoothY = useSpring(cursorY, springConfig);
-
-  const [isVisible, setIsVisible] = useState(false);
-  const [isHoveringLink, setIsHoveringLink] = useState(false);
-  const [isMouseDown, setIsMouseDown] = useState(false);
-
   useEffect(() => {
-    // Only run on desktop devices that support hover, and never for users who asked for reduced motion
-    const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const cur = document.getElementById('cur');
+    const dot = document.getElementById('cur-dot');
+    if (!cur || !dot) return;
+
+    // Only apply on fine pointers, and respect reduced motion
+    const mediaQuery = window.matchMedia('(pointer: fine)');
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (!mediaQuery.matches || reducedMotionQuery.matches) return;
 
-    const moveCursor = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-      if (!isVisible) setIsVisible(true);
+    let mx = -100, my = -100, cx = -100, cy = -100;
+    let animationFrameId: number;
+
+    const onMouseMove = (e: MouseEvent) => {
+      mx = e.clientX;
+      my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top = my + 'px';
     };
 
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target && typeof target.closest === 'function') {
-        if (target.closest('a') || target.closest('button') || target.closest('.editorial-card') || target.closest('.project-card')) {
-          setIsHoveringLink(true);
-        } else {
-          setIsHoveringLink(false);
-        }
-      }
+    document.addEventListener('mousemove', onMouseMove);
+
+    const loop = () => {
+      cx += (mx - cx) * 0.12;
+      cy += (my - cy) * 0.12;
+      cur.style.left = cx + 'px';
+      cur.style.top = cy + 'px';
+      animationFrameId = requestAnimationFrame(loop);
+    };
+    loop();
+
+    // Attach hover effects dynamically to interactive elements
+    const attachHovers = () => {
+      document.querySelectorAll('a, button, .editorial-card, .support-card, .accordion-row, .faq-header, .typo-row, .magnetic-btn').forEach(el => {
+        if ((el as any)._cursorAttached) return;
+        (el as any)._cursorAttached = true;
+
+        el.addEventListener('mouseenter', () => {
+          cur.style.width = '48px';
+          cur.style.height = '48px';
+          cur.style.borderColor = 'rgba(109,220,109,1)';
+        });
+        el.addEventListener('mouseleave', () => {
+          cur.style.width = '32px';
+          cur.style.height = '32px';
+          cur.style.borderColor = 'rgba(109,220,109,0.55)';
+        });
+      });
     };
 
-    const handleMouseLeave = () => setIsVisible(false);
-    const handleMouseEnter = () => setIsVisible(true);
-    const handleMouseDown = () => setIsMouseDown(true);
-    const handleMouseUp = () => setIsMouseDown(false);
-
-    window.addEventListener('mousemove', moveCursor);
-    window.addEventListener('mouseover', handleMouseOver);
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mouseup', handleMouseUp);
-    document.body.addEventListener('mouseleave', handleMouseLeave);
-    document.body.addEventListener('mouseenter', handleMouseEnter);
-
-    // Hide the native cursor everywhere except form fields
-    document.body.style.cursor = 'none';
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @media (pointer: fine) {
-        * { cursor: none !important; }
-        input, textarea, select, [contenteditable="true"] { cursor: auto !important; }
-      }
-    `;
-    document.head.appendChild(style);
+    attachHovers();
+    const mo = new MutationObserver(attachHovers);
+    mo.observe(document.body, { childList: true, subtree: true });
 
     return () => {
-      window.removeEventListener('mousemove', moveCursor);
-      window.removeEventListener('mouseover', handleMouseOver);
-      window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mouseup', handleMouseUp);
-      document.body.removeEventListener('mouseleave', handleMouseLeave);
-      document.body.removeEventListener('mouseenter', handleMouseEnter);
-      document.body.style.cursor = 'auto';
-      document.head.removeChild(style);
+      document.removeEventListener('mousemove', onMouseMove);
+      cancelAnimationFrame(animationFrameId);
+      mo.disconnect();
     };
-  }, [cursorX, cursorY, isVisible]);
-
-  if (!isVisible) return null;
+  }, []);
 
   return (
     <>
-      {/* Outer trailing circle */}
-      <motion.div
-        id="cursor"
-        style={{
-          position: 'fixed',
-          left: 0, top: 0,
-          x: smoothX,
-          y: smoothY,
-          pointerEvents: 'none',
-          zIndex: 9999,
-          translateX: '-50%',
-          translateY: '-50%'
-        }}
-        animate={{
-          width: isHoveringLink ? 48 : 32,
-          height: isHoveringLink ? 48 : 32,
-          border: isHoveringLink ? '1.5px solid rgba(100, 220, 100, 1)' : '1.5px solid rgba(100, 220, 100, 0.6)',
-          borderRadius: '50%',
-          scale: isMouseDown ? 0.8 : 1
-        }}
-        transition={{ 
-          width: { duration: 0.3, ease: 'easeOut' },
-          height: { duration: 0.3, ease: 'easeOut' },
-          border: { duration: 0.3, ease: 'easeOut' },
-          scale: { duration: 0.1 }
-        }}
-      />
-      
-      {/* Inner instant dot */}
-      <motion.div
-        id="cursor-dot"
-        style={{
-          position: 'fixed',
-          left: 0, top: 0,
-          x: cursorX,
-          y: cursorY,
-          width: 5,
-          height: 5,
-          background: '#6ddc6d',
-          borderRadius: '50%',
-          pointerEvents: 'none',
-          zIndex: 9999,
-          translateX: '-50%',
-          translateY: '-50%'
-        }}
-        animate={{
-          scale: isMouseDown ? 0.8 : 1
-        }}
-        transition={{ scale: { duration: 0.1 } }}
-      />
+      <style>{`
+        #cur { width:32px; height:32px; border:1.5px solid rgba(109,220,109,0.55); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .3s,height .3s,border-color .3s; }
+        #cur-dot { width:5px; height:5px; background:#6ddc6d; border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
+        @media (pointer:fine) { * { cursor:none !important; } }
+      `}</style>
+      <div id="cur"></div>
+      <div id="cur-dot"></div>
     </>
   );
 }
@@ -155,11 +102,10 @@ function ScrollProgress() {
       style={{
         position: 'fixed',
         top: 0, left: 0, right: 0,
-        height: 3,
+        height: 2,
         transformOrigin: '0%',
         scaleX,
-        background: 'linear-gradient(90deg, var(--c-primary), var(--c-secondary))',
-        boxShadow: '0 0 8px rgba(109,215,76,0.5)',
+        background: '#6ddc6d',
         zIndex: 60,
         pointerEvents: 'none',
       }}
@@ -187,91 +133,65 @@ function useScrollReveal() {
 
   useEffect(() => {
     if (prefersReducedMotion) {
-      // Instantly make everything visible if reduced motion is requested
-      const instantReveal = () => {
-        document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
-          el.classList.add('visible');
-          if (el.classList.contains('stat-num') && !el.classList.contains('counted')) {
-            el.classList.add('counted');
-            const endVal = parseInt((el as HTMLElement).dataset.countTo || '0', 10);
-            const suffix = (el as HTMLElement).dataset.suffix || '';
-            el.textContent = endVal + suffix;
-          }
-        });
-      };
-      instantReveal();
-      const mo = new MutationObserver(instantReveal);
-      mo.observe(document.body, { childList: true, subtree: true });
-      return () => mo.disconnect();
-    }
-
-    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
-
-    const animateValue = (obj: Element, start: number, end: number, duration: number) => {
-      let startTimestamp: number | null = null;
-      const step = (timestamp: number) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        const currentCount = Math.floor(easeOutCubic(progress) * (end - start) + start);
-        const suffix = (obj as HTMLElement).dataset.suffix || '';
-        obj.textContent = currentCount + suffix;
-        if (progress < 1) {
-          window.requestAnimationFrame(step);
-        } else {
-          obj.textContent = end + suffix;
-        }
-      };
-      window.requestAnimationFrame(step);
-    };
-
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          
-          if (entry.target.classList.contains('stat-num') && !entry.target.classList.contains('counted')) {
-            entry.target.classList.add('counted');
-            const endVal = parseInt((entry.target as HTMLElement).dataset.countTo || '0', 10);
-            animateValue(entry.target, 0, endVal, 1200);
-          }
-          
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0, rootMargin: '50px' });
-
-    const observeElements = () => {
-      document.querySelectorAll('.reveal:not(.observed)').forEach(el => {
-        el.classList.add('observed');
-        io.observe(el);
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-           el.classList.add('visible');
-        }
-      });
-    };
-
-    // Extreme fallback: Force everything to show after 1.5s just in case IntersectionObserver entirely fails in this environment
-    const failsafe = setTimeout(() => {
-      document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+      document.querySelectorAll('.reveal').forEach(el => {
         el.classList.add('visible');
         if (el.classList.contains('stat-num') && !el.classList.contains('counted')) {
           el.classList.add('counted');
           const endVal = parseInt((el as HTMLElement).dataset.countTo || '0', 10);
-          animateValue(el, 0, endVal, 1200);
+          const suffix = (el as HTMLElement).dataset.suffix || '';
+          el.textContent = endVal + suffix;
         }
       });
-    }, 1500);
+      return;
+    }
 
-    observeElements();
+    const animateStat = (el: HTMLElement) => {
+      if (el.classList.contains('counted')) return;
+      el.classList.add('counted');
+      const end = parseInt(el.dataset.countTo || '0', 10);
+      const suffix = el.dataset.suffix || '';
+      const dur = 1200;
+      let startTime: number | null = null;
+      
+      const step = (timestamp: number) => {
+        if (!startTime) startTime = timestamp;
+        const p = Math.min((timestamp - startTime) / dur, 1);
+        el.textContent = Math.floor(p * p * (3 - 2 * p) * end) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+
+    const checkReveal = () => {
+      const windowHeight = window.innerHeight;
+      document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        // If the top of the element is within the viewport (plus a tiny buffer)
+        if (rect.top < windowHeight - 20) {
+          el.classList.add('visible');
+          if (el.classList.contains('stat-num')) {
+            animateStat(el as HTMLElement);
+          }
+        }
+      });
+    };
+
+    // Run on scroll and resize
+    window.addEventListener('scroll', checkReveal, { passive: true });
+    window.addEventListener('resize', checkReveal, { passive: true });
     
-    const mo = new MutationObserver(observeElements);
-    mo.observe(document.body, { childList: true, subtree: true });
+    // Initial checks (staggered to catch Framer Motion mount)
+    checkReveal();
+    const t1 = setTimeout(checkReveal, 100);
+    const t2 = setTimeout(checkReveal, 500);
+    const t3 = setTimeout(checkReveal, 1500);
 
     return () => {
-      clearTimeout(failsafe);
-      io.disconnect();
-      mo.disconnect();
+      window.removeEventListener('scroll', checkReveal);
+      window.removeEventListener('resize', checkReveal);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
     };
   }, [prefersReducedMotion]);
 }
