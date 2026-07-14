@@ -1,4 +1,5 @@
 import { Globe, MessageCircle, Link } from 'lucide-react';
+import Reveal from './Reveal';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -66,28 +67,27 @@ export default function Footer() {
         }
       `}</style>
 
-      <div 
-        className="footer-thin-bar reveal"
-        style={{ transitionDelay: '0ms' }}
-      >
-        <div className="footer-name">Trinadh Kondapalli</div>
-        
-        <div className="footer-copyright">
-          © {currentYear} All Rights Reserved.
-        </div>
+      <Reveal delay={0}>
+        <div className="footer-thin-bar">
+          <div className="footer-name">Trinadh Kondapalli</div>
+          
+          <div className="footer-copyright">
+            © {currentYear} All Rights Reserved.
+          </div>
 
-        <div className="footer-socials">
-          <a href="#" className="social-link" aria-label="LinkedIn">
-            <Globe size={20} />
-          </a>
-          <a href="#" className="social-link" aria-label="Twitter">
-            <MessageCircle size={20} />
-          </a>
-          <a href="#" className="social-link" aria-label="Dribbble">
-            <Link size={20} />
-          </a>
+          <div className="footer-socials">
+            <a href="#" className="social-link" aria-label="LinkedIn">
+              <Globe size={20} />
+            </a>
+            <a href="#" className="social-link" aria-label="Twitter">
+              <MessageCircle size={20} />
+            </a>
+            <a href="#" className="social-link" aria-label="Dribbble">
+              <Link size={20} />
+            </a>
+          </div>
         </div>
-      </div>
+      </Reveal>
     </footer>
   );
 }

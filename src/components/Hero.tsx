@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
-import portrait from '../assets/portrait.jpg';
+// @ts-ignore
+import portrait from '../assets/portrait.jpg?format=webp&width=900&quality=82';
 import SplitText from './SplitText';
 import Reveal from './Reveal';
 
@@ -198,16 +199,15 @@ export default function Hero() {
         >
           {/* Headline - Single Line */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
-            <SplitText
-              text="Helping Businesses Build Better"
-              splitType="words"
-              delay={0.4}
-              duration={0.7}
-              style={{
-                fontFamily: 'var(--font-sans)', fontWeight: 700, letterSpacing: '-1px',
-                fontSize: 'clamp(32px, 4.5vw, 64px)', color: 'var(--c-white)'
-              }}
-            />
+              <SplitText 
+                text="Helping Businesses Build Better" 
+                splitType="words" 
+                delay={0.4}
+                style={{ 
+                  fontFamily: 'var(--font-sans)', fontWeight: 700, letterSpacing: '-1px',
+                  fontSize: 'clamp(32px, 4.5vw, 64px)', color: 'var(--c-white)'
+                }} 
+              />
             <Reveal delay={850}>
               <span
                 style={{
@@ -281,6 +281,8 @@ export default function Hero() {
           <img
             src={portrait}
             alt="Portrait of Trinath Kondapalli"
+            loading="eager"
+            fetchPriority="high"
             style={{ 
               width: '100%', 
               height: '100%', 

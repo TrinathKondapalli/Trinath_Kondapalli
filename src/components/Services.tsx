@@ -1,4 +1,4 @@
-
+import Reveal from './Reveal';
 
 const servicesList = [
   { num: '01', title: 'UX/UI Design', tag: 'Digital Products' },
@@ -157,21 +157,21 @@ export default function Services() {
 
 
       {/* Dominant Availability Signal */}
-      <div 
-        className="dominant-availability reveal"
-      >
-        <div className="dominant-dot" />
-        <h2 style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 'clamp(32px, 4vw, 48px)',
-          fontWeight: 700,
-          color: 'var(--c-white)',
-          letterSpacing: '-1px',
-          margin: 0
-        }}>
-          Available for work
-        </h2>
-      </div>
+      <Reveal delay={0}>
+        <div className="dominant-availability">
+          <div className="dominant-dot" />
+          <h2 style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: 'clamp(32px, 4vw, 48px)',
+            fontWeight: 700,
+            color: 'var(--c-white)',
+            letterSpacing: '-1px',
+            margin: 0
+          }}>
+            Available for work
+          </h2>
+        </div>
+      </Reveal>
 
       {/* Bold Typographic Services List */}
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -189,15 +189,14 @@ export default function Services() {
 
 function ServiceRow({ service, index }: { service: any, index: number }) {
   return (
-    <div
-      className="service-row reveal"
-      style={{ transitionDelay: `${index * 80}ms` }}
-    >
-      <div className="service-content">
-        <div className="service-num">{service.num}</div>
-        <div className="service-title">{service.title}</div>
-        <div className="service-tag">{service.tag}</div>
+    <Reveal delay={index * 80} style={{ width: '100%' }}>
+      <div className="service-row">
+        <div className="service-content">
+          <div className="service-num">{service.num}</div>
+          <div className="service-title">{service.title}</div>
+          <div className="service-tag">{service.tag}</div>
+        </div>
       </div>
-    </div>
+    </Reveal>
   );
 }

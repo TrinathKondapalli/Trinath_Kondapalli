@@ -1,40 +1,15 @@
-import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import { Plus, Minus } from 'lucide-react';
+import Reveal from './Reveal';
 
-const processSteps = [
-  {
-    num: '01',
-    title: 'Obsessive discovery',
-    desc: 'I spend the first week asking questions, not making decisions. Every project starts with a deep-dive session to uncover not just what you want, but why.',
-    deliverables: ['Brief', 'Competitive audit', 'User research']
-  },
-  {
-    num: '02',
-    title: 'Strategic architecture',
-    desc: 'Information architecture before pixels. I map every user flow so no design decision is ever arbitrary.',
-    deliverables: ['Sitemap', 'User flows', 'Content hierarchy']
-  },
-  {
-    num: '03',
-    title: 'Pixel-perfect UI',
-    desc: 'Every component is on a 4px grid with defined tokens for color, type, and spacing. Nothing is guessed.',
-    deliverables: ['Design system', 'Hi-fi mockups', 'Interactive prototype']
-  },
-  {
-    num: '04',
-    title: 'Flawless execution',
-    desc: 'I stay in the room during build. Handoff is a collaboration, not a file dump.',
-    deliverables: ['Responsive build', 'QA checklist', 'Launch']
-  }
+const steps = [
+  { title:'Obsessive discovery', desc:'I spend the first week asking questions, not making decisions. Every project starts with a deep-dive session to uncover not just what you want, but why.', deliverables:['Brief','Competitive audit','User research'] },
+  { title:'Strategic architecture', desc:'Information architecture before pixels. I map every user flow so no design decision is ever arbitrary.', deliverables:['Sitemap','User flows','Content hierarchy'] },
+  { title:'Pixel-perfect UI', desc:'Every component is on a 4px grid with defined tokens for color, type, and spacing.', deliverables:['Design system','Hi-fi mockups','Prototype'] },
+  { title:'Flawless execution', desc:'I stay in the room during build. Handoff is a collaboration, not a file dump.', deliverables:['Responsive build','QA checklist','Launch'] },
 ];
 
 export default function DesignProcess() {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(0); // Default open first
-
-  const toggleAccordion = (index: number) => {
-    setExpandedIndex(expandedIndex === index ? null : index);
-  };
+  const [open, setOpen] = useState<number | null>(null);
 
   return (
     <section id="process" style={{
@@ -209,111 +184,79 @@ export default function DesignProcess() {
       `}</style>
 
       {/* Eyebrow Pill */}
-      <div 
-        className="reveal"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          padding: '6px 16px',
-          background: 'var(--rgba-dark-06)',
-          border: '1px solid var(--rgba-white-03)',
-          borderRadius: 100,
-          marginBottom: 80
-        }}
-      >
-        <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-        <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-          HOW I WORK
-        </span>
-        <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-      </div>
+      <Reveal>
+        <div 
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            padding: '6px 16px',
+            background: 'var(--rgba-dark-06)',
+            border: '1px solid var(--rgba-white-03)',
+            borderRadius: 100,
+            marginBottom: 80
+          }}
+        >
+          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
+            HOW I WORK
+          </span>
+          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+        </div>
+      </Reveal>
 
       {/* Headline */}
-      <h2 
-        className="reveal"
-        style={{
-          transitionDelay: '100ms',
-          fontFamily: 'var(--font-sans)',
-          fontSize: 'clamp(40px, 5vw, 64px)',
-          fontWeight: 800,
-          color: 'var(--c-white)',
-          textAlign: 'center',
-          letterSpacing: '-2px',
-          marginBottom: 80,
-          lineHeight: 1.1,
-          maxWidth: 800
-        }}
-      >
-        A Clear Process For Every{' '}
-        <span style={{
-          fontFamily: 'var(--font-display)',
-          fontStyle: 'italic',
-          fontWeight: 400,
-          background: 'linear-gradient(135deg, #6DD74C, #81DD6A)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-        }}>
-          Successful Project.
-        </span>
-      </h2>
+      <Reveal delay={100}>
+        <h2 
+          style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: 'clamp(40px, 5vw, 64px)',
+            fontWeight: 800,
+            color: 'var(--c-white)',
+            textAlign: 'center',
+            letterSpacing: '-2px',
+            marginBottom: 80,
+            lineHeight: 1.1,
+            maxWidth: 800
+          }}
+        >
+          A Clear Process For Every{' '}
+          <span style={{
+            fontFamily: 'var(--font-display)',
+            fontStyle: 'italic',
+            fontWeight: 400,
+            background: 'linear-gradient(135deg, #6DD74C, #81DD6A)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}>
+            Successful Project.
+          </span>
+        </h2>
+      </Reveal>
 
       {/* Interactive Accordion */}
-      <div className="process-container">
-        {processSteps.map((step, i) => {
-          const isActive = expandedIndex === i;
-
-          return (
-            <div
-              key={i}
-              className={`accordion-row ${isActive ? 'active' : ''}`}
-              onClick={() => toggleAccordion(i)}
-            >
-              {/* Row Header (Always Visible) */}
-              <div className="accordion-header">
-                <div className="step-num">{step.num}</div>
-                <div className="step-title">{step.title}</div>
-                <div className="icon-wrap">
-                  {isActive ? <Minus size={28} strokeWidth={1.5} /> : <Plus size={28} strokeWidth={1.5} />}
+      <div className="process-container" style={{ width: '100%', maxWidth: '900px', display: 'flex', flexDirection: 'column' }}>
+        {steps.map((s, i) => (
+          <div key={i} onClick={() => setOpen(open===i?null:i)}
+            style={{borderBottom:'1px solid rgba(255,255,255,0.08)',padding:'20px 0',cursor:'pointer',
+              borderLeft: open===i ? '2px solid #6ddc6d' : '2px solid transparent',
+              paddingLeft: open===i ? 20 : 0, transition:'all 0.2s'}}>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:'24px',fontWeight:'500', color: 'var(--c-white)'}}>
+              {s.title}
+              <span>{open===i?'−':'+'}</span>
+            </div>
+            {open===i && (
+              <div style={{paddingTop:'16px',color:'rgba(255,255,255,0.6)',fontSize:'16px',lineHeight:'1.6'}}>
+                <p style={{marginBottom:'16px'}}>{s.desc}</p>
+                <div style={{display:'flex',gap:'8px', flexWrap: 'wrap'}}>
+                  {s.deliverables.map((d, idx)=>(
+                    <span key={idx} style={{padding:'4px 12px',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'20px',fontSize:'12px', color: 'var(--c-white)'}}>{d}</span>
+                  ))}
                 </div>
               </div>
-
-              {/* Expandable Content */}
-              <AnimatePresence>
-                {isActive && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.35, ease: 'easeOut' }}
-                    style={{ overflow: 'hidden' }}
-                  >
-                    <div className="accordion-content-inner">
-                      
-                      {/* Left: 2-Sentence Explanation */}
-                      <p className="step-desc">
-                        {step.desc}
-                      </p>
-
-                      {/* Right: Deliverables List */}
-                      <div>
-                        <div className="deliverables-title" style={{ marginBottom: 16 }}>Deliverables:</div>
-                        <div className="deliverables-list" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
-                          {step.deliverables.map((item, idx) => (
-                            <div key={idx} className="deliverable-item">
-                              {item}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          );
-        })}
+            )}
+          </div>
+        ))}
       </div>
     </section>
   );

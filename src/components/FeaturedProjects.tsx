@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import ProjectCard from './ProjectCard';
 import Reveal from './Reveal';
 
@@ -127,12 +128,12 @@ export default function FeaturedProjects() {
       <div style={{ width: '100%', maxWidth: 1440, display: 'flex', flexDirection: 'column' }}>
         {projects.slice(3).map((project, i) => (
           <Reveal key={project.index} delay={i * 100}>
-            <a href={project.href} className="typo-row" data-cursor-hover="true">
+            <Link to={project.href} className="typo-row" data-cursor-hover="true">
               <div className="typo-num">0{project.index}</div>
               <div className="typo-title">{project.title}</div>
               <div className="typo-category">{project.category}</div>
               <div className="typo-result">{project.result}</div>
-            </a>
+            </Link>
           </Reveal>
         ))}
       </div>

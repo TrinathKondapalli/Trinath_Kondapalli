@@ -1,6 +1,7 @@
 import { ArrowRight, Download } from 'lucide-react';
 import portrait from '../assets/portrait.jpg';
 import GlobalMagneticButton from './GlobalMagneticButton';
+import Reveal from './Reveal';
 
 const values = [
   {
@@ -170,59 +171,54 @@ export default function AboutMe() {
 
       <div className="about-spread">
         {/* LEFT COLUMN: Editorial Photo */}
-        <div 
-          className="photo-column reveal"
-          style={{ transitionDelay: '0ms' }}
-        >
-          <img src={portrait} alt="Trinadh Kondapalli" className="photo-img" />
-          <div className="photo-vignette" />
-        </div>
+        <Reveal delay={0}>
+          <div className="photo-column">
+            <img src={portrait} alt="Trinadh Kondapalli" loading="lazy" className="photo-img" />
+            <div className="photo-vignette" />
+          </div>
+        </Reveal>
 
         {/* RIGHT COLUMN: Manifesto & Values */}
         <div className="text-column">
           
-          <div
-            className="manifesto reveal"
-            style={{ transitionDelay: '100ms' }}
-          >
-            I build digital products that make people feel something.
-          </div>
+          <Reveal delay={100}>
+            <div className="manifesto">
+              I build digital products that make people feel something.
+            </div>
+          </Reveal>
 
           <div className="values-list">
             {values.map((val, i) => (
-              <div 
-                key={i}
-                className="value-item reveal"
-                style={{ transitionDelay: `${200 + (i * 100)}ms` }}
-              >
-                <div className="value-text">
-                  <span className="value-title">{val.title}</span>
-                  <span className="value-desc">{val.desc}</span>
+              <Reveal key={i} delay={200 + (i * 100)}>
+                <div className="value-item">
+                  <div className="value-text">
+                    <span className="value-title">{val.title}</span>
+                    <span className="value-desc">{val.desc}</span>
+                  </div>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
 
-          <div 
-            className="cta-group reveal"
-            style={{ transitionDelay: '500ms' }}
-          >
-            <GlobalMagneticButton
-              className="btn btn-solid"
-              onClick={() => window.location.href = '#contact'}
-              style={{
-                fontFamily: 'var(--font-sans)', fontSize: 16, fontWeight: 600,
-                border: '1px solid var(--c-primary)'
-              }}
-            >
-              Book a call
-              <ArrowRight size={18} strokeWidth={2.5} />
-            </GlobalMagneticButton>
-            <a href="/cv.pdf" className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
-              Download CV
-              <Download size={18} strokeWidth={2.5} />
-            </a>
-          </div>
+          <Reveal delay={500}>
+            <div className="cta-group">
+              <GlobalMagneticButton
+                className="btn btn-solid"
+                onClick={() => window.location.href = '#contact'}
+                style={{
+                  fontFamily: 'var(--font-sans)', fontSize: 16, fontWeight: 600,
+                  border: '1px solid var(--c-primary)'
+                }}
+              >
+                Book a call
+                <ArrowRight size={18} strokeWidth={2.5} />
+              </GlobalMagneticButton>
+              <a href="/cv.pdf" className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
+                Download CV
+                <Download size={18} strokeWidth={2.5} />
+              </a>
+            </div>
+          </Reveal>
 
         </div>
       </div>

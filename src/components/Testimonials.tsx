@@ -1,7 +1,7 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
 
-const featuredTestimonial = {
+import Reveal from './Reveal';
+
+const featuredQuote = {
   name: 'Michael Chen',
   role: 'Founder & CEO',
   company: 'TechFlow',
@@ -30,17 +30,10 @@ const supportingTestimonials = [
 ];
 
 export default function Testimonials() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
   
-  // Parallax for the quote mark (moves up as user scrolls down)
-  const quoteY = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   return (
-    <section ref={sectionRef} id="testimonials" style={{
+    <section id="testimonials" style={{
       position: 'relative',
       width: '100%',
       padding: '160px 24px',
@@ -205,73 +198,66 @@ export default function Testimonials() {
       <div className="testimonials-container">
         
         {/* Eyebrow Pill */}
-        <div 
-          className="reveal"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            padding: '6px 16px',
-            background: 'var(--rgba-dark-06)',
-            border: '1px solid var(--rgba-white-03)',
-            borderRadius: 100,
-            marginBottom: 80
-          }}
-        >
-          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-            WHAT CLIENTS SAY
-          </span>
-          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-        </div>
+        <Reveal delay={0}>
+          <div 
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              padding: '6px 16px',
+              background: 'var(--rgba-dark-06)',
+              border: '1px solid var(--rgba-white-03)',
+              borderRadius: 100,
+              marginBottom: 80
+            }}
+          >
+            <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+            <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
+              WHAT CLIENTS SAY
+            </span>
+            <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+          </div>
+        </Reveal>
 
         {/* Featured Hero Quote */}
-        <div className="featured-quote-wrapper">
-          <motion.div 
-            className="giant-quote-mark"
-            style={{ y: quoteY }}
-          >
-            “
-          </motion.div>
-          
-          <p 
-            className="featured-text reveal"
-            style={{ transitionDelay: '100ms' }}
-          >
-            "{featuredTestimonial.text}"
-          </p>
+        <Reveal delay={100}>
+          <div style={{position:'relative',maxWidth:'800px',margin:'0 auto',padding:'80px 0'}}>
 
-          <div className="featured-divider reveal" style={{ transitionDelay: '150ms' }} />
+            {/* Big decorative quote mark */}
+            <div style={{position:'absolute',top:0,left:'-40px',fontSize:'120px',color:'rgba(109,220,109,0.2)',lineHeight:1,fontFamily:'var(--font-display)',pointerEvents:'none'}}>
+              "
+            </div>
 
-          <div 
-            className="featured-author reveal"
-            style={{ transitionDelay: '200ms' }}
-          >
-            <div className="featured-name">{featuredTestimonial.name}</div>
-            <div className="featured-role">
-              {featuredTestimonial.role}, <span className="featured-company">{featuredTestimonial.company}</span>
+            {/* The quote itself — floating, no card */}
+            <p style={{fontSize:'clamp(24px, 4vw, 36px)',lineHeight:'1.5',fontWeight:'300',color:'rgba(255,255,255,0.9)',margin:'0 0 40px 0'}}>
+              "{featuredQuote.text}"
+            </p>
+
+            {/* Attribution */}
+            <div style={{display:'flex',flexDirection:'column',gap:'4px'}}>
+              <div style={{width:'40px',height:'2px',background:'#6ddc6d',marginBottom:'16px'}}></div>
+              <div style={{fontSize:'18px',fontWeight:'700',color:'#fff'}}>{featuredQuote.name}</div>
+              <div style={{fontSize:'14px',color:'rgba(255,255,255,0.5)'}}>{featuredQuote.role}, {featuredQuote.company}</div>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         {/* Supporting Quotes Row */}
         <div className="supporting-grid">
           {supportingTestimonials.map((item, i) => (
-            <div 
-              key={i}
-              className="support-card reveal"
-              style={{ transitionDelay: `${300 + (i * 100)}ms` }}
-            >
-              <p className="support-text">"{item.text}"</p>
-              
-              <div className="support-author">
-                <img src={item.image} alt={item.name} className="support-img" />
-                <div>
-                  <div className="support-name">{item.name}</div>
-                  <div className="support-role">{item.role}</div>
+            <Reveal key={i} delay={300 + (i * 100)}>
+              <div className="support-card">
+                <p className="support-text">"{item.text}"</p>
+                
+                <div className="support-author">
+                  <img src={item.image} alt={item.name} loading="lazy" className="support-img" />
+                  <div>
+                    <div className="support-name">{item.name}</div>
+                    <div className="support-role">{item.role}</div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
 

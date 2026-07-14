@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Reveal from './Reveal'
 
 export default function ProjectCard({ index, title, category, image, result, href = '#', large = false }: any) {
@@ -6,8 +7,8 @@ export default function ProjectCard({ index, title, category, image, result, hre
 
   return (
     <Reveal delay={index * 80}>
-      <a
-        href={href}
+      <Link
+        to={href}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
@@ -25,6 +26,10 @@ export default function ProjectCard({ index, title, category, image, result, hre
         <img
           src={image}
           alt={title}
+          loading={index === 1 ? "eager" : "lazy"}
+          fetchPriority={index === 1 ? "high" : "auto"}
+          width={large ? 1600 : 800}
+          height={large ? 900 : 600}
           style={{
             width: '100%',
             height: '100%',
@@ -132,7 +137,7 @@ export default function ProjectCard({ index, title, category, image, result, hre
         >
           View case study →
         </div>
-      </a>
+      </Link>
     </Reveal>
   )
 }

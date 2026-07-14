@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import GlobalMagneticButton from './GlobalMagneticButton';
+import Reveal from './Reveal';
 
 export default function Contact() {
   return (
@@ -91,33 +92,30 @@ export default function Contact() {
       `}</style>
 
       <div className="closing-container">
-        <h2 
-          className="closing-headline reveal"
-          style={{ transitionDelay: '0ms' }}
-        >
-          Your next project <br/>
-          <span className="closing-italic">starts with one message.</span>
-        </h2>
+        <Reveal delay={0}>
+          <h2 className="closing-headline">
+            Your next project <br/>
+            <span className="closing-italic">starts with one message.</span>
+          </h2>
+        </Reveal>
 
-        <div
-          className="reveal"
-          style={{ transitionDelay: '200ms' }}
-        >
-          <GlobalMagneticButton 
-            className="closing-btn"
-            onClick={() => window.location.href = 'mailto:hello@trinadh.com'}
-          >
-            Start a project
-            <ArrowRight size={24} strokeWidth={2.5} className="closing-btn-arrow" />
-          </GlobalMagneticButton>
-        </div>
+        <Reveal delay={200}>
+          <div>
+            <GlobalMagneticButton 
+              className="closing-btn"
+              onClick={() => window.location.href = 'mailto:hello@trinadh.com'}
+            >
+              Start a project
+              <ArrowRight size={24} strokeWidth={2.5} className="closing-btn-arrow" />
+            </GlobalMagneticButton>
+          </div>
+        </Reveal>
 
-        <div
-          className="closing-fallback reveal"
-          style={{ transitionDelay: '400ms' }}
-        >
-          Or email me directly at <a href="mailto:hello@trinadh.com" className="fallback-link">hello@trinadh.com</a>
-        </div>
+        <Reveal delay={400}>
+          <div className="closing-fallback">
+            Or email me directly at <a href="mailto:hello@trinadh.com" className="fallback-link">hello@trinadh.com</a>
+          </div>
+        </Reveal>
       </div>
 
     </section>

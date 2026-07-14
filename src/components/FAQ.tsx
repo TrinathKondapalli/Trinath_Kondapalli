@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus } from 'lucide-react';
+import Reveal from './Reveal';
 
 const faqs = [
   {
@@ -239,25 +240,26 @@ export default function FAQ() {
       `}</style>
 
       {/* Eyebrow Pill */}
-      <div 
-        className="reveal"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          padding: '6px 16px',
-          background: 'var(--rgba-dark-06)',
-          border: '1px solid var(--rgba-white-03)',
-          borderRadius: 100,
-          marginBottom: 40
-        }}
-      >
-        <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-        <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-          QUESTIONS YOU MAY HAVE
-        </span>
-        <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-      </div>
+      <Reveal delay={0}>
+        <div 
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            padding: '6px 16px',
+            background: 'var(--rgba-dark-06)',
+            border: '1px solid var(--rgba-white-03)',
+            borderRadius: 100,
+            marginBottom: 40
+          }}
+        >
+          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
+            QUESTIONS YOU MAY HAVE
+          </span>
+          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+        </div>
+      </Reveal>
 
       {/* Accordion List */}
       <div className="faq-container">
@@ -273,15 +275,14 @@ export default function FAQ() {
       </div>
 
       {/* Bottom CTA Strip */}
-      <div 
-        className="faq-cta-strip reveal"
-        style={{ transitionDelay: '400ms' }}
-      >
-        <span className="faq-cta-text">Have a different question?</span>
-        <a href="mailto:hello@trinadh.com" className="faq-cta-link">
-          hello@trinadh.com
-        </a>
-      </div>
+      <Reveal delay={400}>
+        <div className="faq-cta-strip">
+          <span className="faq-cta-text">Have a different question?</span>
+          <a href="mailto:hello@trinadh.com" className="faq-cta-link">
+            hello@trinadh.com
+          </a>
+        </div>
+      </Reveal>
     </section>
   );
 }

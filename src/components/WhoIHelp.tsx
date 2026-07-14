@@ -1,23 +1,23 @@
 import { useCountUp } from '../hooks/useCountUp';
+import Reveal from './Reveal';
 
 function BigStat({ stat, delayMs }: any) {
   // Use duration 1600ms, value is stat.value
   const { count, ref } = useCountUp(stat.value, 1600);
   
   return (
-    <div 
-      className="metric-col reveal"
-      style={{ transitionDelay: `${delayMs}ms` }}
-    >
-      <div className="metric-number" ref={ref}>
-        {count}{stat.suffix}
+    <Reveal delay={delayMs}>
+      <div className="metric-col">
+        <div className="metric-number" ref={ref}>
+          {count}{stat.suffix}
+        </div>
+        
+        <div className="metric-bottom">
+          <span className="metric-label">{stat.label}</span>
+          <span className="metric-note">{stat.note}</span>
+        </div>
       </div>
-      
-      <div className="metric-bottom">
-        <span className="metric-label">{stat.label}</span>
-        <span className="metric-note">{stat.note}</span>
-      </div>
-    </div>
+    </Reveal>
   );
 }
 

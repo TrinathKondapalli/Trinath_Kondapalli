@@ -1,3 +1,4 @@
+import Reveal from './Reveal';
 
 const philosophies = [
   {
@@ -165,55 +166,48 @@ export default function ProblemsISolve() {
         
         {/* Massive Rhythmic Headline */}
         <div className="headline-wrapper">
-          <div 
-            className="headline-line reveal"
-            style={{ transitionDelay: '0ms' }}
-          >
-            Every
-          </div>
+          <Reveal delay={0}>
+            <div className="headline-line">
+              Every
+            </div>
+          </Reveal>
           
-          <div 
-            className="headline-line headline-italic reveal"
-            style={{ transitionDelay: '100ms' }}
-          >
-            problem
-          </div>
+          <Reveal delay={100}>
+            <div className="headline-line headline-italic">
+              problem
+            </div>
+          </Reveal>
           
-          <div 
-            className="headline-line headline-accent reveal"
-            style={{ transitionDelay: '200ms' }}
-          >
-            has a
-          </div>
+          <Reveal delay={200}>
+            <div className="headline-line headline-accent">
+              has a
+            </div>
+          </Reveal>
           
-          <div 
-            className="headline-line headline-italic reveal"
-            style={{ transitionDelay: '300ms' }}
-          >
-            digital
-          </div>
+          <Reveal delay={300}>
+            <div className="headline-line headline-italic">
+              digital
+            </div>
+          </Reveal>
 
-          <div 
-            className="headline-line reveal"
-            style={{ transitionDelay: '400ms' }}
-          >
-            experience
-          </div>
+          <Reveal delay={400}>
+            <div className="headline-line">
+              experience
+            </div>
+          </Reveal>
         </div>
 
         {/* 3-Column Philosophy Cards */}
         <div className="philosophy-cards">
           {philosophies.map((phil, i) => (
-            <div
-              key={i}
-              className="phil-card reveal"
-              style={{ transitionDelay: `${500 + (i * 100)}ms` }}
-            >
-              <div className="phil-index">0{i + 1}</div>
-              <h3 className="phil-title">{phil.title}</h3>
-              <p className="phil-desc">{phil.desc}</p>
-              <div className="phil-tag">{phil.tag}</div>
-            </div>
+            <Reveal key={i} delay={500 + (i * 100)}>
+              <div className="phil-card">
+                <div className="phil-index">0{i + 1}</div>
+                <h3 className="phil-title">{phil.title}</h3>
+                <p className="phil-desc">{phil.desc}</p>
+                <div className="phil-tag">{phil.tag}</div>
+              </div>
+            </Reveal>
           ))}
         </div>
 

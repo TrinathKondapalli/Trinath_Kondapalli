@@ -6,37 +6,43 @@ import { useCountUp } from '../hooks/useCountUp'
 // ─── Add your real case study data here ───────────────────────────────────────
 const caseStudies: Record<string, any> = {
   'healthcare-platform': {
-    title: 'Healthcare Platform',
-    description: 'Redesigning the patient experience for a leading telehealth provider',
-    heroImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1600',
+    title: 'MedConnect Patient Portal',
+    description: 'Transforming telehealth from a bureaucratic maze into a seamless, accessible patient experience.',
+    heroImage: 'https://images.unsplash.com/photo-1576091160550-2173ff9e5950?auto=format&fit=crop&q=80&w=1600',
     overview: {
       client: 'MedConnect',
-      industry: 'Healthcare / SaaS',
-      timeline: '8 weeks',
-      role: 'UX/UI Design + Frontend',
+      industry: 'Healthcare / Telemedicine',
+      timeline: '12 weeks',
+      role: 'Lead UX/UI Designer & Frontend Dev',
     },
     problem:
-      'Patients were abandoning the booking flow at a 74% rate. The existing interface was built for administrators, not patients — dense forms, medical jargon, and zero mobile optimisation.',
+      'MedConnect’s existing portal was built from the perspective of hospital administrators, resulting in a clinical, dense, and confusing interface for patients. With a 74% abandonment rate during the booking flow, users were frustrated by complex medical jargon, hidden navigation, and zero mobile optimization. They needed a complete structural overhaul that prioritized empathy, clarity, and speed.',
     approach: [
       {
         num: '01',
-        title: 'Discovery & research',
-        body: 'Ran 12 user interviews and analysed 6 months of session recordings. Identified 3 core drop-off points and the exact language patients expected.',
+        title: 'Deep-dive & empathize',
+        body: 'I began by shadowing patient support calls and analyzing 6 months of Hotjar recordings. This qualitative data revealed three primary friction points: confusing insurance terminology, an overwhelming date-picker, and a lack of clear progress indicators.',
       },
       {
         num: '02',
-        title: 'Information architecture',
-        body: 'Rebuilt the booking flow from 11 steps to 4. Mapped every edge case before touching Figma. Zero assumptions.',
+        title: 'Information architecture reboot',
+        body: 'I stripped the booking flow down to its absolute essentials. By grouping related tasks and mapping every edge case, I reduced the cognitive load and cut the process from 11 fragmented steps down to a linear, digestible 4-step wizard.',
       },
       {
         num: '03',
-        title: 'Design & build',
-        body: 'Shipped a complete design system in Figma, then built the React frontend with full accessibility (WCAG AA). Collaborated daily with the dev team.',
+        title: 'Design system & accessibility',
+        body: 'Healthcare demands trust. I developed a design system focused on high-contrast typography, calming color palettes, and large, touch-friendly targets. The entire interface was rigorously tested to meet WCAG 2.1 AA accessibility standards.',
+      },
+      {
+        num: '04',
+        title: 'Frontend collaboration',
+        body: 'I didn’t just hand over a Figma file. I built the React component library in tandem with the engineering team, ensuring that complex micro-interactions (like calendar swiping and form validation) felt perfectly smooth on every device.',
       },
     ],
     screens: [
-      { image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800', caption: 'Redesigned booking flow' },
-      { image: 'https://images.unsplash.com/photo-1551076805-e1869043e560?auto=format&fit=crop&q=80&w=800', caption: 'Patient dashboard' },
+      { image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800', caption: 'The streamlined 4-step booking flow.' },
+      { image: 'https://images.unsplash.com/photo-1551076805-e1869043e560?auto=format&fit=crop&q=80&w=800', caption: 'Patient dashboard and upcoming appointments.' },
+      { image: 'https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&q=80&w=800', caption: 'Mobile-optimized insurance verification.' }
     ],
     results: [
       { value: 62, suffix: '%', label: 'Drop in abandonment' },
@@ -270,7 +276,7 @@ export default function CaseStudy() {
 
       {/* Hero image */}
       <Reveal>
-        <img src={study.heroImage} alt={study.title} style={{ width: '100%', maxHeight: 560, objectFit: 'cover', display: 'block' }} />
+        <img src={study.heroImage} alt={study.title} loading="lazy" style={{ width: '100%', maxHeight: 560, objectFit: 'cover', display: 'block' }} />
       </Reveal>
 
       {/* Overview bar */}
@@ -320,7 +326,7 @@ export default function CaseStudy() {
           {study.screens.map((screen: any, i: number) => (
             <Reveal key={i} delay={i * 100}>
               <div style={{ borderRadius: 12, overflow: 'hidden', background: '#0d1f0d' }}>
-                <img src={screen.image} alt={screen.caption} style={{ width: '100%', display: 'block' }} />
+                <img src={screen.image} alt={screen.caption} loading="lazy" style={{ width: '100%', display: 'block' }} />
                 {screen.caption && (
                   <div style={{ padding: '12px 16px', fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>{screen.caption}</div>
                 )}

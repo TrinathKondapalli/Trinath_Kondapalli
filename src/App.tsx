@@ -36,43 +36,6 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
-function useScrollReveal() {
-  const prefersReducedMotion = usePrefersReducedMotion();
-
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      document.querySelectorAll('.reveal').forEach(el => {
-        el.classList.add('visible');
-      });
-      return;
-    }
-
-    const checkReveal = () => {
-      const windowHeight = window.innerHeight;
-      document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < windowHeight - 20) {
-          el.classList.add('visible');
-        }
-      });
-    };
-
-    window.addEventListener('scroll', checkReveal, { passive: true });
-    window.addEventListener('resize', checkReveal, { passive: true });
-    
-    checkReveal();
-    const t1 = setTimeout(checkReveal, 100);
-    const t2 = setTimeout(checkReveal, 500);
-
-    return () => {
-      window.removeEventListener('scroll', checkReveal);
-      window.removeEventListener('resize', checkReveal);
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, [prefersReducedMotion]);
-}
-
 function AnimatedRoutes() {
   const location = useLocation();
   
@@ -112,26 +75,28 @@ function AnimatedRoutes() {
 
 function App() {
   const prefersReducedMotion = usePrefersReducedMotion();
-  useScrollReveal();
 
   const content = (
     <BrowserRouter>
       <ScrollToTop />
       <ScrollProgressBar />
-      <CustomCursor />
       <Navbar />
       <AnimatedRoutes />
       <Footer />
     </BrowserRouter>
   );
 
-  // Skip Lenis entirely for users who've asked for reduced motion — fall back to native scroll.
-  if (prefersReducedMotion) return content;
-
   return (
-    <ReactLenis root options={{ anchors: true, lerp: 0.1, duration: 1.2 }}>
-      {content}
-    </ReactLenis>
+    <>
+      <CustomCursor />
+      {prefersReducedMotion ? (
+        content
+      ) : (
+        <ReactLenis root options={{ anchors: true, lerp: 0.1, duration: 1.2 }}>
+          {content}
+        </ReactLenis>
+      )}
+    </>
   );
 }
 
