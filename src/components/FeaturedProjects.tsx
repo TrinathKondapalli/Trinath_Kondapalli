@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Layout, Activity, MonitorSmartphone } from 'lucide-react';
+import SplitText from './SplitText';
+import BorderGlow from './BorderGlow';
 
 const projects = [
   {
@@ -52,19 +54,14 @@ export default function FeaturedProjects() {
           position: relative;
           display: flex;
           flex-direction: column;
-          border-radius: 32px;
-          background: var(--rgba-dark-06);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(109,215,76,0.05);
-          overflow: hidden;
           cursor: pointer;
-          transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          transition: transform 0.4s ease;
         }
 
         .project-card:hover {
           transform: translateY(-8px);
-          border-color: rgba(109,215,76,0.3);
-          box-shadow: 0 10px 40px -10px rgba(109,215,76,0.15);
         }
 
         .project-img-wrapper {
@@ -72,6 +69,7 @@ export default function FeaturedProjects() {
           height: 240px;
           overflow: hidden;
           position: relative;
+          border-radius: 32px 32px 0 0;
         }
 
         .project-img {
@@ -201,36 +199,37 @@ export default function FeaturedProjects() {
       </motion.div>
 
       {/* Headline */}
-      <motion.h2 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 'clamp(40px, 5vw, 72px)',
-          fontWeight: 800,
-          color: 'var(--c-white)',
-          textAlign: 'center',
-          letterSpacing: '-2px',
-          marginBottom: 32,
-          lineHeight: 1.1
-        }}
-      >
-        Turning <br/>
-        Ideas Into <br/>
-        <span style={{
-          fontFamily: 'var(--font-display)',
-          fontStyle: 'italic',
-          fontWeight: 400,
-          background: 'linear-gradient(135deg, #6DD74C, #81DD6A)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          paddingRight: '8px'
-        }}>
+      <h2 style={{
+        fontFamily: 'var(--font-sans)',
+        fontSize: 'clamp(40px, 5vw, 72px)',
+        fontWeight: 800,
+        color: 'var(--c-white)',
+        textAlign: 'center',
+        letterSpacing: '-2px',
+        marginBottom: 32,
+        lineHeight: 1.1,
+        maxWidth: 820
+      }}>
+        <SplitText text="Turning Ideas Into" splitType="words" duration={0.7} />{' '}
+        <motion.span
+          initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontStyle: 'italic',
+            fontWeight: 400,
+            background: 'linear-gradient(135deg, #6DD74C, #81DD6A)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            paddingRight: '8px',
+            display: 'inline-block'
+          }}
+        >
           Digital Experiences.
-        </span>
-      </motion.h2>
+        </motion.span>
+      </h2>
 
       {/* Subhead */}
       <motion.p
@@ -260,50 +259,59 @@ export default function FeaturedProjects() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="project-card"
+            data-cursor-text="View"
           >
-            {/* Mockup Image */}
-            <div className="project-img-wrapper">
-              <img src={project.image} alt={project.title} className="project-img" />
-              <div className="project-img-overlay" />
-              
-              {/* Floating Icon Badge over image */}
-              <div style={{
-                position: 'absolute',
-                top: 24,
-                right: 24,
-                width: 48,
-                height: 48,
-                borderRadius: '50%',
-                background: 'rgba(8, 21, 9, 0.4)',
-                backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 2
-              }}>
-                <project.icon size={20} color="var(--c-white)" />
-              </div>
-            </div>
+            <BorderGlow
+              className="project-card"
+              backgroundColor="rgba(20,49,19,0.6)"
+              borderRadius={32}
+              glowColor="106 63 57"
+              colors={['#6dd74c', '#81dd6a', '#143113']}
+              glowIntensity={0.9}
+            >
+              {/* Mockup Image */}
+              <div className="project-img-wrapper">
+                <img src={project.image} alt={project.title} className="project-img" />
+                <div className="project-img-overlay" />
 
-            {/* Content Details */}
-            <div className="project-content">
-              <div className="project-category">{project.category}</div>
-              <h3 className="project-title">{project.title}</h3>
-              <p className="project-desc">{project.desc}</p>
-              
-              <div className="project-tech">
-                {project.tech.map((t, idx) => (
-                  <span key={idx} className="tech-pill">{t}</span>
-                ))}
+                {/* Floating Icon Badge over image */}
+                <div style={{
+                  position: 'absolute',
+                  top: 24,
+                  right: 24,
+                  width: 48,
+                  height: 48,
+                  borderRadius: '50%',
+                  background: 'rgba(8, 21, 9, 0.4)',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 2
+                }}>
+                  <project.icon size={20} color="var(--c-white)" />
+                </div>
               </div>
 
-              <div className="view-btn">
-                View Case Study
-                <ArrowRight size={16} className="view-arrow" strokeWidth={2.5} />
+              {/* Content Details */}
+              <div className="project-content">
+                <div className="project-category">{project.category}</div>
+                <h3 className="project-title">{project.title}</h3>
+                <p className="project-desc">{project.desc}</p>
+
+                <div className="project-tech">
+                  {project.tech.map((t, idx) => (
+                    <span key={idx} className="tech-pill">{t}</span>
+                  ))}
+                </div>
+
+                <div className="view-btn">
+                  View Case Study
+                  <ArrowRight size={16} className="view-arrow" strokeWidth={2.5} />
+                </div>
               </div>
-            </div>
+            </BorderGlow>
           </motion.div>
         ))}
       </div>

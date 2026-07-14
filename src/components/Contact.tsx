@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Mail, MapPin } from 'lucide-react';
+import SplitText from './SplitText';
+import BorderGlow from './BorderGlow';
 
 export default function Contact() {
 
@@ -82,20 +84,16 @@ export default function Contact() {
 
         /* Right Side / Form */
         .contact-form-card {
-          background: var(--rgba-dark-06);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(109,215,76,0.05);
           padding: 48px;
-          border-radius: 32px;
           display: flex;
           flex-direction: column;
           gap: 24px;
-          transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          transition: transform 0.4s ease;
         }
 
         .contact-form-card:hover {
-          border-color: rgba(109,215,76,0.2);
-          box-shadow: 0 10px 40px -10px rgba(109,215,76,0.15);
           transform: translateY(-4px);
         }
 
@@ -214,36 +212,37 @@ export default function Contact() {
       </motion.div>
 
       {/* Headline */}
-      <motion.h2 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 'clamp(40px, 5vw, 72px)',
-          fontWeight: 800,
-          color: 'var(--c-white)',
-          textAlign: 'center',
-          letterSpacing: '-2px',
-          marginBottom: 32,
-          lineHeight: 1.1
-        }}
-      >
-        Let's Build <br/>
-        Something <br/>
-        <span style={{
-          fontFamily: 'var(--font-display)',
-          fontStyle: 'italic',
-          fontWeight: 400,
-          background: 'linear-gradient(135deg, #6DD74C, #81DD6A)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          paddingRight: '8px'
-        }}>
+      <h2 style={{
+        fontFamily: 'var(--font-sans)',
+        fontSize: 'clamp(40px, 5vw, 72px)',
+        fontWeight: 800,
+        color: 'var(--c-white)',
+        textAlign: 'center',
+        letterSpacing: '-2px',
+        marginBottom: 32,
+        lineHeight: 1.1,
+        maxWidth: 720
+      }}>
+        <SplitText text="Let's Build Something" splitType="words" duration={0.7} />{' '}
+        <motion.span
+          initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontStyle: 'italic',
+            fontWeight: 400,
+            background: 'linear-gradient(135deg, #6DD74C, #81DD6A)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            paddingRight: '8px',
+            display: 'inline-block'
+          }}
+        >
           Extraordinary.
-        </span>
-      </motion.h2>
+        </motion.span>
+      </h2>
 
       {/* Subhead */}
       <motion.p
@@ -303,62 +302,70 @@ export default function Contact() {
         </motion.div>
 
         {/* RIGHT COLUMN: Contact Form */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-          className="contact-form-card"
         >
-          <div className="form-row">
-            <div className="input-group">
-              <label className="input-label">Full Name</label>
-              <input type="text" className="form-input" placeholder="John Doe" />
+          <BorderGlow
+            className="contact-form-card"
+            backgroundColor="rgba(20,49,19,0.6)"
+            borderRadius={32}
+            glowColor="106 63 57"
+            colors={['#6dd74c', '#81dd6a', '#143113']}
+            glowIntensity={0.9}
+          >
+            <div className="form-row">
+              <div className="input-group">
+                <label className="input-label">Full Name</label>
+                <input type="text" className="form-input" placeholder="John Doe" />
+              </div>
+              <div className="input-group">
+                <label className="input-label">Email Address</label>
+                <input type="email" className="form-input" placeholder="john@company.com" />
+              </div>
             </div>
+
             <div className="input-group">
-              <label className="input-label">Email Address</label>
-              <input type="email" className="form-input" placeholder="john@company.com" />
+              <label className="input-label">Company</label>
+              <input type="text" className="form-input" placeholder="Your Company Name" />
             </div>
-          </div>
 
-          <div className="input-group">
-            <label className="input-label">Company</label>
-            <input type="text" className="form-input" placeholder="Your Company Name" />
-          </div>
+            <div className="form-row">
+              <div className="input-group">
+                <label className="input-label">Project Type</label>
+                <select className="form-input" style={{ appearance: 'none', cursor: 'pointer' }} defaultValue="">
+                  <option value="" disabled>Select an option</option>
+                  <option value="ui-ux">UI/UX Design</option>
+                  <option value="website">Website Design</option>
+                  <option value="frontend">Frontend Development</option>
+                  <option value="video">Video Editing</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div className="input-group">
+                <label className="input-label">Budget</label>
+                <select className="form-input" style={{ appearance: 'none', cursor: 'pointer' }} defaultValue="">
+                  <option value="" disabled>Select an option</option>
+                  <option value="1k-3k">$1,000 - $3,000</option>
+                  <option value="3k-5k">$3,000 - $5,000</option>
+                  <option value="5k-10k">$5,000 - $10,000</option>
+                  <option value="10k+">$10,000+</option>
+                </select>
+              </div>
+            </div>
 
-          <div className="form-row">
             <div className="input-group">
-              <label className="input-label">Project Type</label>
-              <select className="form-input" style={{ appearance: 'none', cursor: 'pointer' }} defaultValue="">
-                <option value="" disabled>Select an option</option>
-                <option value="ui-ux">UI/UX Design</option>
-                <option value="website">Website Design</option>
-                <option value="frontend">Frontend Development</option>
-                <option value="video">Video Editing</option>
-                <option value="other">Other</option>
-              </select>
+              <label className="input-label">Message</label>
+              <textarea className="form-input" placeholder="Tell me about your project, timeline, and goals..." />
             </div>
-            <div className="input-group">
-              <label className="input-label">Budget</label>
-              <select className="form-input" style={{ appearance: 'none', cursor: 'pointer' }} defaultValue="">
-                <option value="" disabled>Select an option</option>
-                <option value="1k-3k">$1,000 - $3,000</option>
-                <option value="3k-5k">$3,000 - $5,000</option>
-                <option value="5k-10k">$5,000 - $10,000</option>
-                <option value="10k+">$10,000+</option>
-              </select>
-            </div>
-          </div>
 
-          <div className="input-group">
-            <label className="input-label">Message</label>
-            <textarea className="form-input" placeholder="Tell me about your project, timeline, and goals..." />
-          </div>
-
-          <button className="submit-btn">
-            Start Your Project
-            <ArrowRight size={20} className="btn-arrow" />
-          </button>
+            <button className="submit-btn">
+              Start Your Project
+              <ArrowRight size={20} className="btn-arrow" />
+            </button>
+          </BorderGlow>
         </motion.div>
       </div>
     </section>

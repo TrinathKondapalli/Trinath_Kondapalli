@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
-import portrait from '../assets/portrait.png';
+import portrait from '../assets/portrait.jpg';
+import SplitText from './SplitText';
 
 /* ─── Dot Background System ─────────────────────── */
 function TwinklingDots() {
@@ -207,27 +208,27 @@ export default function Hero() {
         >
           {/* Headline - Single Line */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
-            <motion.span 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            <SplitText
+              text="Helping Businesses Build Better"
+              splitType="words"
+              delay={0.4}
+              duration={0.7}
               style={{
                 fontFamily: 'var(--font-sans)', fontWeight: 700, letterSpacing: '-1px',
                 fontSize: 'clamp(32px, 4.5vw, 64px)', color: 'var(--c-white)'
               }}
-            >
-              Helping Businesses Build Better
-            </motion.span>
-            <motion.span 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            />
+            <motion.span
+              initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.9, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 fontFamily: 'var(--font-display)',
                 fontSize: 'clamp(32px, 4.5vw, 64px)',
                 background: 'linear-gradient(135deg, var(--c-primary), var(--c-secondary))',
                 WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                paddingRight: 8 // italic fix
+                paddingRight: 8, // italic fix
+                display: 'inline-block'
               }}
             >
               Digital Experiences

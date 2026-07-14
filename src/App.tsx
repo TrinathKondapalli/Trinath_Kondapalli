@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useScroll, useSpring } from 'framer-motion';
+import { ReactLenis } from 'lenis/react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ToolsMarquee from './components/ToolsMarquee';
@@ -28,11 +29,13 @@ function CustomCursor() {
 
   const [isVisible, setIsVisible] = useState(false);
   const [isHoveringLink, setIsHoveringLink] = useState(false);
+  const [cursorText, setCursorText] = useState<string | null>(null);
 
   useEffect(() => {
-    // Only run on desktop devices that support hover
+    // Only run on desktop devices that support hover, and never for users who asked for reduced motion
     const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
-    if (!mediaQuery.matches) return;
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!mediaQuery.matches || reducedMotionQuery.matches) return;
 
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX); // Set exact cursor position
@@ -43,7 +46,10 @@ function CustomCursor() {
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (target && typeof target.closest === 'function') {
-        if (target.closest('a') || target.closest('button')) {
+        const textTarget = target.closest<HTMLElement>('[data-cursor-text]');
+        setCursorText(textTarget ? textTarget.dataset.cursorText ?? null : null);
+
+        if (textTarget || target.closest('a') || target.closest('button')) {
           setIsHoveringLink(true);
         } else {
           setIsHoveringLink(false);
@@ -59,10 +65,13 @@ function CustomCursor() {
     document.body.addEventListener('mouseleave', handleMouseLeave);
     document.body.addEventListener('mouseenter', handleMouseEnter);
 
-    // Hide default cursor
+    // Hide the native cursor everywhere except form fields, where a visible caret cue still matters
     document.body.style.cursor = 'none';
     const style = document.createElement('style');
-    style.innerHTML = `* { cursor: none !important; }`;
+    style.innerHTML = `
+      * { cursor: none !important; }
+      input, textarea, select, [contenteditable="true"] { cursor: auto !important; }
+    `;
     document.head.appendChild(style);
 
     return () => {
@@ -101,15 +110,75 @@ function CustomCursor() {
         transition={{ duration: 0.2, ease: "easeOut" }}
         style={{
           borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
-      />
+      >
+        {cursorText && (
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.15 }}
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: 13,
+              fontWeight: 600,
+              letterSpacing: '0.5px',
+              color: '#ffffff',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {cursorText}
+          </motion.span>
+        )}
+      </motion.div>
     </motion.div>
   );
 }
 
-function App() {
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 });
+
   return (
+    <motion.div
+      style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0,
+        height: 3,
+        transformOrigin: '0%',
+        scaleX,
+        background: 'linear-gradient(90deg, var(--c-primary), var(--c-secondary))',
+        boxShadow: '0 0 8px rgba(109,215,76,0.5)',
+        zIndex: 60,
+        pointerEvents: 'none',
+      }}
+    />
+  );
+}
+
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(
+    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handleChange = () => setReduced(mediaQuery.matches);
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  return reduced;
+}
+
+function App() {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  const content = (
     <>
+      <ScrollProgress />
       <CustomCursor />
       <Navbar />
       <main>
@@ -129,7 +198,16 @@ function App() {
       </main>
       <Footer />
     </>
-  )
+  );
+
+  // Skip Lenis entirely for users who've asked for reduced motion — fall back to native scroll.
+  if (prefersReducedMotion) return content;
+
+  return (
+    <ReactLenis root options={{ anchors: true, lerp: 0.1, duration: 1.2 }}>
+      {content}
+    </ReactLenis>
+  );
 }
 
 export default App;

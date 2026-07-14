@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Sparkles, Target, BookOpen, ShieldCheck, ArrowRight } from 'lucide-react';
-import portrait from '../assets/portrait.png';
+import portrait from '../assets/portrait.jpg';
 
 const highlights = [
   {
