@@ -42,7 +42,7 @@ export default function Services() {
 
         .service-content {
           display: grid;
-          grid-template-columns: 80px 1fr auto;
+          grid-template-columns: 1fr auto 1fr;
           align-items: center;
           position: relative;
           z-index: 10;
@@ -54,6 +54,7 @@ export default function Services() {
           font-weight: 400;
           color: rgba(255,255,255,0.2);
           transition: color 0.4s ease;
+          justify-self: start;
         }
 
         .service-row:hover .service-num {
@@ -62,16 +63,17 @@ export default function Services() {
 
         .service-title {
           font-family: var(--font-sans);
-          font-size: clamp(32px, 8vw, 56px);
+          font-size: clamp(40px, 6vw, 80px);
           font-weight: 700;
-          letter-spacing: -1.5px;
+          letter-spacing: -2px;
           color: var(--c-white);
           text-align: center;
+          justify-self: center;
           transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
         }
 
         .service-row:hover .service-title {
-          transform: scale(1.02);
+          transform: translateX(20px);
           color: var(--c-white);
         }
 
@@ -86,6 +88,7 @@ export default function Services() {
           padding: 8px 16px;
           border-radius: 100px;
           transition: border-color 0.4s ease, color 0.4s ease;
+          justify-self: end;
         }
 
         .service-row:hover .service-tag {
@@ -138,18 +141,24 @@ export default function Services() {
 
         @media (max-width: 768px) {
           .service-row {
+            padding: 32px 0;
+          }
+          .service-content {
             grid-template-columns: 1fr;
             gap: 16px;
-            padding: 32px 0;
+            justify-items: center;
           }
           .service-row:hover {
             padding: 32px 16px;
           }
           .service-row:hover .service-title {
-            transform: scale(1.02);
+            transform: translateY(-5px);
+          }
+          .service-num {
+            justify-self: center;
           }
           .service-tag {
-            justify-self: start;
+            justify-self: center;
           }
         }
       `}</style>
