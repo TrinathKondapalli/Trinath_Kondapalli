@@ -11,8 +11,8 @@ function TwinklingDots() {
   const [dots, setDots] = useState<any[]>([]);
 
   useEffect(() => {
-    // Generate 40 random dots
-    const generated = Array.from({ length: 40 }, (_, i) => {
+    // Generate 100 random dots
+    const generated = Array.from({ length: 100 }, (_, i) => {
       const moveX = (Math.random() - 0.5) * 100; // random drift -50px to 50px
       const moveY = (Math.random() - 0.5) * 100;
       
