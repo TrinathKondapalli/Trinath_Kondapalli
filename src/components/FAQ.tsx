@@ -114,7 +114,7 @@ function FAQItem({ faq, index, isOpen, toggleOpen }: { faq: any, index: number, 
 }
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0); // Initialize first open
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleOpen = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
