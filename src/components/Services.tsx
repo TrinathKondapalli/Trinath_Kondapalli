@@ -62,16 +62,16 @@ export default function Services() {
 
         .service-title {
           font-family: var(--font-sans);
-          font-size: clamp(22px, 6vw, 36px);
+          font-size: clamp(32px, 8vw, 56px);
           font-weight: 700;
-          letter-spacing: -1px;
+          letter-spacing: -1.5px;
           color: var(--c-white);
-          text-align: left;
+          text-align: center;
           transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
         }
 
         .service-row:hover .service-title {
-          transform: translateX(20px);
+          transform: scale(1.02);
           color: var(--c-white);
         }
 
@@ -146,7 +146,7 @@ export default function Services() {
             padding: 32px 16px;
           }
           .service-row:hover .service-title {
-            transform: translateX(10px);
+            transform: scale(1.02);
           }
           .service-tag {
             justify-self: start;
