@@ -1,16 +1,50 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Reveal from './Reveal'
 
 export default function ProjectCard({ index, title, category, image, result, href = '#', large = false }: any) {
   const [hovered, setHovered] = useState(false)
+  const cardRef = useRef<HTMLAnchorElement>(null)
+  const lightRef = useRef<HTMLDivElement>(null)
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!cardRef.current || window.matchMedia('(hover: none)').matches) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width - 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+    
+    cardRef.current.style.transform = `perspective(800px) rotateY(${x * 12}deg) rotateX(${-y * 12}deg) scale(1.02)`
+    cardRef.current.style.transition = 'none'
+
+    if (lightRef.current) {
+      lightRef.current.style.left = (e.clientX - rect.left) + 'px'
+      lightRef.current.style.top = (e.clientY - rect.top) + 'px'
+      lightRef.current.style.opacity = '1'
+    }
+  }
+
+  const handleMouseEnter = () => {
+    setHovered(true)
+  }
+
+  const handleMouseLeave = () => {
+    setHovered(false)
+    if (!cardRef.current) return
+    cardRef.current.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)'
+    cardRef.current.style.transition = 'transform 0.5s ease'
+    if (lightRef.current) {
+      lightRef.current.style.opacity = '0'
+    }
+  }
 
   return (
     <Reveal delay={index * 80}>
       <Link
+        ref={cardRef}
         to={href}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onMouseMove={handleMouseMove}
         style={{
           display: 'block',
           position: 'relative',
@@ -20,6 +54,9 @@ export default function ProjectCard({ index, title, category, image, result, hre
           background: '#0d1f0d',
           textDecoration: 'none',
           cursor: 'none', 
+          transformStyle: 'preserve-3d',
+          willChange: 'transform',
+          transition: 'transform 0.5s ease'
         }}
         data-cursor-hover="true"
       >
@@ -36,8 +73,24 @@ export default function ProjectCard({ index, title, category, image, result, hre
             objectFit: 'cover',
             display: 'block',
             transition: 'transform 0.5s ease',
-            transform: hovered ? 'scale(1.04)' : 'scale(1)',
+            transform: hovered ? 'scale(1.06)' : 'scale(1)',
           }}
+        />
+
+        {/* Dynamic Light Highlight */}
+        <div 
+          ref={lightRef}
+          style={{
+            position: 'absolute',
+            width: 400,
+            height: 400,
+            background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%)',
+            pointerEvents: 'none',
+            transform: 'translate(-50%, -50%)',
+            opacity: 0,
+            transition: 'opacity 0.3s',
+            zIndex: 3
+          }} 
         />
 
         <span
