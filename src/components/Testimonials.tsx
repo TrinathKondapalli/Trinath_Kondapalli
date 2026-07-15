@@ -221,23 +221,32 @@ export default function Testimonials() {
 
         {/* Featured Hero Quote */}
         <Reveal delay={100}>
-          <div style={{position:'relative',maxWidth:'800px',margin:'0 auto',padding:'80px 0'}}>
+          <div className="featured-quote-wrapper">
 
             {/* Big decorative quote mark */}
-            <div style={{position:'absolute',top:0,left:'-40px',fontSize:'120px',color:'rgba(109,220,109,0.2)',lineHeight:1,fontFamily:'var(--font-display)',pointerEvents:'none'}}>
+            <div className="giant-quote-mark" style={{ fontSize: '160px', color: 'rgba(109,220,109,0.15)' }}>
               "
             </div>
 
             {/* The quote itself — floating, no card */}
-            <p style={{fontSize:'clamp(24px, 4vw, 36px)',lineHeight:'1.5',fontWeight:'300',color:'rgba(255,255,255,0.9)',margin:'0 0 40px 0'}}>
+            <p className="featured-text" style={{ 
+              fontSize: 'clamp(18px, 2.2vw, 22px)', 
+              fontStyle: 'italic', 
+              fontWeight: 300, 
+              color: 'rgba(255,255,255,0.9)', 
+              lineHeight: 1.85, 
+              maxWidth: 700, 
+              textAlign: 'center',
+              margin: '0 0 40px 0'
+            }}>
               "{featuredQuote.text}"
             </p>
 
             {/* Attribution */}
-            <div style={{display:'flex',flexDirection:'column',gap:'4px'}}>
-              <div style={{width:'40px',height:'2px',background:'#6ddc6d',marginBottom:'16px'}}></div>
-              <div style={{fontSize:'18px',fontWeight:'700',color:'#fff'}}>{featuredQuote.name}</div>
-              <div style={{fontSize:'14px',color:'rgba(255,255,255,0.5)'}}>{featuredQuote.role}, {featuredQuote.company}</div>
+            <div className="featured-author" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+              <div className="featured-divider" style={{ width: '80px', height: '1px', background: 'rgba(255,255,255,0.1)', marginBottom: '16px' }}></div>
+              <div className="featured-name" style={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>{featuredQuote.name}</div>
+              <div className="featured-role" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)' }}>{featuredQuote.role}, {featuredQuote.company}</div>
             </div>
           </div>
         </Reveal>
