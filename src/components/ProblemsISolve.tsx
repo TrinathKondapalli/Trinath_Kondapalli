@@ -1,20 +1,21 @@
 import Reveal from './Reveal';
+import { PenTool, Lightbulb, Rocket, ArrowUpRight } from 'lucide-react';
 
 const philosophies = [
   {
-    title: 'Think first',
-    desc: 'Great design starts with deep understanding. Strategy, architecture, and user psychology before a single pixel is drawn.',
-    tag: 'Strategy · Research'
+    title: 'Think First',
+    desc: 'I start every project with research and strategy to understand the problem before designing the solution.',
+    icon: <PenTool size={28} strokeWidth={1.5} color="var(--c-primary)" />
   },
   {
-    title: 'Ship fast',
-    desc: 'Speed to market is a feature. Modern frameworks and lean processes deliver quality without the bloat.',
-    tag: 'React · Next.js'
+    title: 'Design Smart',
+    desc: 'I design intuitive, user-centered interfaces that balance aesthetics with real-world usability.',
+    icon: <Lightbulb size={28} strokeWidth={1.5} color="var(--c-primary)" />
   },
   {
-    title: 'Iterate always',
-    desc: 'Launch is the starting line. Continuous refinement on real data ensures the product grows with its users.',
-    tag: 'Analytics · A/B'
+    title: 'Execute & Deliver',
+    desc: 'I turn ideas into high-quality digital products that are functional, scalable, and ready to perform.',
+    icon: <Rocket size={28} strokeWidth={1.5} color="var(--c-primary)" />
   }
 ];
 
@@ -49,7 +50,7 @@ export default function ProblemsISolve() {
           position: relative;
           z-index: 10;
           width: 100%;
-          max-width: 1440px;
+          max-width: 1200px; /* narrowed slightly for 3 cards */
           display: flex;
           flex-direction: column;
         }
@@ -78,7 +79,7 @@ export default function ProblemsISolve() {
           color: rgba(255,255,255,0.4);
           text-transform: lowercase;
           letter-spacing: -1px;
-          padding-left: 10vw; /* Indent for rhythm */
+          padding-left: 10vw;
         }
         
         .headline-accent {
@@ -89,72 +90,123 @@ export default function ProblemsISolve() {
         .philosophy-cards {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
           width: 100%;
-          border: 1px solid rgba(255,255,255,0.06);
-          background: rgba(255,255,255,0.06); /* Creates 1px dividers */
-          gap: 1px;
-          border-radius: 24px;
-          overflow: hidden;
         }
 
         .phil-card {
-          padding: 28px 24px;
-          background: #0d1f0d;
+          position: relative;
+          padding: 48px 32px;
+          background: rgba(10, 25, 12, 0.6);
+          border: 1px solid rgba(109, 220, 109, 0.15);
+          border-radius: 24px;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          transition: background 0.4s ease;
+          transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+          overflow: hidden;
+        }
+
+        .phil-card::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60%;
+          height: 1px;
+          background: var(--c-primary);
+          opacity: 0;
+          box-shadow: 0 -10px 40px 10px rgba(109, 220, 109, 0.4);
+          transition: opacity 0.4s ease;
         }
 
         .phil-card:hover {
-          background: #0f260f;
+          transform: translateY(-8px);
+          border-color: rgba(109, 220, 109, 0.3);
         }
 
-        .phil-index {
-          font-family: var(--font-sans);
-          font-size: 11px;
-          color: rgba(100,220,100,0.5);
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          font-weight: 600;
+        .phil-card:hover::after {
+          opacity: 1;
+        }
+
+        .phil-dot {
+          position: absolute;
+          top: 32px;
+          right: 32px;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: var(--c-primary);
+          box-shadow: 0 0 10px var(--c-primary);
+        }
+
+        .phil-icon-wrap {
+          width: 64px;
+          height: 64px;
+          border-radius: 50%;
+          background: rgba(109, 220, 109, 0.05);
+          border: 1px solid rgba(109, 220, 109, 0.2);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: inset 0 0 20px rgba(109, 220, 109, 0.1);
         }
 
         .phil-title {
           font-family: var(--font-sans);
-          font-size: 20px;
+          font-size: 28px;
           font-weight: 700;
           color: var(--c-white);
-          margin-top: 20px;
+          margin-top: 32px;
           margin-bottom: 0;
-          line-height: 1.2;
+          letter-spacing: -0.5px;
+        }
+
+        .phil-divider {
+          width: 32px;
+          height: 3px;
+          background: var(--c-primary);
+          border-radius: 2px;
+          margin: 20px 0;
         }
 
         .phil-desc {
           font-family: var(--font-sans);
-          font-size: 13px;
-          color: rgba(255,255,255,0.45);
-          line-height: 1.65;
-          margin-top: 12px;
-          margin-bottom: 32px;
+          font-size: 15px;
+          color: rgba(255,255,255,0.6);
+          line-height: 1.6;
+          margin-top: 0;
+          margin-bottom: 40px;
+          flex-grow: 1;
         }
-        
-        .phil-tag {
-          margin-top: auto;
+
+        .phil-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 20px;
+          border-radius: 100px;
+          border: 1px solid rgba(109, 220, 109, 0.2);
+          background: transparent;
+          color: var(--c-primary);
           font-family: var(--font-sans);
           font-size: 11px;
-          font-weight: 500;
-          color: rgba(100,220,100,0.7);
-          border: 0.5px solid rgba(100,220,100,0.25);
-          border-radius: 20px;
-          padding: 6px 12px;
-          letter-spacing: 0.05em;
+          font-weight: 600;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .phil-btn:hover {
+          background: rgba(109, 220, 109, 0.1);
+          border-color: rgba(109, 220, 109, 0.4);
         }
 
         @media (max-width: 1024px) {
           .headline-line { letter-spacing: -2px; }
-          .philosophy-cards { grid-template-columns: 1fr; border: none; background: transparent; gap: 0; }
-          .phil-card { border: 1px solid rgba(255,255,255,0.06); border-bottom: none; }
-          .phil-card:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
+          .philosophy-cards { grid-template-columns: 1fr; }
           .headline-italic { padding-left: 24px; }
           .headline-accent { padding-left: 12px; }
         }
@@ -200,12 +252,19 @@ export default function ProblemsISolve() {
         {/* 3-Column Philosophy Cards */}
         <div className="philosophy-cards">
           {philosophies.map((phil, i) => (
-            <Reveal key={i} delay={500 + (i * 100)}>
+            <Reveal key={i} delay={500 + (i * 100)} style={{ display: 'flex' }}>
               <div className="phil-card">
-                <div className="phil-index">0{i + 1}</div>
+                <div className="phil-dot" />
+                <div className="phil-icon-wrap">
+                  {phil.icon}
+                </div>
                 <h3 className="phil-title">{phil.title}</h3>
+                <div className="phil-divider" />
                 <p className="phil-desc">{phil.desc}</p>
-                <div className="phil-tag">{phil.tag}</div>
+                
+                <button className="phil-btn">
+                  LEARN MORE <ArrowUpRight size={14} strokeWidth={2.5} />
+                </button>
               </div>
             </Reveal>
           ))}
