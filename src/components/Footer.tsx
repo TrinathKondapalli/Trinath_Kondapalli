@@ -25,7 +25,7 @@ export default function Footer() {
 
         .huge-footer-text {
           font-family: var(--font-sans);
-          font-size: 7.5vw;
+          font-size: 8vw;
           font-weight: 900;
           line-height: 0.8;
           letter-spacing: -0.02em;
@@ -35,6 +35,8 @@ export default function Footer() {
           -webkit-text-fill-color: transparent;
           white-space: nowrap;
           margin-bottom: -1vw; /* pull it down slightly to touch the bottom */
+          width: 100%;
+          text-align: center;
         }
 
         /* Tablet */
@@ -47,8 +49,11 @@ export default function Footer() {
         /* Mobile */
         @media (max-width: 768px) {
           .huge-footer-text {
-            font-size: 10vw;
-            letter-spacing: -0.04em;
+            font-size: 9.5vw;
+            letter-spacing: -0.06em;
+            margin-left: -24px;
+            margin-right: -24px;
+            width: calc(100% + 48px);
           }
         }
       `}</style>
