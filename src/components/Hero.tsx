@@ -13,8 +13,8 @@ function TwinklingDots() {
   useEffect(() => {
     // Generate 40 random dots
     const generated = Array.from({ length: 40 }, (_, i) => {
-      const moveX = (Math.random() - 0.5) * 200; // random drift -100px to 100px
-      const moveY = (Math.random() - 0.5) * 200;
+      const moveX = (Math.random() - 0.5) * 800; // very wide random drift -400px to 400px
+      const moveY = (Math.random() - 0.5) * 800;
       
       return {
         id: i,
@@ -23,7 +23,7 @@ function TwinklingDots() {
         size: Math.random() * 2 + 2, // 2-4px
         duration: Math.random() * 3 + 3, // 3-6s for pulsing
         delay: Math.random() * 2,
-        moveDuration: Math.random() * 5 + 5, // 5-10s for drifting (much faster)
+        moveDuration: Math.random() * 5 + 8, // 8-13s for drifting
         moveX,
         moveY
       };
@@ -36,16 +36,16 @@ function TwinklingDots() {
       {dots.map(dot => (
         <motion.div
           key={dot.id}
-          initial={{ opacity: 0.3, x: 0, y: 0 }}
+          initial={{ opacity: 0.2, x: 0, y: 0 }}
           animate={{
-            opacity: [0.3, 0.8, 0.3],
-            x: [0, dot.moveX, 0],
-            y: [0, dot.moveY, 0]
+            opacity: 0.8,
+            x: dot.moveX,
+            y: dot.moveY
           }}
           transition={{
-            opacity: { duration: dot.duration, repeat: Infinity, ease: 'easeInOut', delay: dot.delay },
-            x: { duration: dot.moveDuration, repeat: Infinity, ease: 'easeInOut', delay: dot.delay },
-            y: { duration: dot.moveDuration, repeat: Infinity, ease: 'easeInOut', delay: dot.delay }
+            opacity: { duration: dot.duration, repeat: Infinity, repeatType: "mirror", ease: 'easeInOut', delay: dot.delay },
+            x: { duration: dot.moveDuration, repeat: Infinity, repeatType: "mirror", ease: 'easeInOut', delay: dot.delay },
+            y: { duration: dot.moveDuration, repeat: Infinity, repeatType: "mirror", ease: 'easeInOut', delay: dot.delay }
           }}
           style={{
             position: 'absolute',
