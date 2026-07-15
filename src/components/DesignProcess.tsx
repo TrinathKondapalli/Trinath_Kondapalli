@@ -106,37 +106,31 @@ export default function DesignProcess() {
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 style={{ overflow: 'hidden' }}
               >
-                <div 
-                  className="card-body-inner"
-                  style={{
-                    transform: isOpen ? 'translateY(0)' : 'translateY(-10px)',
-                    transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-                  }}
-                >
-                <div className="card-body-left">
-                  <p className="card-desc">{step.desc}</p>
-                  <div className="features-row">
-                  {step.features.map((f: any, i: number) => (
-                    <div key={i} className="feature-box">
-                      <div className="feature-icon">{f.icon}</div>
-                      <div className="feature-text">{f.text}</div>
+                <div className="card-body-inner">
+                  <div className="card-body-left">
+                    <p className="card-desc">{step.desc}</p>
+                    <div className="features-row">
+                    {step.features.map((f: any, i: number) => (
+                      <div key={i} className="feature-box">
+                        <div className="feature-icon">{f.icon}</div>
+                        <div className="feature-text">{f.text}</div>
+                      </div>
+                    ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-              <div className="card-body-right">
-                <div className="deliverables-title">Deliverables</div>
-                <div className="deliverables-list">
-                  {step.deliverables.map((d: any, i: number) => (
-                    <div key={i} className="deliverable-box">
-                      <div className="deliverable-icon">{d.icon}</div>
-                      <div className="deliverable-text">{d.text}</div>
+                  </div>
+                  <div className="card-body-right">
+                    <div className="deliverables-title">Deliverables</div>
+                    <div className="deliverables-list">
+                      {step.deliverables.map((d: any, i: number) => (
+                        <div key={i} className="deliverable-box">
+                          <div className="deliverable-icon">{d.icon}</div>
+                          <div className="deliverable-text">{d.text}</div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
-              </div>
-            </div>
-          </motion.div>
+              </motion.div>
             )}
           </AnimatePresence>
         </div>
