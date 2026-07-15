@@ -124,21 +124,21 @@ export default function ToolsMarquee() {
       </div>
 
       <div className="marquee-wrapper">
-        {/* Row 1: Forward, Large (Skills) */}
+        {/* Row 1: Forward, Large (Tools) */}
         <div className="marquee-track">
-          {displaySkills.map((skill, index) => (
+          {displayTools.map((tool, index) => (
             <div key={`r1-${index}`} className="marquee-item">
-              {skill}
+              {tool}
               <span className="marquee-dot">·</span>
             </div>
           ))}
         </div>
         
-        {/* Row 2: Reverse, Small */}
+        {/* Row 2: Reverse, Small (Skills) */}
         <div className="marquee-track reverse">
-          {displayTools.map((tool, index) => (
+          {displaySkills.map((skill, index) => (
             <div key={`r2-${index}`} className="marquee-item">
-              {tool}
+              {skill}
               <span className="marquee-dot">·</span>
             </div>
           ))}
