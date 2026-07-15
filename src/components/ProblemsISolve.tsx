@@ -1,5 +1,5 @@
 import Reveal from './Reveal';
-import { PenTool, Lightbulb, Rocket, ArrowUpRight } from 'lucide-react';
+import { PenTool, Lightbulb, Rocket } from 'lucide-react';
 
 const philosophies = [
   {
@@ -181,28 +181,7 @@ export default function ProblemsISolve() {
           flex-grow: 1;
         }
 
-        .phil-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 10px 20px;
-          border-radius: 100px;
-          border: 1px solid rgba(109, 220, 109, 0.2);
-          background: transparent;
-          color: var(--c-primary);
-          font-family: var(--font-sans);
-          font-size: 11px;
-          font-weight: 600;
-          letter-spacing: 1px;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: background 0.3s ease, border-color 0.3s ease;
-        }
 
-        .phil-btn:hover {
-          background: rgba(109, 220, 109, 0.1);
-          border-color: rgba(109, 220, 109, 0.4);
-        }
 
         @media (max-width: 1024px) {
           .headline-line { letter-spacing: -2px; }
@@ -262,9 +241,6 @@ export default function ProblemsISolve() {
                 <div className="phil-divider" />
                 <p className="phil-desc">{phil.desc}</p>
                 
-                <button className="phil-btn">
-                  LEARN MORE <ArrowUpRight size={14} strokeWidth={2.5} />
-                </button>
               </div>
             </Reveal>
           ))}
