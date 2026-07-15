@@ -23,7 +23,7 @@ function TwinklingDots() {
         size: Math.random() * 2 + 2, // 2-4px
         duration: Math.random() * 3 + 3, // 3-6s for pulsing
         delay: Math.random() * 2,
-        moveDuration: Math.random() * 10 + 15, // 15-25s for drifting
+        moveDuration: Math.random() * 5 + 5, // 5-10s for drifting (much faster)
         moveX,
         moveY
       };
