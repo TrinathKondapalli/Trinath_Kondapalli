@@ -25,6 +25,7 @@ export default function Services() {
           position: relative;
           width: 100%;
           max-width: 1200px;
+          margin: 0 auto;
           padding: 48px 0;
           border-bottom: 1px solid rgba(255,255,255,0.05);
           cursor: pointer;
@@ -32,7 +33,7 @@ export default function Services() {
           overflow: hidden;
         }
 
-        .service-row:first-of-type {
+        .service-row.is-first {
           border-top: 1px solid rgba(255,255,255,0.05);
         }
 
@@ -42,7 +43,7 @@ export default function Services() {
 
         .service-content {
           display: grid;
-          grid-template-columns: 1fr auto 1fr;
+          grid-template-columns: 80px 1fr auto;
           align-items: center;
           position: relative;
           z-index: 10;
@@ -54,7 +55,6 @@ export default function Services() {
           font-weight: 400;
           color: rgba(255,255,255,0.2);
           transition: color 0.4s ease;
-          justify-self: start;
         }
 
         .service-row:hover .service-num {
@@ -63,12 +63,11 @@ export default function Services() {
 
         .service-title {
           font-family: var(--font-sans);
-          font-size: clamp(40px, 6vw, 80px);
+          font-size: 36px;
           font-weight: 700;
-          letter-spacing: -2px;
+          letter-spacing: -1px;
           color: var(--c-white);
-          text-align: center;
-          justify-self: center;
+          text-align: left;
           transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
         }
 
@@ -88,7 +87,6 @@ export default function Services() {
           padding: 8px 16px;
           border-radius: 100px;
           transition: border-color 0.4s ease, color 0.4s ease;
-          justify-self: end;
         }
 
         .service-row:hover .service-tag {
@@ -141,24 +139,18 @@ export default function Services() {
 
         @media (max-width: 768px) {
           .service-row {
-            padding: 32px 0;
-          }
-          .service-content {
             grid-template-columns: 1fr;
             gap: 16px;
-            justify-items: center;
+            padding: 32px 0;
           }
           .service-row:hover {
             padding: 32px 16px;
           }
           .service-row:hover .service-title {
-            transform: translateY(-5px);
-          }
-          .service-num {
-            justify-self: center;
+            transform: translateX(10px);
           }
           .service-tag {
-            justify-self: center;
+            justify-self: start;
           }
         }
       `}</style>
@@ -199,7 +191,7 @@ export default function Services() {
 function ServiceRow({ service, index }: { service: any, index: number }) {
   return (
     <Reveal delay={index * 80} style={{ width: '100%' }}>
-      <div className="service-row">
+      <div className={`service-row${index === 0 ? ' is-first' : ''}`}>
         <div className="service-content">
           <div className="service-num">{service.num}</div>
           <div className="service-title">{service.title}</div>
