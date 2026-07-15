@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import Reveal from './Reveal';
 import { 
   Search, Brain, Target, Users, FileText, TrendingUp, Network, 
@@ -76,8 +76,6 @@ export default function DesignProcess() {
   const [open, setOpen] = useState<number | null>(0);
 
   const AccordionItem = ({ step, index, isOpen, onClick }: any) => {
-    const contentRef = useRef<HTMLDivElement>(null);
-
     return (
       <div className="process-row">
         <div className={`timeline-col ${isOpen ? 'active' : ''}`}>
@@ -135,6 +133,7 @@ export default function DesignProcess() {
                       <div className="deliverable-text">{d.text}</div>
                     </div>
                   ))}
+                </div>
                 </div>
               </div>
             </div>
