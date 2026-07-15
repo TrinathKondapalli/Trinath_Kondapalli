@@ -74,7 +74,7 @@ const steps = [
 ];
 
 export default function DesignProcess() {
-  const [open, setOpen] = useState<number | null>(0);
+  const [open, setOpen] = useState<number | null>(null);
 
   const AccordionItem = ({ step, index, isOpen, onClick }: any) => {
     return (
@@ -100,6 +100,7 @@ export default function DesignProcess() {
           <AnimatePresence initial={false}>
             {isOpen && (
               <motion.div
+                key="accordion-content"
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
