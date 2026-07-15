@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Reveal from './Reveal';
 
 const steps = [
@@ -9,7 +9,51 @@ const steps = [
 ];
 
 export default function DesignProcess() {
-  const [open, setOpen] = useState<number | null>(null);
+  const [open, setOpen] = useState<number | null>(0);
+
+  const AccordionItem = ({ step, index, isOpen, onClick }: any) => {
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    return (
+      <div className={`accordion-row ${isOpen ? 'active' : ''}`} onClick={onClick}>
+        <div className="accordion-header">
+          <div className="step-num">0{index + 1}</div>
+          <div className="step-title">{step.title}</div>
+          <div className="icon-wrap" style={{ 
+              transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
+              transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              fontSize: '28px',
+              fontWeight: 300,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+            +
+          </div>
+        </div>
+        <div 
+          style={{ 
+            maxHeight: isOpen ? (contentRef.current?.scrollHeight || 1000) + 'px' : '0px',
+            overflow: 'hidden',
+            transition: 'max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease',
+            opacity: isOpen ? 1 : 0
+          }}
+        >
+          <div className="accordion-content-inner" ref={contentRef}>
+            <p className="step-desc">{step.desc}</p>
+            <div>
+              <div className="deliverables-title">Deliverables</div>
+              <div className="deliverables-list">
+                {step.deliverables.map((d: string, i: number) => (
+                  <div key={i} className="deliverable-item">{d}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <section id="process" style={{
@@ -102,7 +146,6 @@ export default function DesignProcess() {
 
         .accordion-row.active .icon-wrap {
           color: var(--c-primary);
-          transform: rotate(180deg);
         }
 
         .accordion-content-inner {
@@ -239,25 +282,13 @@ export default function DesignProcess() {
       {/* Interactive Accordion */}
       <div className="process-container" style={{ width: '100%', maxWidth: '900px', display: 'flex', flexDirection: 'column' }}>
         {steps.map((s, i) => (
-          <div key={i} onClick={() => setOpen(open===i?null:i)}
-            style={{borderBottom:'1px solid rgba(255,255,255,0.08)',padding:'20px 0',cursor:'pointer',
-              borderLeft: open===i ? '2px solid #6ddc6d' : '2px solid transparent',
-              paddingLeft: open===i ? 20 : 0, transition:'all 0.2s'}}>
-            <div style={{display:'flex',justifyContent:'space-between',fontSize:'24px',fontWeight:'500', color: 'var(--c-white)'}}>
-              {s.title}
-              <span>{open===i?'−':'+'}</span>
-            </div>
-            {open===i && (
-              <div style={{paddingTop:'16px',color:'rgba(255,255,255,0.6)',fontSize:'16px',lineHeight:'1.6'}}>
-                <p style={{marginBottom:'16px'}}>{s.desc}</p>
-                <div style={{display:'flex',gap:'8px', flexWrap: 'wrap'}}>
-                  {s.deliverables.map((d, idx)=>(
-                    <span key={idx} style={{padding:'4px 12px',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'20px',fontSize:'12px', color: 'var(--c-white)'}}>{d}</span>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+          <AccordionItem 
+            key={i} 
+            step={s} 
+            index={i} 
+            isOpen={open === i} 
+            onClick={() => setOpen(open === i ? null : i)} 
+          />
         ))}
       </div>
     </section>
