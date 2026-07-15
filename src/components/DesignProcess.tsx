@@ -100,16 +100,24 @@ export default function DesignProcess() {
           
           <div 
             style={{ 
-              maxHeight: isOpen ? (contentRef.current?.scrollHeight || 1000) + 'px' : '0px',
-              overflow: 'hidden',
-              transition: 'max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease',
-              opacity: isOpen ? 1 : 0
+              display: 'grid',
+              gridTemplateRows: isOpen ? '1fr' : '0fr',
+              transition: 'grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
             }}
           >
-            <div className="card-body-inner" ref={contentRef}>
-              <div className="card-body-left">
-                <p className="card-desc">{step.desc}</p>
-                <div className="features-row">
+            <div style={{ overflow: 'hidden' }}>
+              <div 
+                className="card-body-inner" 
+                style={{
+                  opacity: isOpen ? 1 : 0,
+                  transform: isOpen ? 'translateY(0)' : 'translateY(-10px)',
+                  transition: 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                  transitionDelay: isOpen ? '0.1s' : '0s'
+                }}
+              >
+                <div className="card-body-left">
+                  <p className="card-desc">{step.desc}</p>
+                  <div className="features-row">
                   {step.features.map((f: any, i: number) => (
                     <div key={i} className="feature-box">
                       <div className="feature-icon">{f.icon}</div>
@@ -249,11 +257,17 @@ export default function DesignProcess() {
           transition: all 0.4s ease;
         }
 
-        .process-card.active .card-icon {
+        .card-header:hover .card-icon {
+          color: rgba(255,255,255,0.6);
+          border-color: rgba(255,255,255,0.15);
+        }
+
+        .process-card.active .card-icon,
+        .process-card.active .card-header:hover .card-icon {
           background: rgba(109,220,109,0.05);
-          border-color: rgba(109,220,109,0.25);
+          border-color: rgba(109,220,109,0.3);
           color: var(--c-primary);
-          box-shadow: inset 0 0 20px rgba(109,220,109,0.1);
+          box-shadow: 0 0 20px rgba(109,220,109,0.2), inset 0 0 10px rgba(109,220,109,0.1);
         }
 
         .card-title-group {
