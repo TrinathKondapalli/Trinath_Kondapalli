@@ -279,6 +279,7 @@ export default function Contact() {
           color: var(--c-primary);
           font-weight: 500;
           text-align: left;
+          white-space: nowrap;
         }
 
         .social-row {
