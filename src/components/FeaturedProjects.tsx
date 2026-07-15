@@ -33,67 +33,75 @@ export default function FeaturedProjects() {
           margin-bottom: 64px;
         }
 
-        .typo-row {
+        .project-list-row {
           display: flex;
           align-items: center;
           justify-content: space-between;
           padding: 24px 0;
           border-bottom: 0.5px solid rgba(255,255,255,0.08);
           cursor: pointer;
-          transition: padding-left 0.2s ease, background 0.3s ease;
+          transition: padding-left 0.2s ease, background 0.2s ease;
           text-decoration: none;
-          color: var(--c-white);
           width: 100%;
           max-width: 1440px;
         }
-
-        .typo-row:hover {
+        
+        .project-list-row:hover {
           padding-left: 12px;
           background: rgba(109, 220, 109, 0.02);
         }
 
-        .typo-num {
+        .row-num {
           font-family: var(--font-display);
           font-style: italic;
           color: rgba(255, 255, 255, 0.4);
           font-size: 16px;
-          width: 60px;
+          min-width: 32px;
         }
 
-        .typo-title {
+        .row-title {
           font-family: var(--font-sans);
           font-size: clamp(20px, 3vw, 32px);
           font-weight: 500;
-          flex: 1;
+          color: var(--c-white);
         }
 
-        .typo-category {
+        .row-category {
           font-family: var(--font-sans);
           font-size: 14px;
           color: rgba(255, 255, 255, 0.5);
-          width: 200px;
-          text-align: right;
         }
         
-        .typo-result {
+        .row-result {
           font-family: var(--font-sans);
           font-size: 14px;
           color: var(--c-primary);
           font-weight: 600;
-          width: 200px;
-          text-align: right;
+        }
+
+        .row-arrow {
+          font-family: var(--font-sans);
+          font-size: 20px;
+          color: var(--c-white);
+          opacity: 0.5;
+          transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .project-list-row:hover .row-arrow {
+          opacity: 1;
+          transform: translateX(4px);
         }
 
         @media (max-width: 1024px) {
           .editorial-grid { grid-template-columns: repeat(2, 1fr); }
-          .typo-category { display: none; }
+          .row-category { display: none; }
         }
 
         @media (max-width: 768px) {
           .editorial-grid { grid-template-columns: 1fr; }
-          .typo-row { padding: 16px 12px; }
-          .typo-num { width: 40px; }
-          .typo-result { width: 140px; text-align: right; }
+          .project-list-row { padding: 16px 0; }
+          .project-list-row:hover { padding-left: 4px; }
+          .row-result { font-size: 13px; }
         }
       `}</style>
 
@@ -130,15 +138,15 @@ export default function FeaturedProjects() {
       <div style={{ width: '100%', maxWidth: 1440, display: 'flex', flexDirection: 'column' }}>
         {projects.slice(3).map((project, i) => (
           <Reveal key={project.index} delay={i * 100}>
-            <Link to={project.href} className="typo-row" data-cursor-hover="true">
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
-                <div className="typo-num">0{project.index}</div>
-                <div className="typo-title">{project.title}</div>
+            <Link to={project.href} className="project-list-row" data-cursor-hover="true">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+                <span className="row-num">0{project.index}</span>
+                <span className="row-title">{project.title}</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-                <div className="typo-category">{project.category}</div>
-                <div className="typo-result">{project.result}</div>
-                <div style={{ color: 'var(--c-primary)', fontSize: '20px' }}>→</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
+                <span className="row-category">{project.category}</span>
+                <span className="row-result">{project.result}</span>
+                <span className="row-arrow">→</span>
               </div>
             </Link>
           </Reveal>
