@@ -13,8 +13,8 @@ function TwinklingDots() {
   useEffect(() => {
     // Generate 40 random dots
     const generated = Array.from({ length: 40 }, (_, i) => {
-      const moveX = (Math.random() - 0.5) * 100; // random drift -50px to 50px
-      const moveY = (Math.random() - 0.5) * 100;
+      const moveX = (Math.random() - 0.5) * 200; // random drift -100px to 100px
+      const moveY = (Math.random() - 0.5) * 200;
       
       return {
         id: i,
