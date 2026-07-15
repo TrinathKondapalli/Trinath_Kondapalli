@@ -36,9 +36,9 @@ function TwinklingDots() {
       {dots.map(dot => (
         <motion.div
           key={dot.id}
-          initial={{ opacity: 0.2, x: 0, y: 0 }}
+          initial={{ opacity: 0.1, x: 0, y: 0 }}
           animate={{
-            opacity: [0.2, 0.8, 0.2],
+            opacity: [0.1, 0.4, 0.1],
             x: [0, dot.moveX, 0],
             y: [0, dot.moveY, 0]
           }}
@@ -55,7 +55,7 @@ function TwinklingDots() {
             height: dot.size,
             background: 'var(--c-primary)',
             borderRadius: '50%',
-            filter: 'blur(1px)'
+            boxShadow: '0 0 4px var(--c-primary)' // subtle glow
           }}
         />
       ))}
