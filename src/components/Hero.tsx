@@ -13,8 +13,8 @@ function TwinklingDots() {
   useEffect(() => {
     // Generate 40 random dots
     const generated = Array.from({ length: 40 }, (_, i) => {
-      const moveX = (Math.random() - 0.5) * 600; // random drift distance
-      const moveY = (Math.random() - 0.5) * 600;
+      const moveX = (Math.random() - 0.5) * 300; // random drift distance
+      const moveY = (Math.random() - 0.5) * 300;
       
       return {
         id: i,
@@ -23,7 +23,7 @@ function TwinklingDots() {
         size: Math.random() * 2 + 2, // 2-4px
         duration: Math.random() * 3 + 3, // 3-6s for pulsing
         delay: Math.random() * 2,
-        moveDuration: Math.random() * 10 + 15, // 10-25s for drifting
+        moveDuration: Math.random() * 20 + 30, // 30-50s for drifting (very slow)
         moveX,
         moveY
       };
