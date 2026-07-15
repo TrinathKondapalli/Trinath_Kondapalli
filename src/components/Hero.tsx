@@ -287,6 +287,8 @@ export default function Hero() {
             loading="eager"
             fetchPriority="high"
             decoding="async"
+            width={900}
+            height={1200}
             style={{ 
               width: '100%', 
               height: '100%', 
