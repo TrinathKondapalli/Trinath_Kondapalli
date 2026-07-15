@@ -257,8 +257,10 @@ export default function DesignProcess() {
         }
 
         .card-header:hover .card-icon {
-          color: rgba(255,255,255,0.6);
-          border-color: rgba(255,255,255,0.15);
+          background: rgba(109,220,109,0.05);
+          color: var(--c-primary);
+          border-color: rgba(109,220,109,0.25);
+          box-shadow: 0 0 15px rgba(109,220,109,0.15), inset 0 0 10px rgba(109,220,109,0.05);
         }
 
         .process-card.active .card-icon,
