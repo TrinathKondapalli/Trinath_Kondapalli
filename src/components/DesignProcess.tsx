@@ -100,16 +100,16 @@ export default function DesignProcess() {
             style={{ 
               display: 'grid',
               gridTemplateRows: isOpen ? '1fr' : '0fr',
-              transition: 'grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
+              transition: 'grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
             }}
           >
-            <div style={{ overflow: 'hidden' }}>
+            <div style={{ overflow: 'hidden', minHeight: 0 }}>
               <div 
                 className="card-body-inner" 
                 style={{
                   opacity: isOpen ? 1 : 0,
                   transform: isOpen ? 'translateY(0)' : 'translateY(-10px)',
-                  transition: 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                  transition: 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                   transitionDelay: isOpen ? '0.1s' : '0s'
                 }}
               >
