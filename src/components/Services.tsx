@@ -63,7 +63,7 @@ export default function Services() {
 
         .service-title {
           font-family: var(--font-sans);
-          font-size: 36px;
+          font-size: clamp(32px, 6vw, 56px);
           font-weight: 700;
           letter-spacing: -1px;
           color: var(--c-white);
