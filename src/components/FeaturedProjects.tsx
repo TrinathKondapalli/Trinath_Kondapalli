@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProjectCard from './ProjectCard';
 import Reveal from './Reveal';
@@ -13,21 +12,6 @@ const projects = [
 ];
 
 export default function FeaturedProjects() {
-  const [hoverImage, setHoverImage] = useState<string | null>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (hoverImage) {
-        // Use requestAnimationFrame for smoother following if desired, 
-        // but state update is usually fine for a simple portfolio effect
-        setMousePos({ x: e.clientX, y: e.clientY });
-      }
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [hoverImage]);
-
   return (
     <section id="work" style={{
       position: 'relative',
@@ -143,65 +127,12 @@ export default function FeaturedProjects() {
         </div>
       </Reveal>
 
-      {/* Projects Grid (Top 3) */}
+      {/* Projects Grid */}
       <div className="editorial-grid">
-        {projects.slice(0, 3).map((project) => (
+        {projects.map((project) => (
           <ProjectCard key={project.index} {...project} />
         ))}
       </div>
-
-      {/* Typographic Rows (Remaining) */}
-      <div style={{ width: '100%', maxWidth: 1440, display: 'flex', flexDirection: 'column' }}>
-        {projects.slice(3).map((project, i) => (
-          <Reveal key={project.index} delay={i * 100}>
-            <Link 
-              to={project.href} 
-              className="project-list-row" 
-              data-cursor-hover="true"
-              onMouseEnter={(e) => {
-                setMousePos({ x: e.clientX, y: e.clientY });
-                setHoverImage(project.image);
-              }}
-              onMouseLeave={() => setHoverImage(null)}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-                <span className="row-num">0{project.index}</span>
-                <span className="row-title">{project.title}</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-                <span className="row-category">{project.category}</span>
-                <span className="row-result">{project.result}</span>
-                <span className="row-arrow">→</span>
-              </div>
-            </Link>
-          </Reveal>
-        ))}
-      </div>
-      {/* Floating Hover Image Portal */}
-      {hoverImage && (
-        <div style={{
-          position: 'fixed',
-          top: mousePos.y,
-          left: mousePos.x,
-          width: 320,
-          height: 220,
-          pointerEvents: 'none',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 9999,
-          borderRadius: 8,
-          overflow: 'hidden',
-          boxShadow: '0 30px 60px rgba(0,0,0,0.5)',
-          animation: 'fadeInScale 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards'
-        }}>
-          <img src={hoverImage} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
-      )}
-      <style>{`
-        @keyframes fadeInScale {
-          from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
-          to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        }
-      `}</style>
     </section>
   );
 }
