@@ -215,6 +215,12 @@ export default function DesignProcess() {
           box-shadow: 0 0 20px rgba(109,220,109,0.2), inset 0 0 10px rgba(109,220,109,0.1);
         }
 
+        .process-row:hover:not(:has(.timeline-col.active)) .timeline-num {
+          border-color: rgba(109,220,109,0.25);
+          color: var(--c-primary);
+          box-shadow: 0 0 15px rgba(109,220,109,0.15), inset 0 0 10px rgba(109,220,109,0.05);
+        }
+
         .process-card {
           flex-grow: 1;
           background: rgba(255,255,255,0.02);
