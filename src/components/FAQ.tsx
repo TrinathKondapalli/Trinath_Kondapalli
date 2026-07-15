@@ -31,13 +31,7 @@ const ChatGraphic = () => (
 const faqs = [
   {
     question: "How do I know we're a good fit before committing?",
-    answer: "Every project begins with a free 30-minute discovery call.\nNo pitch — just a real conversation to see if we align.\nIf I'm not the right fit, I'll honestly let you know.",
-    features: [
-      { icon: <Phone size={16} />, title: "No Obligation", desc: "Free 30-min call" },
-      { icon: <MessageSquare size={16} />, title: "Honest Feedback", desc: "Transparent from start" },
-      { icon: <CheckCircle2 size={16} />, title: "Right Match Only", desc: "Quality over quantity" }
-    ],
-    graphic: true
+    answer: "Every project begins with a free 30-minute discovery call.\nNo pitch — just a real conversation to see if we align.\nIf I'm not the right fit, I'll honestly let you know."
   },
   {
     question: "What's your typical project timeline?",
