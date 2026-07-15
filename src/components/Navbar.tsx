@@ -124,6 +124,7 @@ export default function Navbar() {
         {/* Desktop CTA Button */}
         <GlobalMagneticButton
           className="cta-btn"
+          onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
           style={{
             color: 'var(--c-base)', fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: 15,
             padding: '0 24px', height: '100%', minHeight: 48, borderRadius: 100, border: 'none',
@@ -185,7 +186,12 @@ export default function Navbar() {
                 {item}
               </a>
             ))}
-            <button style={{
+            <button 
+              onClick={() => {
+                setIsOpen(false);
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              style={{
               background: 'linear-gradient(135deg, var(--c-primary), var(--c-secondary))',
               color: 'var(--c-base)', fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: 16,
               padding: '16px', borderRadius: 100, border: 'none',
