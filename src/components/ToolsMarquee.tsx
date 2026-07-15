@@ -1,9 +1,16 @@
-const tools = [
-  'Figma', 'React', 'Next.js', 'TypeScript', 'Tailwind', 
-  'Framer', 'GSAP', 'Node.js', 'Webflow', 'After Effects'
+const skills = [
+  'UI/UX Design', 'Video Editing', 'Motion Graphics', 'Graphic Design', 'Frontend Development'
 ];
 
-// Double the array to ensure seamless infinite looping
+const tools = [
+  'Figma', 'Adobe XD', 'Framer', 'Paper', 'Adobe Premiere Pro', 
+  'DaVinci Resolve', 'CapCut Desktop', 'Adobe After Effects', 
+  'Blender', 'Spline', 'Adobe Photoshop', 'Adobe Illustrator', 
+  'Canva', 'Visual Studio Code', 'Anti Gravity', 'Cursor', 'Lovable', 'Windsurf'
+];
+
+// Duplicate for seamless infinite looping
+const displaySkills = [...skills, ...skills, ...skills, ...skills, ...skills, ...skills];
 const displayTools = [...tools, ...tools, ...tools, ...tools];
 
 export default function ToolsMarquee() {
@@ -113,15 +120,15 @@ export default function ToolsMarquee() {
       `}</style>
 
       <div className="marquee-headline">
-        Tools I reach for
+        Skills & Tools I reach for
       </div>
 
       <div className="marquee-wrapper">
-        {/* Row 1: Forward, Large */}
+        {/* Row 1: Forward, Large (Skills) */}
         <div className="marquee-track">
-          {displayTools.map((tool, index) => (
+          {displaySkills.map((skill, index) => (
             <div key={`r1-${index}`} className="marquee-item">
-              {tool}
+              {skill}
               <span className="marquee-dot">·</span>
             </div>
           ))}
