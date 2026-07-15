@@ -13,8 +13,8 @@ function TwinklingDots() {
   useEffect(() => {
     // Generate 40 random dots
     const generated = Array.from({ length: 40 }, (_, i) => {
-      const moveX = (Math.random() - 0.5) * 800; // very wide random drift -400px to 400px
-      const moveY = (Math.random() - 0.5) * 800;
+      const moveX = (Math.random() - 0.5) * 600; // random drift distance
+      const moveY = (Math.random() - 0.5) * 600;
       
       return {
         id: i,
@@ -23,7 +23,7 @@ function TwinklingDots() {
         size: Math.random() * 2 + 2, // 2-4px
         duration: Math.random() * 3 + 3, // 3-6s for pulsing
         delay: Math.random() * 2,
-        moveDuration: Math.random() * 5 + 8, // 8-13s for drifting
+        moveDuration: Math.random() * 10 + 15, // 10-25s for drifting
         moveX,
         moveY
       };
@@ -33,30 +33,33 @@ function TwinklingDots() {
 
   return (
     <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1 }}>
+      <style>{`
+        @keyframes native-drift {
+          0%, 100% { transform: translate(0px, 0px); }
+          50% { transform: translate(var(--moveX), var(--moveY)); }
+        }
+        @keyframes native-pulse {
+          0%, 100% { opacity: 0.2; }
+          50% { opacity: 0.8; }
+        }
+      `}</style>
       {dots.map(dot => (
-        <motion.div
+        <div
           key={dot.id}
-          initial={{ opacity: 0.2, x: 0, y: 0 }}
-          animate={{
-            opacity: 0.8,
-            x: dot.moveX,
-            y: dot.moveY
-          }}
-          transition={{
-            opacity: { duration: dot.duration, repeat: Infinity, repeatType: "mirror", ease: 'easeInOut', delay: dot.delay },
-            x: { duration: dot.moveDuration, repeat: Infinity, repeatType: "mirror", ease: 'easeInOut', delay: dot.delay },
-            y: { duration: dot.moveDuration, repeat: Infinity, repeatType: "mirror", ease: 'easeInOut', delay: dot.delay }
-          }}
           style={{
             position: 'absolute',
             left: `${dot.x}%`,
             top: `${dot.y}%`,
-            width: dot.size + 1, // slightly larger
+            width: dot.size + 1,
             height: dot.size + 1,
             background: 'var(--c-primary)',
             borderRadius: '50%',
-            boxShadow: '0 0 8px var(--c-primary)' // stronger glow
-          }}
+            boxShadow: '0 0 8px var(--c-primary)',
+            '--moveX': `${dot.moveX}px`,
+            '--moveY': `${dot.moveY}px`,
+            animation: `native-drift ${dot.moveDuration}s ease-in-out infinite, native-pulse ${dot.duration}s ease-in-out infinite`,
+            animationDelay: `${dot.delay}s`
+          } as React.CSSProperties}
         />
       ))}
     </div>
