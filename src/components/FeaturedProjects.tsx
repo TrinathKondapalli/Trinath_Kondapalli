@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import ProjectCard from './ProjectCard';
 import Reveal from './Reveal';
 

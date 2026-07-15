@@ -73,11 +73,12 @@ export default function ToolsMarquee() {
           display: flex;
           white-space: nowrap;
           width: fit-content;
-          animation: marquee 35s linear infinite;
+          animation: marquee 75s linear infinite;
         }
         
         .marquee-track.reverse {
           animation-direction: reverse;
+          animation-duration: 55s; 
         }
 
         .marquee-item {

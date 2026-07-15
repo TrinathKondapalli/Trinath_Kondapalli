@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Minus, Phone, MessageSquare, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Plus, Minus, ArrowRight } from 'lucide-react';
 import Reveal from './Reveal';
 
 const ChatGraphic = () => (

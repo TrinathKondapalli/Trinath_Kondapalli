@@ -73,71 +73,77 @@ const steps = [
   },
 ];
 
-export default function DesignProcess() {
-  const [open, setOpen] = useState<number | null>(null);
+function AccordionItem({ step, index, isOpen, onClick }: any) {
+  return (
+    <div className="process-row">
+      <div className={`timeline-col ${isOpen ? 'active' : ''}`}>
+        <div className="timeline-num">0{index + 1}</div>
+      </div>
 
-  const AccordionItem = ({ step, index, isOpen, onClick }: any) => {
-    return (
-      <div className="process-row">
-        <div className={`timeline-col ${isOpen ? 'active' : ''}`}>
-          <div className="timeline-num">0{index + 1}</div>
-        </div>
-        
-        <div className={`process-card ${isOpen ? 'active' : ''}`}>
-          <div className="card-header" onClick={onClick}>
-            <div className="card-icon">
-              {step.mainIcon}
-            </div>
-            <div className="card-title-group">
-              <div className="card-title">{step.title}</div>
-              <div className="card-subtitle">{step.subtitle}</div>
-            </div>
-            <div className="card-indicator">
-              {isOpen ? <div className="active-dot" /> : <Plus size={20} color="rgba(255,255,255,0.4)" />}
-            </div>
+      <div className={`process-card ${isOpen ? 'active' : ''}`}>
+        <div className="card-header" onClick={onClick}>
+          <div className="card-icon">
+            {step.mainIcon}
           </div>
-          
-          <AnimatePresence initial={false}>
-            {isOpen && (
-              <motion.div
-                key="accordion-content"
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                style={{ overflow: 'hidden' }}
-              >
-                <div className="card-body-inner">
-                  <div className="card-body-left">
-                    <p className="card-desc">{step.desc}</p>
-                    <div className="features-row">
-                    {step.features.map((f: any, i: number) => (
-                      <div key={i} className="feature-box">
-                        <div className="feature-icon">{f.icon}</div>
-                        <div className="feature-text">{f.text}</div>
-                      </div>
-                    ))}
+          <div className="card-title-group">
+            <div className="card-title">{step.title}</div>
+            <div className="card-subtitle">{step.subtitle}</div>
+          </div>
+          <div className="card-indicator">
+            <motion.div
+              animate={{ rotate: isOpen ? 45 : 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
+              <Plus size={20} color={isOpen ? 'var(--c-primary)' : 'rgba(255,255,255,0.4)'} />
+            </motion.div>
+          </div>
+        </div>
+
+        <AnimatePresence initial={false}>
+          {isOpen && (
+            <motion.div
+              key="accordion-content"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              style={{ overflow: 'hidden' }}
+            >
+              <div className="card-body-inner">
+                <div className="card-body-left">
+                  <p className="card-desc">{step.desc}</p>
+                  <div className="features-row">
+                  {step.features.map((f: any, i: number) => (
+                    <div key={i} className="feature-box">
+                      <div className="feature-icon">{f.icon}</div>
+                      <div className="feature-text">{f.text}</div>
                     </div>
-                  </div>
-                  <div className="card-body-right">
-                    <div className="deliverables-title">Deliverables</div>
-                    <div className="deliverables-list">
-                      {step.deliverables.map((d: any, i: number) => (
-                        <div key={i} className="deliverable-box">
-                          <div className="deliverable-icon">{d.icon}</div>
-                          <div className="deliverable-text">{d.text}</div>
-                        </div>
-                      ))}
-                    </div>
+                  ))}
                   </div>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+                <div className="card-body-right">
+                  <div className="deliverables-title">Deliverables</div>
+                  <div className="deliverables-list">
+                    {step.deliverables.map((d: any, i: number) => (
+                      <div key={i} className="deliverable-box">
+                        <div className="deliverable-icon">{d.icon}</div>
+                        <div className="deliverable-text">{d.text}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    );
-  };
+    </div>
+  );
+}
+
+export default function DesignProcess() {
+  const [open, setOpen] = useState<number | null>(null);
 
   return (
     <section id="process" style={{
@@ -315,14 +321,6 @@ export default function DesignProcess() {
 
         .process-card:not(.active):hover .card-indicator {
           background: rgba(255,255,255,0.05);
-        }
-
-        .active-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: var(--c-primary);
-          box-shadow: 0 0 12px var(--c-primary);
         }
 
         .card-body-inner {
