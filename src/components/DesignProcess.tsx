@@ -223,7 +223,7 @@ export default function DesignProcess() {
           border: 1px solid rgba(255,255,255,0.05);
           border-radius: 16px;
           overflow: hidden;
-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
         }
 
         .process-card:hover:not(.active) {
