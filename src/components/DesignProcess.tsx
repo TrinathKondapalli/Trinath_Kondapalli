@@ -1,25 +1,141 @@
-import { PenTool, Lightbulb, Rocket, ArrowUpRight } from 'lucide-react';
+import { useState, useRef } from 'react';
 import Reveal from './Reveal';
+import { 
+  Search, Brain, Target, Users, FileText, TrendingUp, Network, 
+  Layout, Smartphone, Code, CheckCircle2, Rocket, Paintbrush, Plus 
+} from 'lucide-react';
 
 const steps = [
   { 
-    icon: PenTool,
-    title: 'Think First', 
-    desc: 'I start every project with research and strategy to understand the problem before designing the solution.' 
+    title: 'Obsessive discovery', 
+    subtitle: 'We start by understanding, not assuming.',
+    desc: 'I spend the first week asking questions, not making decisions. Every project starts with a deep-dive session to uncover not just what you want, but why.',
+    mainIcon: <Search size={24} />,
+    features: [
+      { icon: <Brain size={18} />, text: 'Deep\nUnderstanding' },
+      { icon: <Target size={18} />, text: 'Clear\nDirection' },
+      { icon: <Users size={18} />, text: 'Aligned\nGoals' }
+    ],
+    deliverables: [
+      { icon: <FileText size={18} />, text: 'Brief' },
+      { icon: <TrendingUp size={18} />, text: 'Competitive audit' },
+      { icon: <Users size={18} />, text: 'User research' }
+    ]
   },
   { 
-    icon: Lightbulb,
-    title: 'Design Smart', 
-    desc: 'I design intuitive, user-centered interfaces that balance aesthetics with real-world usability.' 
+    title: 'Strategic architecture', 
+    subtitle: 'We plan with purpose and structure.',
+    desc: 'Information architecture before pixels. I map every user flow so no design decision is ever arbitrary.',
+    mainIcon: <Network size={24} />,
+    features: [
+      { icon: <Layout size={18} />, text: 'Logical\nStructure' },
+      { icon: <Smartphone size={18} />, text: 'User\nJourneys' },
+      { icon: <Code size={18} />, text: 'Scalable\nFoundations' }
+    ],
+    deliverables: [
+      { icon: <Network size={18} />, text: 'Sitemap' },
+      { icon: <Layout size={18} />, text: 'User flows' },
+      { icon: <FileText size={18} />, text: 'Content hierarchy' }
+    ]
   },
   { 
-    icon: Rocket,
-    title: 'Execute & Deliver', 
-    desc: 'I turn ideas into high-quality digital products that are functional, scalable, and ready to perform.' 
-  }
+    title: 'Pixel-perfect UI', 
+    subtitle: 'We design beautiful, intuitive experiences.',
+    desc: 'Every component is on a 4px grid with defined tokens for color, type, and spacing.',
+    mainIcon: <Paintbrush size={24} />,
+    features: [
+      { icon: <Paintbrush size={18} />, text: 'Visual\nLanguage' },
+      { icon: <Smartphone size={18} />, text: 'Responsive\nDesign' },
+      { icon: <CheckCircle2 size={18} />, text: 'Accessible\nInterfaces' }
+    ],
+    deliverables: [
+      { icon: <Layout size={18} />, text: 'Design system' },
+      { icon: <Smartphone size={18} />, text: 'Hi-fi mockups' },
+      { icon: <Code size={18} />, text: 'Prototype' }
+    ]
+  },
+  { 
+    title: 'Flawless execution', 
+    subtitle: 'We build, test, and deliver with precision.',
+    desc: 'I stay in the room during build. Handoff is a collaboration, not a file dump.',
+    mainIcon: <Rocket size={24} />,
+    features: [
+      { icon: <Code size={18} />, text: 'Clean\nCodebase' },
+      { icon: <CheckCircle2 size={18} />, text: 'Rigorous\nQA' },
+      { icon: <Rocket size={18} />, text: 'Smooth\nLaunch' }
+    ],
+    deliverables: [
+      { icon: <Code size={18} />, text: 'Responsive build' },
+      { icon: <CheckCircle2 size={18} />, text: 'QA checklist' },
+      { icon: <Rocket size={18} />, text: 'Launch' }
+    ]
+  },
 ];
 
 export default function DesignProcess() {
+  const [open, setOpen] = useState<number | null>(0);
+
+  const AccordionItem = ({ step, index, isOpen, onClick }: any) => {
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    return (
+      <div className="process-row">
+        <div className={`timeline-col ${isOpen ? 'active' : ''}`}>
+          <div className="timeline-num">0{index + 1}</div>
+        </div>
+        
+        <div className={`process-card ${isOpen ? 'active' : ''}`}>
+          <div className="card-header" onClick={onClick}>
+            <div className="card-icon">
+              {step.mainIcon}
+            </div>
+            <div className="card-title-group">
+              <div className="card-title">{step.title}</div>
+              <div className="card-subtitle">{step.subtitle}</div>
+            </div>
+            <div className="card-indicator">
+              {isOpen ? <div className="active-dot" /> : <Plus size={20} color="rgba(255,255,255,0.4)" />}
+            </div>
+          </div>
+          
+          <div 
+            style={{ 
+              maxHeight: isOpen ? (contentRef.current?.scrollHeight || 1000) + 'px' : '0px',
+              overflow: 'hidden',
+              transition: 'max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease',
+              opacity: isOpen ? 1 : 0
+            }}
+          >
+            <div className="card-body-inner" ref={contentRef}>
+              <div className="card-body-left">
+                <p className="card-desc">{step.desc}</p>
+                <div className="features-row">
+                  {step.features.map((f: any, i: number) => (
+                    <div key={i} className="feature-box">
+                      <div className="feature-icon">{f.icon}</div>
+                      <div className="feature-text">{f.text}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="card-body-right">
+                <div className="deliverables-title">Deliverables</div>
+                <div className="deliverables-list">
+                  {step.deliverables.map((d: any, i: number) => (
+                    <div key={i} className="deliverable-box">
+                      <div className="deliverable-icon">{d.icon}</div>
+                      <div className="deliverable-text">{d.text}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <section id="process" style={{
       position: 'relative',
@@ -29,8 +145,278 @@ export default function DesignProcess() {
       flexDirection: 'column',
       alignItems: 'center',
       zIndex: 10,
-      background: 'var(--c-base)' 
+      background: 'var(--c-base)'
     }}>
+      <style>{`
+        .process-container {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          width: 100%;
+          max-width: 1000px;
+        }
+
+        .timeline-master-line {
+          position: absolute;
+          top: 56px;
+          bottom: 56px;
+          left: 32px;
+          width: 2px;
+          background: rgba(255,255,255,0.05);
+          z-index: 0;
+        }
+
+        .process-row {
+          display: flex;
+          gap: 32px;
+          width: 100%;
+          position: relative;
+          z-index: 1;
+        }
+
+        .timeline-col {
+          position: relative;
+          width: 64px;
+          flex-shrink: 0;
+          display: flex;
+          justify-content: center;
+          padding-top: 28px;
+        }
+
+        .timeline-num {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: var(--c-base);
+          border: 1px solid rgba(255,255,255,0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: var(--font-sans);
+          font-size: 15px;
+          font-weight: 700;
+          color: rgba(255,255,255,0.5);
+          transition: all 0.4s ease;
+          position: relative;
+          z-index: 2;
+        }
+
+        .timeline-col.active .timeline-num {
+          border-color: rgba(109,220,109,0.5);
+          color: white;
+          box-shadow: 0 0 20px rgba(109,220,109,0.2), inset 0 0 10px rgba(109,220,109,0.1);
+        }
+
+        .process-card {
+          flex-grow: 1;
+          background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.05);
+          border-radius: 16px;
+          overflow: hidden;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .process-card:hover:not(.active) {
+          background: rgba(255,255,255,0.03);
+          border-color: rgba(255,255,255,0.08);
+        }
+
+        .process-card.active {
+          background: rgba(10, 25, 12, 0.4);
+          border-color: rgba(109,220,109,0.3);
+          box-shadow: 0 10px 40px rgba(109,220,109,0.05);
+        }
+
+        .card-header {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+          padding: 24px 32px;
+          cursor: pointer;
+        }
+
+        .card-icon {
+          width: 56px;
+          height: 56px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.05);
+          color: rgba(255,255,255,0.3);
+          transition: all 0.4s ease;
+        }
+
+        .process-card.active .card-icon {
+          background: rgba(109,220,109,0.05);
+          border-color: rgba(109,220,109,0.25);
+          color: var(--c-primary);
+          box-shadow: inset 0 0 20px rgba(109,220,109,0.1);
+        }
+
+        .card-title-group {
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        .card-title {
+          font-family: var(--font-sans);
+          font-size: 24px;
+          font-weight: 700;
+          color: white;
+          letter-spacing: -0.5px;
+        }
+
+        .card-subtitle {
+          font-family: var(--font-sans);
+          font-size: 15px;
+          color: rgba(255,255,255,0.4);
+          transition: color 0.4s ease;
+        }
+
+        .process-card.active .card-subtitle {
+          color: var(--c-primary);
+        }
+
+        .card-indicator {
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .process-card:not(.active) .card-indicator {
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 50%;
+          transition: background 0.3s ease;
+        }
+
+        .process-card:not(.active):hover .card-indicator {
+          background: rgba(255,255,255,0.05);
+        }
+
+        .active-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: var(--c-primary);
+          box-shadow: 0 0 12px var(--c-primary);
+        }
+
+        .card-body-inner {
+          padding: 0 32px 32px 32px;
+          display: grid;
+          grid-template-columns: 1.2fr 1fr;
+          gap: 64px;
+        }
+
+        .card-desc {
+          font-family: var(--font-sans);
+          font-size: 16px;
+          color: rgba(255,255,255,0.6);
+          line-height: 1.6;
+          margin-top: 0;
+          margin-bottom: 32px;
+        }
+
+        .features-row {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+        }
+
+        .feature-box {
+          background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 12px;
+          padding: 12px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .feature-icon {
+          color: var(--c-primary);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .feature-text {
+          font-family: var(--font-sans);
+          font-size: 11px;
+          font-weight: 500;
+          color: rgba(255,255,255,0.7);
+          line-height: 1.4;
+          white-space: pre-line;
+        }
+
+        .deliverables-title {
+          font-family: var(--font-sans);
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          color: var(--c-primary);
+          margin-bottom: 20px;
+        }
+
+        .deliverables-list {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .deliverable-box {
+          background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 12px;
+          padding: 16px;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .deliverable-icon {
+          color: var(--c-primary);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .deliverable-text {
+          font-family: var(--font-sans);
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--c-white);
+        }
+
+        @media (max-width: 1024px) {
+          .card-body-inner {
+            grid-template-columns: 1fr;
+            gap: 40px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .process-row { gap: 16px; }
+          .timeline-col { width: 48px; }
+          .timeline-num { width: 36px; height: 36px; font-size: 13px; }
+          .timeline-master-line { left: 24px; }
+          .card-header { padding: 20px; gap: 16px; }
+          .card-icon { width: 48px; height: 48px; }
+          .card-title { font-size: 18px; }
+          .card-subtitle { font-size: 13px; }
+          .card-body-inner { padding: 0 20px 20px 20px; }
+          .features-row { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
       {/* Eyebrow Pill */}
       <Reveal>
         <div 
@@ -42,174 +428,28 @@ export default function DesignProcess() {
             background: 'var(--rgba-dark-06)',
             border: '1px solid var(--rgba-white-03)',
             borderRadius: 100,
-            marginBottom: 32
+            marginBottom: 80
           }}
         >
-          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 1.5, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-            WHAT I DO
+          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
+            HOW I WORK
           </span>
+          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
         </div>
       </Reveal>
 
-      {/* Headline */}
-      <Reveal delay={100}>
-        <h2 
-          style={{
-            fontFamily: 'var(--font-sans)',
-            fontSize: 'clamp(40px, 5vw, 56px)',
-            fontWeight: 800,
-            color: 'var(--c-white)',
-            textAlign: 'center',
-            letterSpacing: '-1px',
-            marginBottom: 24,
-            lineHeight: 1.1
-          }}
-        >
-          Design That <span style={{ color: 'var(--c-primary)' }}>Solves.</span>
-        </h2>
-      </Reveal>
-      
-      {/* Subtext */}
-      <Reveal delay={200}>
-        <p style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: '18px',
-          color: 'rgba(255,255,255,0.7)',
-          textAlign: 'center',
-          maxWidth: '600px',
-          lineHeight: 1.6,
-          marginBottom: 80
-        }}>
-          I combine creativity with strategy to craft digital experiences that are purposeful, functional, and built to make an impact.
-        </p>
-      </Reveal>
-
-      {/* Grid */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-        gap: '24px',
-        width: '100%',
-        maxWidth: '1200px'
-      }}>
-        {steps.map((step, i) => (
-          <Reveal key={i} delay={i * 100 + 300}>
-            <div style={{
-              position: 'relative',
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.05)',
-              borderRadius: '24px',
-              padding: '40px',
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-              overflow: 'hidden',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-            }}>
-              {/* Bottom green glow */}
-              <div style={{
-                position: 'absolute',
-                bottom: 0,
-                left: '50%',
-                transform: 'translate(-50%, 50%)',
-                width: '70%',
-                height: '100px',
-                background: 'var(--c-primary)',
-                filter: 'blur(50px)',
-                opacity: 0.15,
-                pointerEvents: 'none'
-              }} />
-
-              {/* Top right dot */}
-              <div style={{
-                position: 'absolute',
-                top: '32px',
-                right: '32px',
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                background: 'var(--c-primary)',
-                boxShadow: '0 0 10px var(--c-primary)'
-              }} />
-
-              {/* Icon Circle */}
-              <div style={{
-                width: '64px',
-                height: '64px',
-                borderRadius: '50%',
-                border: '1px solid rgba(109,215,76,0.3)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '40px',
-                background: 'rgba(109,215,76,0.05)',
-                boxShadow: 'inset 0 0 20px rgba(109,215,76,0.1)'
-              }}>
-                <step.icon size={28} color="var(--c-primary)" strokeWidth={1.5} />
-              </div>
-
-              {/* Title */}
-              <h3 style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '28px',
-                fontWeight: 700,
-                color: 'var(--c-white)',
-                marginBottom: '16px'
-              }}>
-                {step.title}
-              </h3>
-
-              {/* Divider */}
-              <div style={{
-                width: '32px',
-                height: '3px',
-                background: 'var(--c-primary)',
-                borderRadius: '2px',
-                marginBottom: '24px'
-              }} />
-
-              {/* Description */}
-              <p style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '16px',
-                color: 'rgba(255,255,255,0.7)',
-                lineHeight: 1.6,
-                marginBottom: '48px',
-                flexGrow: 1
-              }}>
-                {step.desc}
-              </p>
-
-              {/* Button */}
-              <button style={{
-                alignSelf: 'flex-start',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '10px 20px',
-                background: 'transparent',
-                border: '1px solid rgba(109,215,76,0.3)',
-                borderRadius: '100px',
-                color: 'var(--c-primary)',
-                fontFamily: 'var(--font-sans)',
-                fontSize: '13px',
-                fontWeight: 600,
-                letterSpacing: '0.5px',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'var(--c-primary)';
-                e.currentTarget.style.color = '#000';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.color = 'var(--c-primary)';
-              }}
-              >
-                LEARN MORE <ArrowUpRight size={16} />
-              </button>
-            </div>
+      {/* Interactive Process List */}
+      <div className="process-container">
+        <div className="timeline-master-line" />
+        {steps.map((s, i) => (
+          <Reveal key={i} delay={i * 100}>
+            <AccordionItem 
+              step={s} 
+              index={i} 
+              isOpen={open === i} 
+              onClick={() => setOpen(open === i ? null : i)} 
+            />
           </Reveal>
         ))}
       </div>
