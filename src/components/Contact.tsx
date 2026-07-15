@@ -51,7 +51,7 @@ export default function Contact() {
           background: rgba(10, 25, 12, 0.4);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(109,220,109,0.15);
+          border: 1px solid color-mix(in srgb, var(--c-primary) 15%, transparent);
           border-radius: 32px;
           padding: 64px 48px;
           display: flex;
@@ -59,7 +59,7 @@ export default function Contact() {
           align-items: center;
           position: relative;
           overflow: hidden;
-          box-shadow: 0 40px 100px -20px rgba(0,0,0,0.8), inset 0 20px 40px -20px rgba(109,220,109,0.1);
+          box-shadow: 0 40px 100px -20px rgba(0,0,0,0.8), inset 0 20px 40px -20px color-mix(in srgb, var(--c-primary) 10%, transparent);
         }
 
         .contact-glow-1 {
@@ -68,7 +68,7 @@ export default function Contact() {
           left: -100px;
           width: 300px;
           height: 300px;
-          background: rgba(109,220,109,0.15);
+          background: color-mix(in srgb, var(--c-primary) 15%, transparent);
           filter: blur(80px);
           border-radius: 50%;
           pointer-events: none;
@@ -79,7 +79,7 @@ export default function Contact() {
           right: -100px;
           width: 200px;
           height: 200px;
-          background: rgba(109,220,109,0.2);
+          background: color-mix(in srgb, var(--c-primary) 20%, transparent);
           filter: blur(80px);
           border-radius: 50%;
           pointer-events: none;
@@ -90,10 +90,10 @@ export default function Contact() {
           align-items: center;
           gap: 8px;
           padding: 6px 16px;
-          border: 1px solid rgba(109,220,109,0.3);
+          border: 1px solid color-mix(in srgb, var(--c-primary) 30%, transparent);
           border-radius: 100px;
           margin-bottom: 24px;
-          background: rgba(109,220,109,0.05);
+          background: color-mix(in srgb, var(--c-primary) 5%, transparent);
         }
 
         .contact-pill-dot {
@@ -153,9 +153,9 @@ export default function Contact() {
 
         .contact-input:focus {
           outline: none;
-          border-color: rgba(109,220,109,0.4);
-          background: rgba(109,220,109,0.05);
-          box-shadow: 0 0 20px rgba(109,220,109,0.1);
+          border-color: color-mix(in srgb, var(--c-primary) 40%, transparent);
+          background: color-mix(in srgb, var(--c-primary) 5%, transparent);
+          box-shadow: 0 0 20px color-mix(in srgb, var(--c-primary) 10%, transparent);
         }
 
         .contact-input::placeholder {
@@ -173,7 +173,8 @@ export default function Contact() {
         .contact-submit {
           width: 100%;
           max-width: 500px;
-          background: linear-gradient(90deg, #6ddc6d, #8ef28e);
+          background: var(--c-primary);
+          background: linear-gradient(90deg, var(--c-primary), color-mix(in srgb, var(--c-primary) 80%, white));
           color: #081509;
           border: none;
           border-radius: 100px;
@@ -187,13 +188,13 @@ export default function Contact() {
           gap: 12px;
           cursor: pointer;
           transition: all 0.3s ease;
-          box-shadow: 0 10px 30px -5px rgba(109,220,109,0.4);
+          box-shadow: 0 10px 30px -5px color-mix(in srgb, var(--c-primary) 40%, transparent);
           margin-bottom: 48px;
         }
 
         .contact-submit:hover {
           transform: translateY(-2px);
-          box-shadow: 0 15px 35px -5px rgba(109,220,109,0.6);
+          box-shadow: 0 15px 35px -5px color-mix(in srgb, var(--c-primary) 60%, transparent);
         }
 
         .contact-divider {
@@ -248,15 +249,15 @@ export default function Contact() {
         }
 
         .contact-info-card:hover {
-          background: rgba(109,220,109,0.05);
-          border-color: rgba(109,220,109,0.2);
+          background: color-mix(in srgb, var(--c-primary) 5%, transparent);
+          border-color: color-mix(in srgb, var(--c-primary) 20%, transparent);
         }
 
         .info-icon-wrap {
           width: 40px;
           height: 40px;
           border-radius: 50%;
-          background: rgba(109,220,109,0.1);
+          background: color-mix(in srgb, var(--c-primary) 10%, transparent);
           color: var(--c-primary);
           display: flex;
           align-items: center;
@@ -308,17 +309,17 @@ export default function Contact() {
         }
 
         .social-btn:hover {
-          background: rgba(109,220,109,0.1);
-          border-color: rgba(109,220,109,0.4);
+          background: color-mix(in srgb, var(--c-primary) 10%, transparent);
+          border-color: color-mix(in srgb, var(--c-primary) 40%, transparent);
           transform: translateY(-2px);
-          box-shadow: 0 10px 20px -5px rgba(109,220,109,0.2);
+          box-shadow: 0 10px 20px -5px color-mix(in srgb, var(--c-primary) 20%, transparent);
         }
 
         .contact-footer-line {
           width: 100%;
           max-width: 600px;
           height: 1px;
-          background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(109,220,109,0.3) 50%, rgba(255,255,255,0) 100%);
+          background: linear-gradient(90deg, rgba(255,255,255,0) 0%, color-mix(in srgb, var(--c-primary) 30%, transparent) 50%, rgba(255,255,255,0) 100%);
           margin-bottom: 24px;
         }
 
@@ -357,67 +358,85 @@ export default function Contact() {
             <div className="contact-glow-1" />
             <div className="contact-glow-2" />
 
-            <div className="contact-pill">
-              <div className="contact-pill-dot" />
-              <span className="contact-pill-text">Contact</span>
-            </div>
+            <Reveal delay={300}>
+              <div className="contact-pill">
+                <div className="contact-pill-dot" />
+                <span className="contact-pill-text">Contact</span>
+              </div>
+            </Reveal>
 
-            <h3 className="contact-title">Get in <span>Touch</span></h3>
-            <p className="contact-subtitle">Collaborate with me to bring your ideas to life.</p>
+            <Reveal delay={400}>
+              <h3 className="contact-title">Get in <span>Touch</span></h3>
+              <p className="contact-subtitle">Collaborate with me to bring your ideas to life.</p>
+            </Reveal>
 
-            <div className="contact-input-wrap">
-              <User className="input-icon" size={18} />
-              <input type="text" placeholder="Enter your name" className="contact-input" />
-            </div>
+            <Reveal delay={500} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+              <div className="contact-input-wrap">
+                <User className="input-icon" size={18} />
+                <input type="text" placeholder="Enter your name" className="contact-input" />
+              </div>
+            </Reveal>
             
-            <div className="contact-input-wrap">
-              <Mail className="input-icon" size={18} />
-              <input type="email" placeholder="Enter your email" className="contact-input" />
-            </div>
+            <Reveal delay={600} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+              <div className="contact-input-wrap">
+                <Mail className="input-icon" size={18} />
+                <input type="email" placeholder="Enter your email" className="contact-input" />
+              </div>
+            </Reveal>
 
-            <button className="contact-submit">
-              <Send size={18} /> Send message
-            </button>
+            <Reveal delay={700} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+              <button className="contact-submit">
+                <Send size={18} /> Send message
+              </button>
+            </Reveal>
 
-            <div className="contact-divider">
-              <div className="divider-line" />
-              <div className="divider-dot" />
-              <span className="divider-text">Let's Connect</span>
-              <div className="divider-dot" />
-              <div className="divider-line" />
-            </div>
+            <Reveal delay={800} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+              <div className="contact-divider">
+                <div className="divider-line" />
+                <div className="divider-dot" />
+                <span className="divider-text">Let's Connect</span>
+                <div className="divider-dot" />
+                <div className="divider-line" />
+              </div>
+            </Reveal>
 
-            <div className="contact-info-row">
-              <a href="tel:+919553302087" className="contact-info-card">
-                <div className="info-icon-wrap"><Phone size={18} /></div>
-                <div>
-                  <div className="info-label">Phone</div>
-                  <div className="info-value">+91 95533 02087</div>
-                </div>
-              </a>
-              <a href="mailto:trinathkondapalli@gmail.com" className="contact-info-card">
-                <div className="info-icon-wrap"><Mail size={18} /></div>
-                <div>
-                  <div className="info-label">Email</div>
-                  <div className="info-value">trinathkondapalli@gmail.com</div>
-                </div>
-              </a>
-            </div>
+            <Reveal delay={900} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+              <div className="contact-info-row">
+                <a href="tel:+919553302087" className="contact-info-card">
+                  <div className="info-icon-wrap"><Phone size={18} /></div>
+                  <div>
+                    <div className="info-label">Phone</div>
+                    <div className="info-value">+91 95533 02087</div>
+                  </div>
+                </a>
+                <a href="mailto:trinathkondapalli@gmail.com" className="contact-info-card">
+                  <div className="info-icon-wrap"><Mail size={18} /></div>
+                  <div>
+                    <div className="info-label">Email</div>
+                    <div className="info-value">trinathkondapalli@gmail.com</div>
+                  </div>
+                </a>
+              </div>
+            </Reveal>
 
-            <div className="social-row">
-              <a href="#" className="social-btn">in</a>
-              <a href="#" className="social-btn">Bē</a>
-              <a href="#" className="social-btn" style={{fontSize: 15}}>IG</a>
-              <a href="#" className="social-btn" style={{fontSize: 15}}>Dr</a>
-              <a href="#" className="social-btn" style={{fontFamily: 'serif', fontStyle: 'italic', fontSize: 20}}>f</a>
-              <a href="#" className="social-btn" style={{fontSize: 15}}>Gh</a>
-              <a href="#" className="social-btn" style={{fontSize: 15}}>X</a>
-            </div>
+            <Reveal delay={1000} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+              <div className="social-row">
+                <a href="#" className="social-btn">in</a>
+                <a href="#" className="social-btn">Bē</a>
+                <a href="#" className="social-btn" style={{fontSize: 15}}>IG</a>
+                <a href="#" className="social-btn" style={{fontSize: 15}}>Dr</a>
+                <a href="#" className="social-btn" style={{fontFamily: 'serif', fontStyle: 'italic', fontSize: 20}}>f</a>
+                <a href="#" className="social-btn" style={{fontSize: 15}}>Gh</a>
+                <a href="#" className="social-btn" style={{fontSize: 15}}>X</a>
+              </div>
+            </Reveal>
 
-            <div className="contact-footer-line" />
-            <div className="contact-copyright">
-              © <span>Copyright 2026.</span> Rights Reserved.
-            </div>
+            <Reveal delay={1100} style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              <div className="contact-footer-line" />
+              <div className="contact-copyright">
+                © <span>Copyright 2026.</span> Rights Reserved.
+              </div>
+            </Reveal>
           </div>
         </Reveal>
       </div>
