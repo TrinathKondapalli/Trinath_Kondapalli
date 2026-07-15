@@ -11,7 +11,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      setIsScrolled(window.scrollY > 60);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -201,15 +201,15 @@ export default function Navbar() {
       {/* Hide center links on smaller screens */}
       <style>{`
         nav { transition: background 0.3s; }
-        nav.scrolled { background: rgba(10,26,10,0.85) !important; backdrop-filter: blur(12px) !important; }
+        nav.scrolled { background: rgba(10,26,10,0.85) !important; backdrop-filter: blur(14px) !important; WebkitBackdropFilter: blur(14px) !important; }
 
         .cta-btn { 
           background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
           transition: transform 0.2s, background 0.2s !important; 
         }
         .cta-btn:hover { 
-          transform: scale(1.04); 
-          background: #5acc5a !important; 
+          transform: scale(1.05); 
+          background: #7fe87f !important; 
         }
 
         .mobile-menu-btn { display: none !important; }
