@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Reveal from './Reveal';
 import { 
   Search, Brain, Target, Users, FileText, TrendingUp, Network, 
@@ -96,23 +97,22 @@ export default function DesignProcess() {
             </div>
           </div>
           
-          <div 
-            style={{ 
-              display: 'grid',
-              gridTemplateRows: isOpen ? '1fr' : '0fr',
-              transition: 'grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
-            }}
-          >
-            <div style={{ overflow: 'hidden', minHeight: 0 }}>
-              <div 
-                className="card-body-inner" 
-                style={{
-                  opacity: isOpen ? 1 : 0,
-                  transform: isOpen ? 'translateY(0)' : 'translateY(-10px)',
-                  transition: 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  transitionDelay: isOpen ? '0.1s' : '0s'
-                }}
+          <AnimatePresence initial={false}>
+            {isOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                style={{ overflow: 'hidden' }}
               >
+                <div 
+                  className="card-body-inner"
+                  style={{
+                    transform: isOpen ? 'translateY(0)' : 'translateY(-10px)',
+                    transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                >
                 <div className="card-body-left">
                   <p className="card-desc">{step.desc}</p>
                   <div className="features-row">
@@ -134,10 +134,11 @@ export default function DesignProcess() {
                     </div>
                   ))}
                 </div>
-                </div>
               </div>
             </div>
-          </div>
+          </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     );
