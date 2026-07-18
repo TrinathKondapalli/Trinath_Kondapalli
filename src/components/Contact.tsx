@@ -422,13 +422,13 @@ export default function Contact() {
 
             <Reveal delay={1000} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
               <div className="social-row">
-                <a href="#" className="social-btn">in</a>
-                <a href="#" className="social-btn">Bē</a>
-                <a href="#" className="social-btn" style={{fontSize: 15}}>IG</a>
-                <a href="#" className="social-btn" style={{fontSize: 15}}>Dr</a>
-                <a href="#" className="social-btn" style={{fontFamily: 'serif', fontStyle: 'italic', fontSize: 20}}>f</a>
-                <a href="#" className="social-btn" style={{fontSize: 15}}>Gh</a>
-                <a href="#" className="social-btn" style={{fontSize: 15}}>X</a>
+                <a href="https://www.linkedin.com/in/trinathkondapalli/" target="_blank" rel="noopener noreferrer" className="social-btn">in</a>
+                <a href="https://www.behance.net/trinath" target="_blank" rel="noopener noreferrer" className="social-btn">Bē</a>
+                <a href="https://www.instagram.com/tzinr.in/" target="_blank" rel="noopener noreferrer" className="social-btn" style={{fontSize: 15}}>IG</a>
+                <a href="https://dribbble.com/Trinadh_7" target="_blank" rel="noopener noreferrer" className="social-btn" style={{fontSize: 15}}>Dr</a>
+                <a href="https://www.facebook.com/trinath.devarakonda.3" target="_blank" rel="noopener noreferrer" className="social-btn" style={{fontFamily: 'serif', fontStyle: 'italic', fontSize: 20}}>f</a>
+                <a href="https://github.com/Trinadh7" target="_blank" rel="noopener noreferrer" className="social-btn" style={{fontSize: 15}}>Gh</a>
+                <a href="https://x.com/Thiru7484" target="_blank" rel="noopener noreferrer" className="social-btn" style={{fontSize: 15}}>X</a>
               </div>
             </Reveal>
 
