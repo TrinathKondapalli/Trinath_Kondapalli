@@ -23,9 +23,9 @@ function BigStat({ stat, delayMs }: any) {
 
 export default function WhoIHelp() {
   const stats = [
-    { value: 40, suffix: '+', label: 'projects delivered', note: '↑ 2024' },
-    { value: 100, suffix: '%', label: 'client satisfaction', note: '↑ 2024' },
-    { value: 5, suffix: '+', label: 'years experience', note: '↑ 2024' }
+    { value: 5, suffix: '+', label: 'projects delivered', note: '↑ 2026' },
+    { value: 100, suffix: '%', label: 'client satisfaction', note: '↑ 2026' },
+    { value: 2, suffix: '+', label: 'years experience', note: '↑ 2026' }
   ];
 
   return (

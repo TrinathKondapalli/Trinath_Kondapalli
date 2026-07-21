@@ -5,7 +5,7 @@ export default function Footer() {
     <footer style={{
       position: 'relative',
       width: '100%',
-      padding: '48px 24px 0 24px',
+      padding: '48px 0 0 0', /* Removed side padding for full bleed */
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -21,11 +21,12 @@ export default function Footer() {
            justify-content: center;
            pointer-events: none;
            user-select: none;
+           container-type: inline-size; /* Enables cqi units */
         }
 
         .huge-footer-text {
           font-family: var(--font-sans);
-          font-size: 8vw;
+          font-size: 11cqi;
           font-weight: 900;
           line-height: 0.8;
           letter-spacing: -0.02em;
@@ -34,26 +35,21 @@ export default function Footer() {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           white-space: nowrap;
-          margin-bottom: -1vw; /* pull it down slightly to touch the bottom */
+          margin-bottom: -1vw; 
           width: 100%;
           text-align: center;
         }
 
-        /* Tablet */
         @media (max-width: 1024px) {
           .huge-footer-text {
-            font-size: 8.5vw;
+            font-size: 10cqi;
           }
         }
 
-        /* Mobile */
         @media (max-width: 768px) {
           .huge-footer-text {
-            font-size: 9.5vw;
-            letter-spacing: -0.06em;
-            margin-left: -24px;
-            margin-right: -24px;
-            width: calc(100% + 48px);
+            font-size: 8.8cqi;
+            letter-spacing: -0.02em;
           }
         }
       `}</style>

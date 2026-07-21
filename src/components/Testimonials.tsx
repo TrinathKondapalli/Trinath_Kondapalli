@@ -1,203 +1,219 @@
-
 import Reveal from './Reveal';
 
-const featuredQuote = {
-  name: 'Michael Chen',
-  role: 'Founder & CEO',
-  company: 'TechFlow',
-  text: "Trinadh transformed our outdated platform into a modern, high-converting experience. The new design not only looks stunning, but it increased conversions by 3× in the first month alone. He is the rare designer who actually understands business."
-};
-
-const supportingTestimonials = [
+const row1Testimonials = [
+  {
+    name: 'Emma Johnson',
+    role: 'Project Manager at Tech Innovators',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
+    text: "Trinadh transformed our platform into a modern, high-converting experience. The design not only looks stunning, but it increased conversions seamlessly."
+  },
+  {
+    name: 'Michael Smith',
+    role: 'Sales Executive at Global Enterprises',
+    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200',
+    text: "I love how cleanly everything integrates with our design system. It saves us so much time and prevents double bookings or errors."
+  },
+  {
+    name: 'David Miller',
+    role: 'Operations Manager at Apex',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200',
+    text: "The frontend execution is spot-on. Highly efficient development that significantly reduced UI bugs and improved user retention."
+  },
   {
     name: 'Sarah Jenkins',
-    role: 'Product Director',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
-    text: "His attention to detail and ability to execute complex frontend tasks flawlessly sets him apart from anyone else."
+    role: 'Product Director at Velocity',
+    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200',
+    text: "His attention to detail and ability to execute complex UI tasks flawlessly sets him apart from anyone else."
+  }
+];
+
+const row2Testimonials = [
+  {
+    name: 'Sam Smith',
+    role: 'CEO at Business Solutions Group',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200',
+    text: "Time is my most valuable resource. Trinadh helps optimize our interface so our team can focus on what matters most."
   },
   {
-    name: 'David Rodriguez',
-    role: 'Head of Marketing',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200',
-    text: "Exceptional quality and professionalism. The brand identity he delivered exceeded all our expectations."
+    name: 'Jane Doe',
+    role: 'Marketing Director at Creative Solutions',
+    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
+    text: "Trinadh revolutionized our workflow. It's like having a personal design engineering powerhouse working around the clock!"
   },
   {
-    name: 'Emma Watson',
-    role: 'Creative Director',
-    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200',
-    text: "Trinadh does not just build websites, he builds digital ecosystems. Fast, responsive, and incredibly polished."
+    name: 'Sophia Lee',
+    role: 'HR Director at People First Corp',
+    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200',
+    text: "Working with Trinadh has been a breeze. The final frontend output is a total game changer for our department."
+  },
+  {
+    name: 'Alex Rivera',
+    role: 'Creative Lead at Pulse Digital',
+    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200',
+    text: "Exceptional quality and responsiveness. The digital ecosystems he delivers exceed all our expectations."
   }
 ];
 
 export default function Testimonials() {
-  
-
   return (
     <section id="testimonials" style={{
       position: 'relative',
       width: '100%',
-      padding: '160px 24px',
+      padding: '120px 0',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       zIndex: 10,
-      background: '#0a1a0a',
+      background: 'var(--c-base)',
       overflow: 'hidden'
     }}>
       <style>{`
-        .testimonials-container {
+        .testimonials-header-container {
           width: 100%;
           max-width: 1200px;
           display: flex;
           flex-direction: column;
           align-items: center;
+          padding: 0 24px;
+          margin-bottom: 60px;
         }
 
-        /* Giant Featured Quote Section */
-        .featured-quote-wrapper {
+        .marquee-wrapper {
           position: relative;
           width: 100%;
-          max-width: 680px; 
           display: flex;
           flex-direction: column;
-          align-items: center;
-          text-align: center;
-          margin-bottom: 120px;
+          gap: 24px;
+          overflow: hidden;
         }
 
-        .giant-quote-mark {
+        .marquee-fade-left {
           position: absolute;
-          top: -40px;
-          left: -20px;
-          font-family: serif;
-          font-size: 100px;
-          line-height: 1;
-          color: #6ddc6d;
-          opacity: 0.35;
-          font-weight: 300;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 120px;
+          background: linear-gradient(90deg, var(--c-base) 0%, transparent 100%);
+          z-index: 5;
           pointer-events: none;
-          z-index: 0;
         }
 
-        .featured-text {
-          font-family: var(--font-sans);
-          font-size: 22px;
-          font-weight: 300;
-          line-height: 1.8;
-          color: rgba(255,255,255,0.92);
-          margin-bottom: 40px;
-          position: relative;
-          z-index: 1;
+        .marquee-fade-right {
+          position: absolute;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: 120px;
+          background: linear-gradient(-90deg, var(--c-base) 0%, transparent 100%);
+          z-index: 5;
+          pointer-events: none;
         }
 
-        .featured-divider {
-          width: 80px;
-          height: 1px;
-          background: rgba(255,255,255,0.1);
-          margin-bottom: 32px;
+        @keyframes scrollLeft {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
         }
 
-        .featured-author {
+        @keyframes scrollRight {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+
+        .marquee-track-left {
+          display: flex;
+          gap: 24px;
+          width: max-content;
+          animation: scrollLeft 35s linear infinite;
+        }
+
+        .marquee-track-right {
+          display: flex;
+          gap: 24px;
+          width: max-content;
+          animation: scrollRight 38s linear infinite;
+        }
+
+        .marquee-track-left:hover,
+        .marquee-track-right:hover {
+          animation-play-state: paused;
+        }
+
+        .testimonial-card {
+          width: 400px;
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          border-radius: 20px;
+          padding: 24px;
           display: flex;
           flex-direction: column;
-          align-items: center;
-          gap: 12px;
+          justify-content: space-between;
+          backdrop-filter: blur(12px);
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          cursor: default;
         }
 
-        .featured-name {
+        .testimonial-card:hover {
+          border-color: color-mix(in srgb, var(--c-primary) 40%, transparent);
+          background: rgba(255, 255, 255, 0.04);
+          transform: translateY(-4px);
+          box-shadow: 0 12px 30px -10px color-mix(in srgb, var(--c-primary) 20%, transparent);
+        }
+
+        .card-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 16px;
+        }
+
+        .card-author-info {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        .card-author-name {
           font-family: var(--font-sans);
           font-size: 15px;
           font-weight: 700;
-          color: var(--c-white);
+          color: #ffffff;
         }
 
-        .featured-role {
+        .card-author-role {
           font-family: var(--font-sans);
-          font-size: 13px;
-          color: rgba(255,255,255,0.5);
+          font-size: 12px;
+          color: rgba(255, 255, 255, 0.45);
         }
 
-        .featured-company {
-          font-family: var(--font-sans);
-          font-size: 13px;
-          font-weight: 600;
-          color: rgba(255,255,255,0.7);
-        }
-
-        /* Supporting Quotes Strip */
-        .supporting-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 24px;
-          width: 100%;
-        }
-
-        .support-card {
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.05);
-          padding: 24px;
-          border-radius: 20px;
-          display: flex;
-          flex-direction: column;
-          transition: transform 0.4s ease, border-color 0.4s ease;
-        }
-
-        .support-card:hover {
-          transform: translateY(-8px);
-          border-color: rgba(109,215,76,0.2);
-        }
-
-        .support-text {
-          font-family: var(--font-sans);
-          font-size: 13px;
-          color: rgba(255,255,255,0.7);
-          line-height: 1.6;
-          flex-grow: 1;
-          margin-bottom: 24px;
-        }
-
-        .support-author {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-        }
-
-        .support-img {
-          width: 48px;
-          height: 48px;
+        .card-avatar {
+          width: 42px;
+          height: 42px;
           border-radius: 50%;
           object-fit: cover;
-          filter: grayscale(20%);
+          border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .support-name {
+        .card-text {
           font-family: var(--font-sans);
-          font-size: 16px;
-          font-weight: 700;
-          color: var(--c-white);
-        }
-
-        .support-role {
-          font-family: var(--font-sans);
-          font-size: 13px;
-          color: rgba(255,255,255,0.5);
-        }
-
-        @media (max-width: 1024px) {
-          .supporting-grid { grid-template-columns: repeat(2, 1fr); }
-          .support-card:last-child { display: none; /* Hide 3rd on tablet to keep grid even */ }
+          font-size: 13.5px;
+          line-height: 1.6;
+          color: rgba(255, 255, 255, 0.75);
+          font-weight: 400;
         }
 
         @media (max-width: 768px) {
-          .giant-quote-mark { left: -10px; font-size: 120px; top: -40px; }
-          .supporting-grid { grid-template-columns: 1fr; }
-          .support-card:last-child { display: flex; }
+          .testimonial-card {
+            width: 320px;
+            padding: 20px;
+          }
+          .marquee-fade-left, .marquee-fade-right {
+            width: 40px;
+          }
         }
       `}</style>
 
-      <div className="testimonials-container">
-        
-        {/* Eyebrow Pill */}
+      {/* Heading Section (Left Untouched) */}
+      <div className="testimonials-header-container">
         <Reveal delay={0}>
           <div 
             style={{
@@ -208,7 +224,7 @@ export default function Testimonials() {
               background: 'var(--rgba-dark-06)',
               border: '1px solid var(--rgba-white-03)',
               borderRadius: 100,
-              marginBottom: 80
+              marginBottom: 24
             }}
           >
             <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
@@ -218,58 +234,44 @@ export default function Testimonials() {
             <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
           </div>
         </Reveal>
+      </div>
 
-        {/* Featured Hero Quote */}
-        <Reveal delay={100}>
-          <div className="featured-quote-wrapper">
+      {/* Dual Row Marquee Scrollers */}
+      <div className="marquee-wrapper">
+        <div className="marquee-fade-left" />
+        <div className="marquee-fade-right" />
 
-            {/* Big decorative quote mark */}
-            <div className="giant-quote-mark" style={{ fontSize: '160px', color: 'rgba(109,220,109,0.15)' }}>
-              "
-            </div>
-
-            {/* The quote itself — floating, no card */}
-            <p className="featured-text" style={{ 
-              fontSize: 'clamp(18px, 2.2vw, 22px)', 
-              fontStyle: 'italic', 
-              fontWeight: 300, 
-              color: 'rgba(255,255,255,0.9)', 
-              lineHeight: 1.85, 
-              maxWidth: 700, 
-              textAlign: 'center',
-              margin: '0 0 40px 0'
-            }}>
-              "{featuredQuote.text}"
-            </p>
-
-            {/* Attribution */}
-            <div className="featured-author" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-              <div className="featured-divider" style={{ width: '80px', height: '1px', background: 'rgba(255,255,255,0.1)', marginBottom: '16px' }}></div>
-              <div className="featured-name" style={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>{featuredQuote.name}</div>
-              <div className="featured-role" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)' }}>{featuredQuote.role}, {featuredQuote.company}</div>
-            </div>
-          </div>
-        </Reveal>
-
-        {/* Supporting Quotes Row */}
-        <div className="supporting-grid">
-          {supportingTestimonials.map((item, i) => (
-            <Reveal key={i} delay={300 + (i * 100)}>
-              <div className="support-card">
-                <p className="support-text">"{item.text}"</p>
-                
-                <div className="support-author">
-                  <img src={item.image} alt={item.name} loading="lazy" className="support-img" />
-                  <div>
-                    <div className="support-name">{item.name}</div>
-                    <div className="support-role">{item.role}</div>
-                  </div>
+        {/* Row 1 - Left Scroll */}
+        <div className="marquee-track-left">
+          {[...row1Testimonials, ...row1Testimonials].map((item, idx) => (
+            <div key={`r1-${idx}`} className="testimonial-card">
+              <div className="card-header">
+                <div className="card-author-info">
+                  <div className="card-author-name">{item.name}</div>
+                  <div className="card-author-role">{item.role}</div>
                 </div>
+                <img src={item.image} alt={item.name} className="card-avatar" loading="lazy" />
               </div>
-            </Reveal>
+              <p className="card-text">"{item.text}"</p>
+            </div>
           ))}
         </div>
 
+        {/* Row 2 - Right Scroll */}
+        <div className="marquee-track-right">
+          {[...row2Testimonials, ...row2Testimonials].map((item, idx) => (
+            <div key={`r2-${idx}`} className="testimonial-card">
+              <div className="card-header">
+                <div className="card-author-info">
+                  <div className="card-author-name">{item.name}</div>
+                  <div className="card-author-role">{item.role}</div>
+                </div>
+                <img src={item.image} alt={item.name} className="card-avatar" loading="lazy" />
+              </div>
+              <p className="card-text">"{item.text}"</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
