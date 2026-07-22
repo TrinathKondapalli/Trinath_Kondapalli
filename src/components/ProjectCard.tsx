@@ -50,7 +50,7 @@ export default function ProjectCard({ index, title, category, image, result, hre
           position: 'relative',
           borderRadius: 12,
           overflow: 'hidden',
-          aspectRatio: large ? '16/9' : '4/3',
+          aspectRatio: '16/9',
           background: '#0d1f0d',
           textDecoration: 'none',
           cursor: 'none', 

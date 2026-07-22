@@ -1,6 +1,10 @@
 import Reveal from './Reveal';
+import { useLocation } from 'react-router-dom';
 
 export default function Footer() {
+  const location = useLocation();
+  if (location.pathname === '/case-study/nutribox') return null;
+
   return (
     <footer style={{
       position: 'relative',

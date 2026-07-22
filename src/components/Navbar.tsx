@@ -19,6 +19,9 @@ export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
+  const isNutriBox = location.pathname === '/case-study/nutribox';
+
+  if (isNutriBox) return null;
 
   const navItems = ['Home', 'About', 'Services', 'Work', 'Process', 'Contact'];
 

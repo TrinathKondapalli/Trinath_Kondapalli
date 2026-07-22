@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ReactLenis } from 'lenis/react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import CaseStudy from './pages/CaseStudy';
+import NutriBox from './pages/case-studies/NutriBox';
 
 import CustomCursor from './components/CustomCursor';
 import ScrollProgressBar from './components/ScrollProgressBar';
@@ -56,6 +56,19 @@ function AnimatedRoutes() {
           } 
         />
         <Route 
+          path="/case-study/nutribox" 
+          element={
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -20 }} 
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              <NutriBox />
+            </motion.div>
+          } 
+        />
+        <Route 
           path="/case-study/:slug" 
           element={
             <motion.div 
@@ -72,6 +85,8 @@ function AnimatedRoutes() {
     </AnimatePresence>
   );
 }
+
+import SmoothScrollProvider from './components/SmoothScrollProvider';
 
 function App() {
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -92,9 +107,9 @@ function App() {
       {prefersReducedMotion ? (
         content
       ) : (
-        <ReactLenis root options={{ anchors: true, lerp: 0.1, duration: 1.2 }}>
+        <SmoothScrollProvider>
           {content}
-        </ReactLenis>
+        </SmoothScrollProvider>
       )}
     </>
   );

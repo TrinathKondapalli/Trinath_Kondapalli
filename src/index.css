@@ -1,3 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+  --font-playfair: "Playfair Display", serif;
+  --font-inter: "Inter", sans-serif;
+}
+
 :root {
   /* Exact 8 locked Hex Tokens */
   --c-primary: #6dd74c;      /* Neon green primary */
