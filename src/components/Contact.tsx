@@ -1,7 +1,49 @@
-import { User, Mail, Send, Phone } from 'lucide-react';
+import { useState } from 'react';
+import { User, Mail, Send, Phone, MessageSquare } from 'lucide-react';
 import Reveal from './Reveal';
 
 export default function Contact() {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState('idle'); // 'idle' | 'sending' | 'success' | 'error'
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    let value = e.target.value;
+    if (e.target.name === 'name') {
+      value = value.replace(/[0-9]/g, '');
+    }
+    setFormData({ ...formData, [e.target.name]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('sending');
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: '5bb08f83-c996-4c3b-b042-301c179fdba4',
+          ...formData
+        })
+      });
+      const result = await response.json();
+      if (result.success) {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setStatus('idle'), 5000); // Reset after 5s
+      } else {
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 5000);
+      }
+    } catch (error) {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
+  };
+
   return (
     <section id="contact" style={{
       position: 'relative',
@@ -167,6 +209,38 @@ export default function Contact() {
           left: 20px;
           top: 50%;
           transform: translateY(-50%);
+          color: var(--c-primary);
+        }
+        
+        .contact-textarea {
+          width: 100%;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 16px;
+          padding: 18px 20px 18px 56px;
+          font-family: var(--font-sans);
+          font-size: 15px;
+          color: white;
+          transition: all 0.3s ease;
+          min-height: 120px;
+          resize: vertical;
+        }
+
+        .contact-textarea:focus {
+          outline: none;
+          border-color: color-mix(in srgb, var(--c-primary) 40%, transparent);
+          background: color-mix(in srgb, var(--c-primary) 5%, transparent);
+          box-shadow: 0 0 20px color-mix(in srgb, var(--c-primary) 10%, transparent);
+        }
+
+        .contact-textarea::placeholder {
+          color: rgba(255,255,255,0.4);
+        }
+
+        .input-icon-textarea {
+          position: absolute;
+          left: 20px;
+          top: 24px;
           color: var(--c-primary);
         }
 
@@ -380,25 +454,45 @@ export default function Contact() {
               <p className="contact-subtitle">Collaborate with me to bring your ideas to life.</p>
             </Reveal>
 
-            <Reveal delay={500} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-              <div className="contact-input-wrap">
-                <User className="input-icon" size={18} />
-                <input type="text" placeholder="Enter your name" className="contact-input" />
-              </div>
-            </Reveal>
-            
-            <Reveal delay={600} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-              <div className="contact-input-wrap">
-                <Mail className="input-icon" size={18} />
-                <input type="email" placeholder="Enter your email" className="contact-input" />
-              </div>
-            </Reveal>
+            <form onSubmit={handleSubmit} style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              <Reveal delay={500} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                <div className="contact-input-wrap">
+                  <User className="input-icon" size={18} />
+                  <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter your name" className="contact-input" />
+                </div>
+              </Reveal>
+              
+              <Reveal delay={600} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                <div className="contact-input-wrap">
+                  <Mail className="input-icon" size={18} />
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="Enter your email" className="contact-input" />
+                </div>
+              </Reveal>
 
-            <Reveal delay={700} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-              <button className="contact-submit">
-                <Send size={18} /> Send message
-              </button>
-            </Reveal>
+              <Reveal delay={650} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                <div className="contact-input-wrap">
+                  <MessageSquare className="input-icon-textarea" size={18} />
+                  <textarea name="message" value={formData.message} onChange={handleChange} required placeholder="Type your message" className="contact-textarea" />
+                </div>
+              </Reveal>
+
+              <Reveal delay={700} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                <button type="submit" disabled={status === 'sending'} className="contact-submit" style={{ opacity: status === 'sending' ? 0.7 : 1 }}>
+                  <Send size={18} /> {status === 'sending' ? 'Sending...' : 'Send message'}
+                </button>
+              </Reveal>
+              
+              {status === 'success' && (
+                <div style={{ color: 'var(--c-primary)', marginBottom: 40, textAlign: 'center', fontSize: 14, fontFamily: 'var(--font-sans)', fontWeight: 500 }}>
+                  Message sent successfully! I'll get back to you soon.
+                </div>
+              )}
+              {status === 'error' && (
+                <div style={{ color: '#ff4444', marginBottom: 40, textAlign: 'center', fontSize: 14, fontFamily: 'var(--font-sans)', fontWeight: 500 }}>
+                  Something went wrong. Please try again later.
+                </div>
+              )}
+            </form>
 
             <Reveal delay={800} style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
               <div className="contact-divider">

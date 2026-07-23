@@ -85,6 +85,7 @@ export default function Testimonials() {
           flex-direction: column;
           gap: 24px;
           overflow: hidden;
+          padding: 20px 0;
         }
 
         .marquee-fade-left {
