@@ -6,6 +6,8 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import CaseStudy from './pages/CaseStudy';
 import NutriBox from './pages/case-studies/NutriBox';
+import GoVigi from './pages/case-studies/GoVigi';
+import LinguLink from './pages/case-studies/LinguLink';
 
 import CustomCursor from './components/CustomCursor';
 import ScrollProgressBar from './components/ScrollProgressBar';
@@ -19,6 +21,19 @@ function ScrollToTop() {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
+}
+
+function Layout({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+  const isCaseStudy = location.pathname.startsWith('/case-study');
+
+  return (
+    <>
+      {!isCaseStudy && <Navbar />}
+      {children}
+      {!isCaseStudy && <Footer />}
+    </>
+  );
 }
 
 function usePrefersReducedMotion() {
@@ -69,6 +84,32 @@ function AnimatedRoutes() {
           } 
         />
         <Route 
+          path="/case-study/go-vigi" 
+          element={
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -20 }} 
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              <GoVigi />
+            </motion.div>
+          } 
+        />
+        <Route 
+          path="/case-study/lingu-link" 
+          element={
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -20 }} 
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              <LinguLink />
+            </motion.div>
+          } 
+        />
+        <Route 
           path="/case-study/:slug" 
           element={
             <motion.div 
@@ -95,9 +136,9 @@ function App() {
     <BrowserRouter>
       <ScrollToTop />
       <ScrollProgressBar />
-      <Navbar />
-      <AnimatedRoutes />
-      <Footer />
+      <Layout>
+        <AnimatedRoutes />
+      </Layout>
     </BrowserRouter>
   );
 

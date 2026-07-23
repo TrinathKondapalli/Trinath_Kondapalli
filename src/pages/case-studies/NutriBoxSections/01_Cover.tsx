@@ -39,9 +39,9 @@ export default function Cover() {
         className="relative mt-16 w-full max-w-6xl mx-auto px-4 z-20 translate-y-12 md:translate-y-24 flex justify-center"
       >
         <img 
-          src="https://images.unsplash.com/photo-1599490659213-e2b9527bd08c?auto=format&fit=crop&q=80&w=1200" 
+          src="/nutribox/nutribox-hero.png" 
           alt="NutriBox Landing Page Reveal" 
-          className="w-full max-w-4xl h-auto object-cover aspect-[21/9] rounded-[2rem] drop-shadow-[0_30px_60px_rgba(30,63,34,0.15)]" 
+          className="w-full max-w-5xl h-auto object-cover rounded-[2rem] drop-shadow-[0_30px_60px_rgba(30,63,34,0.15)]" 
         />
       </motion.div>
       

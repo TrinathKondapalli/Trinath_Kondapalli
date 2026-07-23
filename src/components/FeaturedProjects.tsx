@@ -2,12 +2,9 @@ import ProjectCard from './ProjectCard';
 import Reveal from './Reveal';
 
 const projects = [
-  { index:1, title:'NutriBox', category:'D2C E-Commerce', image:'/Case_study_1.png', result:'▲ 40% conversion', href:'/case-study/nutribox' },
-  { index:2, title:'Finance Dashboard',   category:'Product Design', image:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200', result:'▼ 25% churn rate', href:'/case-study/finance-dashboard' },
-  { index:3, title:'Premium Portfolio',   category:'Web Design',     image:'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200', result:'▲ 80% engagement', href:'/case-study/premium-portfolio' },
-  { index:4, title:'E-Commerce App',      category:'Mobile UX',      image:'https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&q=80&w=800',  result:'▲ 120% mobile sales', href:'/case-study/ecommerce-app' },
-  { index:5, title:'SaaS Architecture',   category:'Design System',  image:'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800',  result:'▲ $10k MRR growth', href:'/case-study/saas-architecture' },
-  { index:6, title:'AI Interface',        category:'UX Engineering', image:'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800',  result:'▼ 40% task time', href:'/case-study/ai-interface' },
+  { index:1, title:'NutriBox', category:'D2C E-Commerce', image:'/nutribox/Case_study_1.png', result:'+- 40% conversion', href:'/case-study/nutribox' },
+  { index:2, title:'LinguLink', category:'Social Learning', image:'/lingulink/Lingualink_Banner.png', result:'100k+ Active Users', href:'/case-study/lingu-link' },
+  { index:3, title:'Go Vigi', category:'B2B Agri-Tech', image:'/govigi/Govigi_Project_Thumbnail.png', result:'Omnichannel Release', href:'/case-study/go-vigi' },
 ];
 
 export default function FeaturedProjects() {
@@ -120,7 +117,7 @@ export default function FeaturedProjects() {
         >
           <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
           <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-            SELECTED WORK — 06 PROJECTS
+            SELECTED WORK — 03 PROJECTS
           </span>
           <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
         </div>

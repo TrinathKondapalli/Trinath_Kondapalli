@@ -4,6 +4,11 @@ export default function ThankYou() {
   return (
     <section className="py-32 px-6 md:px-12 bg-[#F9F8F6] border-t border-gray-200 text-center">
       <div className="max-w-3xl mx-auto">
+        <div className="flex justify-center mb-8">
+          <div className="w-12 h-12 rounded-full border border-[#6DD74C]/30 flex items-center justify-center relative">
+            <div className="w-2 h-2 bg-[#6DD74C] rounded-full animate-pulse"></div>
+          </div>
+        </div>
         <h2 className="font-playfair text-5xl md:text-7xl mb-8">Thank You.</h2>
         <p className="font-inter text-xl text-gray-500 mb-12">Thank you for reviewing the NutriBox Case Study.</p>
         
