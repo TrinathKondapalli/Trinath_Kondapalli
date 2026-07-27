@@ -213,7 +213,7 @@ export default function AboutMe() {
                 Book a call
                 <ArrowRight size={18} strokeWidth={2.5} />
               </GlobalMagneticButton>
-              <a href="/cv.pdf" className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
+              <a href="/Trinath_Kondapalli_Resume.pdf" download="Trinath_Kondapalli_Resume.pdf" className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
                 Download CV
                 <Download size={18} strokeWidth={2.5} />
               </a>
