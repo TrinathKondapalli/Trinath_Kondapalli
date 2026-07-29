@@ -11,6 +11,7 @@ import LinguLink from './pages/case-studies/LinguLink';
 
 import CustomCursor from './components/CustomCursor';
 import ScrollProgressBar from './components/ScrollProgressBar';
+import Preloader from './components/Preloader';
 
 import './index.css';
 
@@ -61,7 +62,7 @@ function AnimatedRoutes() {
           path="/" 
           element={
             <motion.div 
-              initial={{ opacity: 0, y: 20 }} 
+              initial={false} 
               animate={{ opacity: 1, y: 0 }} 
               exit={{ opacity: 0, y: -20 }} 
               transition={{ duration: 0.4, ease: "easeInOut" }}
@@ -131,6 +132,18 @@ import SmoothScrollProvider from './components/SmoothScrollProvider';
 
 function App() {
   const prefersReducedMotion = usePrefersReducedMotion();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isLoading]);
 
   const content = (
     <BrowserRouter>
@@ -144,6 +157,11 @@ function App() {
 
   return (
     <>
+      <AnimatePresence mode="wait">
+        {isLoading && (
+          <Preloader key="preloader" onComplete={() => setIsLoading(false)} />
+        )}
+      </AnimatePresence>
       <CustomCursor />
       {prefersReducedMotion ? (
         content
