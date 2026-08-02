@@ -15,14 +15,20 @@ export function useCountUp(target: number, duration: number = 1200) {
           hasRun.current = true
           const start = performance.now()
 
+          let lastTime = 0
           const tick = (now: number) => {
             const elapsed = now - start
             const progress = Math.min(elapsed / duration, 1)
             // easeOutCubic
             const eased = 1 - Math.pow(1 - progress, 3)
-            setCount(Math.floor(eased * target))
+            const val = Math.floor(eased * target)
+
+            if (now - lastTime > 50 || progress >= 1) {
+              lastTime = now
+              setCount(val)
+            }
+
             if (progress < 1) requestAnimationFrame(tick)
-            else setCount(target)
           }
 
           requestAnimationFrame(tick)

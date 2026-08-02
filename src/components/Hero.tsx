@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
-// @ts-ignore
-import portrait from '../assets/portrait.jpg?format=webp&width=900&quality=82';
+import portrait from '../assets/portrait.webp';
 import SplitText from './SplitText';
 import Reveal from './Reveal';
 
