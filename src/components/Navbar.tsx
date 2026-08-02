@@ -139,10 +139,15 @@ export default function Navbar() {
         </GlobalMagneticButton>
 
         {/* Mobile Hamburger Button */}
-        <button className="mobile-menu-btn" onClick={() => setIsOpen(!isOpen)} style={{
-          background: 'none', border: 'none', color: 'var(--c-white)',
-          cursor: 'pointer', padding: 8, display: 'none', alignItems: 'center', justifyContent: 'center'
-        }}>
+        <button 
+          className="mobile-menu-btn" 
+          onClick={() => setIsOpen(!isOpen)} 
+          aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+          style={{
+            background: 'none', border: 'none', color: 'var(--c-white)',
+            cursor: 'pointer', padding: 8, display: 'none', alignItems: 'center', justifyContent: 'center'
+          }}
+        >
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={isOpen ? "close" : "open"}
