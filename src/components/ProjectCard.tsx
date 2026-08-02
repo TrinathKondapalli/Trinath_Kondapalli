@@ -2,7 +2,10 @@ import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Reveal from './Reveal'
 
-export default function ProjectCard({ index, title, category, image, result, href = '#', large = false }: any) {
+export default function ProjectCard({ 
+  index, title, category, image, result, href = '#', large = false,
+  problem, process, outcome, isPlaceholder = false
+}: any) {
   const [hovered, setHovered] = useState(false)
   const cardRef = useRef<HTMLAnchorElement>(null)
   const lightRef = useRef<HTMLDivElement>(null)
@@ -126,26 +129,46 @@ export default function ProjectCard({ index, title, category, image, result, hre
             style={{
               transform: hovered ? 'translateY(0)' : 'translateY(10px)',
               transition: 'transform 0.3s ease',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 6
             }}
           >
             <div
               style={{
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: 700,
                 color: '#fff',
-                marginBottom: 4,
               }}
             >
-              {title}
+              {title} {isPlaceholder && <span style={{ fontSize: 11, color: 'var(--c-primary)', fontWeight: 400 }}>(Upcoming)</span>}
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+
+            {/* Problem / Process / Outcome Summary */}
+            {problem && (
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', lineHeight: 1.4 }}>
+                <strong style={{ color: '#fff' }}>Problem:</strong> {problem}
+              </div>
+            )}
+            {process && (
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', lineHeight: 1.4 }}>
+                <strong style={{ color: '#fff' }}>Process:</strong> {process}
+              </div>
+            )}
+            {outcome && (
+              <div style={{ fontSize: 11, color: '#6ddc6d', fontWeight: 600, lineHeight: 1.4 }}>
+                <strong>Outcome:</strong> {outcome}
+              </div>
+            )}
+
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 4 }}>
               <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>{category}</span>
               {result && (
                 <span
                   style={{
                     fontSize: 12,
                     color: '#6ddc6d',
-                    fontWeight: 500,
+                    fontWeight: 600,
                   }}
                 >
                   {result}

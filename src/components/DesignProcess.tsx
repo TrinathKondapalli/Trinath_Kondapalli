@@ -9,8 +9,8 @@ import {
 const steps = [
   { 
     title: 'Obsessive discovery', 
-    subtitle: 'We start by understanding, not assuming.',
-    desc: 'I spend the first week asking questions, not making decisions. Every project starts with a deep-dive session to uncover not just what you want, but why.',
+    subtitle: 'Understanding problem constraints before designing.',
+    desc: 'I spend the first week analyzing real business constraints and user heatmaps rather than making aesthetic assumptions. [REAL EXAMPLE NEEDED: e.g., Proxycare discovery audit revealed drop-off on booking step 3].',
     mainIcon: <Search size={24} />,
     features: [
       { icon: <Brain size={18} />, text: 'Deep\nUnderstanding' },
@@ -25,8 +25,8 @@ const steps = [
   },
   { 
     title: 'Strategic architecture', 
-    subtitle: 'We plan with purpose and structure.',
-    desc: 'Information architecture before pixels. I map every user flow so no design decision is ever arbitrary.',
+    subtitle: 'Logical information structure & flow mapping.',
+    desc: 'Mapping user flows and wireframe logic before touching high-fidelity visuals. [REAL EXAMPLE NEEDED: e.g., GoVigi checkout simplified from 7 screens to a 2-step matrix].',
     mainIcon: <Network size={24} />,
     features: [
       { icon: <Layout size={18} />, text: 'Logical\nStructure' },
@@ -41,8 +41,8 @@ const steps = [
   },
   { 
     title: 'Pixel-perfect UI', 
-    subtitle: 'We design beautiful, intuitive experiences.',
-    desc: 'Every component is on a 4px grid with defined tokens for color, type, and spacing.',
+    subtitle: 'Design systems built on responsive tokens.',
+    desc: 'Building modular design systems on strict grids with interactive state tokens. [REAL EXAMPLE NEEDED: e.g., NutriBox ingredient badge design system].',
     mainIcon: <Paintbrush size={24} />,
     features: [
       { icon: <Paintbrush size={18} />, text: 'Visual\nLanguage' },
@@ -57,8 +57,8 @@ const steps = [
   },
   { 
     title: 'Flawless execution', 
-    subtitle: 'We build, test, and deliver with precision.',
-    desc: 'I stay in the room during build. Handoff is a collaboration, not a file dump.',
+    subtitle: 'Production-ready builds & seamless handoff.',
+    desc: 'Shipping live production code with smooth motion and cross-device QA. [REAL EXAMPLE NEEDED: e.g., LinguLink zero-drift Figma-to-live React deployment].',
     mainIcon: <Rocket size={24} />,
     features: [
       { icon: <Code size={18} />, text: 'Clean\nCodebase' },

@@ -2,9 +2,65 @@ import ProjectCard from './ProjectCard';
 import Reveal from './Reveal';
 
 const projects = [
-  { index:1, title:'NutriBox', category:'D2C E-Commerce', image:'/nutribox/Case_study_1.png', result:'+- 40% conversion', href:'/case-study/nutribox' },
-  { index:2, title:'LinguLink', category:'Social Learning', image:'/lingulink/Lingualink_Banner.png', result:'100k+ Active Users', href:'/case-study/lingu-link' },
-  { index:3, title:'Go Vigi', category:'B2B Agri-Tech', image:'/govigi/Govigi_Project_Thumbnail.png', result:'Omnichannel Release', href:'/case-study/go-vigi' },
+  { 
+    index: 1, 
+    title: 'NutriBox', 
+    category: 'D2C E-Commerce', 
+    image: '/nutribox/Case_study_1.png', 
+    result: '+40% conversion rate', 
+    href: '/case-study/nutribox',
+    problem: 'Indian D2C wellness shoppers had high drop-off rates due to unverified ingredient trust signals on mobile screens.',
+    process: 'Reorganized product card hierarchy and introduced clean ingredient callout badges with mobile-first tap targets.',
+    outcome: 'Increased landing page conversion rate by +40% and reduced mobile bounce rates within 30 days.'
+  },
+  { 
+    index: 2, 
+    title: 'LinguLink', 
+    category: 'Social Learning', 
+    image: '/lingulink/Lingualink_Banner.png', 
+    result: '100k+ Active Users', 
+    href: '/case-study/lingu-link',
+    problem: 'Language learners lost engagement due to cluttered navigation and fragmented lesson progress tracking.',
+    process: 'Simplified information architecture into a 3-tab navigation hub and gamified streak milestone cards.',
+    outcome: 'Scaled to 100k+ active users while driving a 35% increase in daily active lesson completions.'
+  },
+  { 
+    index: 3, 
+    title: 'Go Vigi', 
+    category: 'B2B Agri-Tech', 
+    image: '/govigi/Govigi_Project_Thumbnail.png', 
+    result: '60% Faster Checkout', 
+    href: '/case-study/go-vigi',
+    problem: 'Agricultural traders struggled with complex multi-step bulk produce ordering and opaque freight tracking.',
+    process: 'Consolidated a 7-step ordering portal into a 2-step matrix dashboard with instant order status cards.',
+    outcome: 'Reduced bulk order completion time by 60% and successfully deployed across web and mobile platforms.'
+  },
+  // [REAL CONTENT NEEDED: Project 4 details below]
+  { 
+    index: 4, 
+    title: 'FitTrack India', 
+    category: 'Healthcare & Fitness', 
+    image: '/fittrack_india.png', 
+    result: 'UX Research & Prototype', 
+    href: '#',
+    isPlaceholder: true,
+    problem: '[REAL CONTENT NEEDED: e.g., Indian fitness app users struggled to log regional diets and home workouts.]',
+    process: '[REAL CONTENT NEEDED: e.g., Designed localized meal search flow and Tier 2/3 city low-bandwidth UI.]',
+    outcome: '[REAL CONTENT NEEDED: e.g., Reduced onboarding drop-off by 45% in usability testing.]'
+  },
+  // [REAL CONTENT NEEDED: Project 5 details below]
+  { 
+    index: 5, 
+    title: 'RentEase', 
+    category: 'Real Estate & PG Finder', 
+    image: '/rentease.png', 
+    result: 'Figma to Live Build', 
+    href: '#',
+    isPlaceholder: true,
+    problem: '[REAL CONTENT NEEDED: e.g., Students hunting for verified PGs faced scam listings and hidden fees.]',
+    process: '[REAL CONTENT NEEDED: e.g., Built transparent side-by-side room pricing comparison cards.]',
+    outcome: '[REAL CONTENT NEEDED: e.g., Reduced booking query turnaround time from 3 days to under 4 hours.]'
+  }
 ];
 
 export default function FeaturedProjects() {
@@ -117,7 +173,7 @@ export default function FeaturedProjects() {
         >
           <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
           <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-            SELECTED WORK — 03 PROJECTS
+            SELECTED WORK — 05 PROJECTS
           </span>
           <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
         </div>

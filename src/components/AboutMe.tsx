@@ -173,7 +173,7 @@ export default function AboutMe() {
         {/* LEFT COLUMN: Editorial Photo */}
         <Reveal delay={0}>
           <div className="photo-column">
-            <img src={portrait} alt="Trinadh Kondapalli" loading="lazy" className="photo-img" />
+            <img src={portrait} alt="Trinath Kondapalli" loading="lazy" className="photo-img" />
             <div className="photo-vignette" />
           </div>
         </Reveal>

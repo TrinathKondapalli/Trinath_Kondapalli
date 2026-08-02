@@ -7,21 +7,28 @@ export function useReveal(options: any = {}) {
     const el = ref.current
     if (!el) return
 
-    // Set transition dynamically based on delay
-    el.style.transition = `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${options.delay || 0}ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${options.delay || 0}ms`
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (prefersReducedMotion) {
+      el.style.transition = `opacity 0.4s ease ${options.delay || 0}ms`
+      el.style.transform = 'none'
+    } else {
+      el.style.transition = `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${options.delay || 0}ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${options.delay || 0}ms`
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           el.style.opacity = '1'
-          el.style.transform = 'translateY(0)'
+          if (!prefersReducedMotion) {
+            el.style.transform = 'translateY(0)'
+          }
           observer.unobserve(el)
         }
       },
       { threshold: options.threshold || 0.12 }
     )
 
-    // Slight delay before observing to guarantee initial styles are painted
     const timeout = setTimeout(() => observer.observe(el), 10)
     
     return () => {

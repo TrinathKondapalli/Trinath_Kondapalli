@@ -488,7 +488,7 @@ export default function FAQ() {
       <Reveal delay={400}>
         <div className="faq-bottom-cta">
           <div className="faq-bottom-text">Still have questions?</div>
-          <a href="mailto:hello@trinadh.com" className="faq-bottom-btn">
+          <a href="mailto:trinathkondapalli@gmail.com" className="faq-bottom-btn">
             Let's talk about your project <ArrowRight size={16} />
           </a>
         </div>

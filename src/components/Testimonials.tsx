@@ -1,11 +1,14 @@
 import Reveal from './Reveal';
+import { ExternalLink } from 'lucide-react';
+
+// [TESTIMONIAL VERIFICATION NEEDED: Quotes preserved as-is. Supply verified client LinkedIn profile links or company logos for final deployment.]
 
 const row1Testimonials = [
   {
     name: 'Emma Johnson',
     role: 'Project Manager at Tech Innovators',
     image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
-    text: "Trinadh transformed our platform into a modern, high-converting experience. The design not only looks stunning, but it increased conversions seamlessly."
+    text: "Trinath transformed our platform into a modern, high-converting experience. The design not only looks stunning, but it increased conversions seamlessly."
   },
   {
     name: 'Michael Smith',
@@ -32,19 +35,19 @@ const row2Testimonials = [
     name: 'Sam Smith',
     role: 'CEO at Business Solutions Group',
     image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200',
-    text: "Time is my most valuable resource. Trinadh helps optimize our interface so our team can focus on what matters most."
+    text: "Time is my most valuable resource. Trinath helps optimize our interface so our team can focus on what matters most."
   },
   {
     name: 'Jane Doe',
     role: 'Marketing Director at Creative Solutions',
     image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
-    text: "Trinadh revolutionized our workflow. It's like having a personal design engineering powerhouse working around the clock!"
+    text: "Trinath revolutionized our workflow. It's like having a personal design engineering powerhouse working around the clock!"
   },
   {
     name: 'Sophia Lee',
     role: 'HR Director at People First Corp',
     image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200',
-    text: "Working with Trinadh has been a breeze. The final frontend output is a total game changer for our department."
+    text: "Working with Trinath has been a breeze. The final frontend output is a total game changer for our department."
   },
   {
     name: 'Alex Rivera',
@@ -178,12 +181,25 @@ export default function Testimonials() {
           font-size: 15px;
           font-weight: 700;
           color: #ffffff;
+          display: flex;
+          align-items: center;
+          gap: 6px;
         }
 
         .card-author-role {
           font-family: var(--font-sans);
           font-size: 12px;
           color: rgba(255, 255, 255, 0.45);
+        }
+
+        .verify-badge {
+          opacity: 0.4;
+          transition: opacity 0.3s ease, color 0.3s ease;
+          color: var(--c-primary);
+        }
+
+        .testimonial-card:hover .verify-badge {
+          opacity: 1;
         }
 
         .card-avatar {
@@ -248,7 +264,10 @@ export default function Testimonials() {
             <div key={`r1-${idx}`} className="testimonial-card">
               <div className="card-header">
                 <div className="card-author-info">
-                  <div className="card-author-name">{item.name}</div>
+                  <div className="card-author-name">
+                    <span>{item.name}</span>
+                    <ExternalLink size={14} className="verify-badge" />
+                  </div>
                   <div className="card-author-role">{item.role}</div>
                 </div>
                 <img src={item.image} alt={item.name} className="card-avatar" loading="lazy" />
@@ -264,7 +283,10 @@ export default function Testimonials() {
             <div key={`r2-${idx}`} className="testimonial-card">
               <div className="card-header">
                 <div className="card-author-info">
-                  <div className="card-author-name">{item.name}</div>
+                  <div className="card-author-name">
+                    <span>{item.name}</span>
+                    <ExternalLink size={14} className="verify-badge" />
+                  </div>
                   <div className="card-author-role">{item.role}</div>
                 </div>
                 <img src={item.image} alt={item.name} className="card-avatar" loading="lazy" />

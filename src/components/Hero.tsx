@@ -187,7 +187,7 @@ export default function Hero() {
               marginBottom: 24
             }}
           >
-            Hi! I'm Trinadh Kondapalli 
+            Hi! I'm Trinath Kondapalli 
             <span style={{ color: 'var(--c-primary)' }}>•</span> 
             Based in India
           </div>

@@ -1,11 +1,9 @@
 import Reveal from './Reveal';
 
 const servicesList = [
-  { num: '01', title: 'UX/UI Design', tag: 'Digital Products' },
-  { num: '02', title: 'Website Design', tag: 'High-Converting' },
-  { num: '03', title: 'Frontend Dev', tag: 'React & Next.js' },
-  { num: '04', title: 'Graphic Design', tag: 'Brand Identity' },
-  { num: '05', title: 'Video Editing', tag: 'Motion Graphics' }
+  { num: '01', title: 'UX/UI Design', tag: 'DIGITAL PRODUCTS', subtitle: '' },
+  { num: '02', title: 'Website Design & Development', tag: 'DESIGN TO LIVE', subtitle: 'Design-to-live builds using AI-accelerated workflows.' },
+  { num: '03', title: 'Interactive & Motion-Led Web', tag: 'SCROLL & MOTION', subtitle: 'Scroll animations, micro-interactions, and page transitions.' }
 ];
 
 export default function Services() {
@@ -184,6 +182,19 @@ export default function Services() {
           />
         ))}
       </div>
+
+      {/* De-emphasized secondary skills note */}
+      <Reveal delay={300}>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '14px',
+          color: 'rgba(255,255,255,0.4)',
+          marginTop: '64px',
+          textAlign: 'center'
+        }}>
+          Also comfortable with: graphic design, video editing
+        </p>
+      </Reveal>
     </section>
   );
 }
@@ -194,7 +205,20 @@ function ServiceRow({ service, index }: { service: any, index: number }) {
       <div className={`service-row${index === 0 ? ' is-first' : ''}`}>
         <div className="service-content">
           <div className="service-num">{service.num}</div>
-          <div className="service-title">{service.title}</div>
+          <div>
+            <div className="service-title">{service.title}</div>
+            {service.subtitle && (
+              <p style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '14px',
+                color: 'rgba(255,255,255,0.5)',
+                marginTop: '8px',
+                lineHeight: 1.5
+              }}>
+                {service.subtitle}
+              </p>
+            )}
+          </div>
           <div className="service-tag">{service.tag}</div>
         </div>
       </div>

@@ -1,12 +1,9 @@
 const skills = [
-  'UI/UX Design', 'Video Editing', 'Motion Graphics', 'Graphic Design', 'Frontend Development'
+  'UX/UI Design', 'Website Design & Development', 'Interactive & Motion-Led Web', 'Design-to-Live Workflows'
 ];
 
 const tools = [
-  'Figma', 'Adobe XD', 'Framer', 'Paper', 'Adobe Premiere Pro', 
-  'DaVinci Resolve', 'CapCut Desktop', 'Adobe After Effects', 
-  'Blender', 'Spline', 'Adobe Photoshop', 'Adobe Illustrator', 
-  'Canva', 'Visual Studio Code', 'Anti Gravity', 'Cursor', 'Lovable', 'Windsurf'
+  'Figma', 'Framer', 'Adobe XD', 'Next.js', 'GSAP', 'VS Code'
 ];
 
 // Duplicate for seamless infinite looping
@@ -17,7 +14,7 @@ export default function ToolsMarquee() {
   return (
     <section id="tools" style={{
       width: '100%',
-      background: '#0d0d0d', // 2-3% lighter than the #0a0a0a base
+      background: '#081509',
       padding: '64px 0',
       display: 'flex',
       flexDirection: 'column',
@@ -61,12 +58,12 @@ export default function ToolsMarquee() {
         
         .marquee-wrapper::before {
           left: 0;
-          background: linear-gradient(to right, #0d0d0d, transparent);
+          background: linear-gradient(to right, #081509, transparent);
         }
 
         .marquee-wrapper::after {
           right: 0;
-          background: linear-gradient(to left, #0d0d0d, transparent);
+          background: linear-gradient(to left, #081509, transparent);
         }
 
         .marquee-track {
