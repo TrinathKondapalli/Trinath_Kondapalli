@@ -114,7 +114,7 @@ function CurvedMarquee() {
         >
           <textPath href="#curve-path" startOffset="0%">
             <animate attributeName="startOffset" from="0%" to="-100%" dur="30s" repeatCount="indefinite" />
-            {"UX/UI Design • Website Design • Front-end Development • Creative Content • ".repeat(30)}
+            {"UX/UI Design • Website Design & Development • Interactive & Motion-Led Web • ".repeat(30)}
           </textPath>
         </text>
       </svg>
