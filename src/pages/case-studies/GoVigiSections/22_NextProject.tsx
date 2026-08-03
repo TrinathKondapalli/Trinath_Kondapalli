@@ -11,8 +11,8 @@ export default function NextProject() {
             </div>
             <p className="text-sm font-manrope uppercase tracking-widest text-[#1C3621]/40">Up Next</p>
         </div>
-        <Link to="/case-study/nutribox" className="group inline-flex flex-col items-center hover:opacity-80 transition-opacity">
-          <h2 className="font-bosan font-extrabold tracking-tight text-5xl md:text-7xl mb-8 text-[#1C3621]">NutriBox</h2>
+        <Link to="/case-study/fit-track" className="group inline-flex flex-col items-center hover:opacity-80 transition-opacity">
+          <h2 className="font-bosan font-extrabold tracking-tight text-5xl md:text-7xl mb-8 text-[#1C3621]">FitTrack India</h2>
           <div className="flex items-center gap-3 px-8 py-4 bg-[#1C3621] text-[#F8F7F3] rounded-full font-bosan font-bold group-hover:bg-[#3B6645] transition-colors shadow-lg">
             View Case Study
             <ArrowRight size={20} strokeWidth={2.5} />

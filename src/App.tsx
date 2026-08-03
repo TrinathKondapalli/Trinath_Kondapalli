@@ -8,6 +8,7 @@ import CaseStudy from './pages/CaseStudy';
 import NutriBox from './pages/case-studies/NutriBox';
 import GoVigi from './pages/case-studies/GoVigi';
 import LinguLink from './pages/case-studies/LinguLink';
+import FitTrack from './pages/case-studies/FitTrack';
 
 import CustomCursor from './components/CustomCursor';
 import ScrollProgressBar from './components/ScrollProgressBar';
@@ -107,6 +108,19 @@ function AnimatedRoutes() {
               transition={{ duration: 0.4, ease: "easeInOut" }}
             >
               <LinguLink />
+            </motion.div>
+          } 
+        />
+        <Route 
+          path="/case-study/fit-track" 
+          element={
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -20 }} 
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              <FitTrack />
             </motion.div>
           } 
         />

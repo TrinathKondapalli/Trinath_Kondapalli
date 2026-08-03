@@ -35,18 +35,17 @@ const projects = [
     process: 'Consolidated a 7-step ordering portal into a 2-step matrix dashboard with instant order status cards.',
     outcome: 'Reduced bulk order completion time by 60% and successfully deployed across web and mobile platforms.'
   },
-  // [REAL CONTENT NEEDED: Project 4 details below]
   { 
     index: 4, 
     title: 'FitTrack India', 
     category: 'Healthcare & Fitness', 
     image: '/fittrack_india.png', 
-    result: 'UX Research & Prototype', 
-    href: '#',
-    isPlaceholder: true,
-    problem: '[REAL CONTENT NEEDED: e.g., Indian fitness app users struggled to log regional diets and home workouts.]',
-    process: '[REAL CONTENT NEEDED: e.g., Designed localized meal search flow and Tier 2/3 city low-bandwidth UI.]',
-    outcome: '[REAL CONTENT NEEDED: e.g., Reduced onboarding drop-off by 45% in usability testing.]'
+    result: '19-Page UX Case Study', 
+    href: '/case-study/fit-track',
+    isPlaceholder: false,
+    problem: 'Indian health seekers struggled to navigate fragmented diet tracking and inconsistent fitness guidance on mobile screens.',
+    process: 'Structured a 19-stage UX blueprint — from user persona mapping (Meet Ananya) to localized diet systems and hi-fi mobile screens.',
+    outcome: 'Delivered a holistic fitness ecosystem with localized diet search, streak milestone cards, and 100% accessible UI craft.'
   },
   // [REAL CONTENT NEEDED: Project 5 details below]
   { 
