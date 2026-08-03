@@ -1,19 +1,23 @@
-# Trinath Kondapalli — UX/UI Designer & Web Developer
+# Trinath Kondapalli
 
 > Senior UX/UI Designer & Design-to-Live Developer specializing in high-converting web applications, micro-interactions, and AI-accelerated workflows.
 
-## Primary Services
-- **UX/UI Design**: User research, information architecture, wireframing, and design systems for web and mobile products.
-- **Website Design & Development**: End-to-end design-to-live production builds using AI-accelerated workflows and Next.js / React.
-- **Interactive & Motion-Led Web**: Code-based animations, page transitions, and micro-interactions using GSAP and Framer Motion.
+## Services
+
+- [UX/UI Design](https://trinath-kondapalli.vercel.app/#services): User research, information architecture, wireframing, and design systems for web and mobile products.
+- [Website Design & Development](https://trinath-kondapalli.vercel.app/#services): End-to-end design-to-live production builds using AI-accelerated workflows and Next.js / React.
+- [Interactive & Motion-Led Web](https://trinath-kondapalli.vercel.app/#services): Code-based animations, page transitions, and micro-interactions using GSAP and Framer Motion.
 
 ## Selected Case Studies
-- **NutriBox**: D2C wellness e-commerce platform redesign (+40% conversion rate).
-- **LinguLink**: Social language learning app (100k+ active users).
-- **Go Vigi**: B2B agricultural logistics and bulk ordering portal (60% faster checkout).
 
-## Contact & Links
-- **Website**: https://trinath-kondapalli.vercel.app/
-- **Email**: mailto:trinathkondapalli@gmail.com
-- **GitHub**: https://github.com/Trinadh7
-- **Dribbble**: https://dribbble.com/Trinadh_7
+- [NutriBox Case Study](https://trinath-kondapalli.vercel.app/case-study/nutribox): D2C wellness e-commerce platform redesign (+40% conversion rate).
+- [LinguLink Case Study](https://trinath-kondapalli.vercel.app/case-study/lingu-link): Social language learning app (100k+ active users).
+- [GoVigi Case Study](https://trinath-kondapalli.vercel.app/case-study/go-vigi): B2B agricultural logistics and bulk ordering portal (60% faster checkout).
+- [FitTrack India Case Study](https://trinath-kondapalli.vercel.app/case-study/fit-track): 19-stage healthcare and fitness UX case study.
+
+## Contact & Profiles
+
+- [Portfolio Website](https://trinath-kondapalli.vercel.app/): Main portfolio site.
+- [GitHub Profile](https://github.com/Trinadh7): Open-source repositories and code projects.
+- [Dribbble Profile](https://dribbble.com/Trinadh_7): Design portfolio shots.
+- [Contact Email](mailto:trinathkondapalli@gmail.com): Direct email inquiry.
