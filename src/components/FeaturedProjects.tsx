@@ -46,19 +46,6 @@ const projects = [
     problem: 'Indian health seekers struggled to navigate fragmented diet tracking and inconsistent fitness guidance on mobile screens.',
     process: 'Structured a 19-stage UX blueprint — from user persona mapping (Meet Ananya) to localized diet systems and hi-fi mobile screens.',
     outcome: 'Delivered a holistic fitness ecosystem with localized diet search, streak milestone cards, and 100% accessible UI craft.'
-  },
-  // [REAL CONTENT NEEDED: Project 5 details below]
-  { 
-    index: 5, 
-    title: 'RentEase', 
-    category: 'Real Estate & PG Finder', 
-    image: '/rentease.png', 
-    result: 'Figma to Live Build', 
-    href: '#',
-    isPlaceholder: true,
-    problem: '[REAL CONTENT NEEDED: e.g., Students hunting for verified PGs faced scam listings and hidden fees.]',
-    process: '[REAL CONTENT NEEDED: e.g., Built transparent side-by-side room pricing comparison cards.]',
-    outcome: '[REAL CONTENT NEEDED: e.g., Reduced booking query turnaround time from 3 days to under 4 hours.]'
   }
 ];
 
@@ -77,8 +64,8 @@ export default function FeaturedProjects() {
       <style>{`
         .editorial-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 24px;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 32px;
           width: 100%;
           max-width: 1440px;
           margin-bottom: 64px;
@@ -172,7 +159,7 @@ export default function FeaturedProjects() {
         >
           <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
           <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-            SELECTED WORK — 05 PROJECTS
+            SELECTED WORK — 04 PROJECTS
           </span>
           <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
         </div>
