@@ -4,14 +4,15 @@ import Reveal from './Reveal';
 const projects = [
   { 
     index: 1, 
-    title: 'NutriBox', 
-    category: 'D2C E-Commerce', 
-    image: '/nutribox/Case_study_1.png', 
-    result: '+40% conversion rate', 
-    href: '/case-study/nutribox',
-    problem: 'Indian D2C wellness shoppers had high drop-off rates due to unverified ingredient trust signals on mobile screens.',
-    process: 'Reorganized product card hierarchy and introduced clean ingredient callout badges with mobile-first tap targets.',
-    outcome: 'Increased landing page conversion rate by +40% and reduced mobile bounce rates within 30 days.'
+    title: 'FitTrack India', 
+    category: 'Healthcare & Fitness', 
+    image: '/fittrack_india.png', 
+    result: '19-Page UX Case Study', 
+    href: '/case-study/fit-track',
+    isPlaceholder: false,
+    problem: 'Indian health seekers struggled to navigate fragmented diet tracking and inconsistent fitness guidance on mobile screens.',
+    process: 'Structured a 19-stage UX blueprint — from user persona mapping (Meet Ananya) to localized diet systems and hi-fi mobile screens.',
+    outcome: 'Delivered a holistic fitness ecosystem with localized diet search, streak milestone cards, and 100% accessible UI craft.'
   },
   { 
     index: 2, 
@@ -26,6 +27,17 @@ const projects = [
   },
   { 
     index: 3, 
+    title: 'NutriBox', 
+    category: 'D2C E-Commerce', 
+    image: '/nutribox/Case_study_1.png', 
+    result: '+40% conversion rate', 
+    href: '/case-study/nutribox',
+    problem: 'Indian D2C wellness shoppers had high drop-off rates due to unverified ingredient trust signals on mobile screens.',
+    process: 'Reorganized product card hierarchy and introduced clean ingredient callout badges with mobile-first tap targets.',
+    outcome: 'Increased landing page conversion rate by +40% and reduced mobile bounce rates within 30 days.'
+  },
+  { 
+    index: 4, 
     title: 'Go Vigi', 
     category: 'B2B Agri-Tech', 
     image: '/govigi/Govigi_Project_Thumbnail.png', 
@@ -34,18 +46,6 @@ const projects = [
     problem: 'Agricultural traders struggled with complex multi-step bulk produce ordering and opaque freight tracking.',
     process: 'Consolidated a 7-step ordering portal into a 2-step matrix dashboard with instant order status cards.',
     outcome: 'Reduced bulk order completion time by 60% and successfully deployed across web and mobile platforms.'
-  },
-  { 
-    index: 4, 
-    title: 'FitTrack India', 
-    category: 'Healthcare & Fitness', 
-    image: '/fittrack_india.png', 
-    result: '19-Page UX Case Study', 
-    href: '/case-study/fit-track',
-    isPlaceholder: false,
-    problem: 'Indian health seekers struggled to navigate fragmented diet tracking and inconsistent fitness guidance on mobile screens.',
-    process: 'Structured a 19-stage UX blueprint — from user persona mapping (Meet Ananya) to localized diet systems and hi-fi mobile screens.',
-    outcome: 'Delivered a holistic fitness ecosystem with localized diet search, streak milestone cards, and 100% accessible UI craft.'
   }
 ];
 

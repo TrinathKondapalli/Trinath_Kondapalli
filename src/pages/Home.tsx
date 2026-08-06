@@ -38,7 +38,7 @@ export default function Home() {
       <FeaturedProjects />
       <DesignProcess />
       <AboutMe />
-      <Testimonials />
+      {/* <Testimonials /> */}
       
       <Suspense fallback={<SectionSkeleton height="800px" />}>
         <FAQ />
