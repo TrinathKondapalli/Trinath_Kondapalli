@@ -3,7 +3,7 @@ const skills = [
 ];
 
 const tools = [
-  'Figma', 'Framer', 'Adobe XD', 'Next.js', 'GSAP', 'VS Code'
+  'Figma', 'Framer', 'Adobe XD', 'Anti Gravity', 'Claude Code', 'VS Code', 'Canva'
 ];
 
 // Duplicate for seamless infinite looping
