@@ -8,7 +8,7 @@ import ProblemsISolve from '../components/ProblemsISolve';
 import FeaturedProjects from '../components/FeaturedProjects';
 import DesignProcess from '../components/DesignProcess';
 import AboutMe from '../components/AboutMe';
-import Testimonials from '../components/Testimonials';
+// import Testimonials from '../components/Testimonials';
 
 const FAQ = lazy(() => import('../components/FAQ'));
 const Contact = lazy(() => import('../components/Contact'));
