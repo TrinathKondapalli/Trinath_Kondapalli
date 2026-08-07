@@ -27,6 +27,18 @@ const projects = [
   },
   { 
     index: 3, 
+    title: 'DIRECTOR.AI', 
+    category: 'AI Creative Platform', 
+    image: '/director_ai/Director_ai.png', 
+    result: '32-Section UX Case Study', 
+    href: '/case-study/director-ai',
+    isPlaceholder: true,
+    problem: 'Creative teams spend hours engineering complex prompts to generate UI layouts and UGC scripts, receiving unstructured, unusable text formats.',
+    process: 'Designed a node-based prompt architecture that visualizes LLM generation, validates JSON outputs, and instantly renders creative assets in a WYSIWYG studio.',
+    outcome: 'Reduced asset generation time by 75% and achieved a 92% successful output validation rate during beta.'
+  },
+  { 
+    index: 4, 
     title: 'NutriBox', 
     category: 'D2C E-Commerce', 
     image: '/nutribox/Case_study_1.png', 
@@ -37,7 +49,7 @@ const projects = [
     outcome: 'Increased landing page conversion rate by +40% and reduced mobile bounce rates within 30 days.'
   },
   { 
-    index: 4, 
+    index: 5, 
     title: 'Go Vigi', 
     category: 'B2B Agri-Tech', 
     image: '/govigi/Govigi_Project_Thumbnail.png', 
@@ -159,7 +171,7 @@ export default function FeaturedProjects() {
         >
           <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
           <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-            SELECTED WORK — 04 PROJECTS
+            SELECTED WORK — 05 PROJECTS
           </span>
           <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
         </div>
