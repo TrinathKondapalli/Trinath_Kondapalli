@@ -23,7 +23,7 @@ export default function AboutMe() {
     <section id="about" style={{
       position: 'relative',
       width: '100%',
-      padding: '160px 24px',
+      padding: '60px 24px',
       display: 'flex',
       justifyContent: 'center',
       zIndex: 10,

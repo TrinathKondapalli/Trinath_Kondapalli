@@ -66,7 +66,7 @@ export default function FeaturedProjects() {
     <section id="work" style={{
       position: 'relative',
       width: '100%',
-      padding: '160px 24px',
+      padding: '60px 24px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -80,7 +80,7 @@ export default function FeaturedProjects() {
           gap: 32px;
           width: 100%;
           max-width: 1440px;
-          margin-bottom: 64px;
+          margin-bottom: 0;
         }
 
         .project-list-row {

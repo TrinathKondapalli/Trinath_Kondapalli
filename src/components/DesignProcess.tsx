@@ -149,7 +149,7 @@ export default function DesignProcess() {
     <section id="process" style={{
       position: 'relative',
       width: '100%',
-      padding: '160px 24px',
+      padding: '60px 24px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
