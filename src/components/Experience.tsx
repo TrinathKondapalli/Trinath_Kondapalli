@@ -1,5 +1,5 @@
 import Reveal from './Reveal';
-import { Building2, User, MapPin, Briefcase, Rocket, Users, Target, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Building2, User, MapPin, Briefcase, Rocket, Users, Target, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const experiences = [

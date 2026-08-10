@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { PenTool, Monitor, Zap, LayoutTemplate, Smartphone, Layers, MousePointer2, ArrowUpRight, Navigation, Globe } from 'lucide-react';
+import { PenTool, Monitor, Zap, LayoutTemplate, Smartphone, Layers, MousePointer2, Navigation, Globe } from 'lucide-react';
 import Reveal from '../Reveal';
 
 const services = [

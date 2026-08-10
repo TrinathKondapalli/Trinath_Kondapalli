@@ -1,5 +1,5 @@
-import { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { useRef, useState } from 'react';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import Reveal from './Reveal';
 import { 
   Search, User, Share2, PenTool, MousePointer2, Layers, RefreshCw, Code2 

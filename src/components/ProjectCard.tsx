@@ -4,7 +4,7 @@ import Reveal from './Reveal'
 
 export default function ProjectCard({ 
   index, title, category, image, result, href = '#', large = false,
-  problem, process, outcome, isPlaceholder = false, role, tools
+  problem, process, isPlaceholder = false, role, tools
 }: any) {
   const [hovered, setHovered] = useState(false)
   const cardRef = useRef<HTMLAnchorElement>(null)

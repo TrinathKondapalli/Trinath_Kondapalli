@@ -1,6 +1,6 @@
 import Reveal from './Reveal';
 import { 
-  PenTool, Box, Brain, Layers, Smartphone, Bot, Users, Zap, User, Network, Rocket 
+  PenTool, Box, Brain, Layers, Smartphone, Bot, Users, User, Network, Rocket 
 } from 'lucide-react';
 
 const skillGroups = [

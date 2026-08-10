@@ -565,7 +565,7 @@ class App {
   scene!: Transform;
   planeGeometry!: Plane;
   medias: Media[] = [];
-  mediasImages: { image: string; text: string }[] = [];
+  mediasImages: { image: string; text: string; desc?: string; num?: string }[] = [];
   screen!: { width: number; height: number };
   viewport!: { width: number; height: number };
   raf: number = 0;
@@ -761,7 +761,8 @@ class App {
         }
       });
       if (closestMedia) {
-        this.scroll.target = closestMedia.x - closestMedia.extra;
+        const m = closestMedia as Media;
+        this.scroll.target = m.x - m.extra;
       }
     } else {
       this.onCheck();

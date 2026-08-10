@@ -1,5 +1,5 @@
 import Reveal from './Reveal';
-import { Landmark, GraduationCap, Calendar, ArrowUpRight, Award } from 'lucide-react';
+import { Landmark, GraduationCap, Calendar, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 

@@ -1,5 +1,5 @@
 import Reveal from './Reveal';
-import { Layers, Code2, Component, Route, ArrowUpRight } from 'lucide-react';
+import { Layers, Code2, Component, Route } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const achievements = [

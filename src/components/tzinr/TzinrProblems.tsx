@@ -111,7 +111,6 @@ export default function TzinrProblems() {
           <div className="lg:col-span-6 flex flex-col gap-4">
             {problemSolutions.map((item) => {
               const isSelected = activeTab === item.id;
-              const isHovered = hoveredCard === item.id;
 
               return (
                 <motion.div

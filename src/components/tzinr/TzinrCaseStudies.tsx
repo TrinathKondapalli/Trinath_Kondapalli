@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Layers, Lightbulb, Target, Trophy } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const featuredTeaser = {
   title: 'FITTRACK INDIA',

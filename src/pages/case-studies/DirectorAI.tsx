@@ -1,9 +1,32 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 
-const chapters = [
+interface Section {
+  num: string;
+  title: string;
+  subtitle: string;
+  intro: string;
+  story: string[];
+  insight?: string;
+  decision?: string;
+  quote?: string;
+  impact?: string;
+  lesson?: string;
+}
+
+interface Chapter {
+  id: string;
+  title: string;
+  sections: Section[];
+  image?: {
+    name: string;
+    req: string;
+  };
+}
+
+const chapters: Chapter[] = [
   {
     id: "INTRODUCTION",
     title: "Setting the Stage",
@@ -279,9 +302,9 @@ export default function DirectorAICaseStudy() {
     window.scrollTo(0, 0);
   }, []);
 
-  const fadeUp = {
+  const fadeUp: Variants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0, 0, 0.2, 1] } }
   };
 
   return (

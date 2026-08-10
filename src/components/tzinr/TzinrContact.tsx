@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Send, Check } from 'lucide-react';
+import { Send, Check } from 'lucide-react';
 
 const projectTypes = [
   "UX/UI Design",
