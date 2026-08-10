@@ -1,33 +1,45 @@
 import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowDown } from 'lucide-react';
-import portrait from '../assets/portrait.webp';
-import SplitText from './SplitText';
-import Reveal from './Reveal';
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
+import portrait from '../../assets/Freelance.png';
+import SplitText from '../SplitText';
+import Reveal from '../Reveal';
 
 /* ─── Dot Background System ─────────────────────── */
 function TwinklingDots() {
   const [dots, setDots] = useState<any[]>([]);
 
   useEffect(() => {
-    // Generate 14 lightweight subtle dots
-    const generated = Array.from({ length: 14 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 90 + 5,
-      y: Math.random() * 90 + 5,
-      size: Math.random() * 2 + 2,
-      duration: Math.random() * 3 + 3,
-      delay: Math.random() * 2
-    }));
+    // Generate 40 random dots
+    const generated = Array.from({ length: 40 }, (_, i) => {
+      const moveX = (Math.random() - 0.5) * 300; // random drift distance
+      const moveY = (Math.random() - 0.5) * 300;
+      
+      return {
+        id: i,
+        x: Math.random() * 100, // %
+        y: Math.random() * 100, // %
+        size: Math.random() * 2 + 2, // 2-4px
+        duration: Math.random() * 3 + 3, // 3-6s for pulsing
+        delay: Math.random() * 2,
+        moveDuration: Math.random() * 20 + 30, // 30-50s for drifting (very slow)
+        moveX,
+        moveY
+      };
+    });
     setDots(generated);
   }, []);
 
   return (
     <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1 }}>
       <style>{`
+        @keyframes native-drift {
+          0%, 100% { transform: translate(0px, 0px); }
+          50% { transform: translate(var(--moveX), var(--moveY)); }
+        }
         @keyframes native-pulse {
-          0%, 100% { opacity: 0.15; transform: scale(0.9); }
-          50% { opacity: 0.6; transform: scale(1.1); }
+          0%, 100% { opacity: 0.2; }
+          50% { opacity: 0.8; }
         }
       `}</style>
       {dots.map(dot => (
@@ -37,11 +49,14 @@ function TwinklingDots() {
             position: 'absolute',
             left: `${dot.x}%`,
             top: `${dot.y}%`,
-            width: dot.size,
-            height: dot.size,
+            width: dot.size + 1,
+            height: dot.size + 1,
             background: 'var(--c-primary)',
             borderRadius: '50%',
-            animation: `native-pulse ${dot.duration}s ease-in-out infinite`,
+            boxShadow: '0 0 8px var(--c-primary)',
+            '--moveX': `${dot.moveX}px`,
+            '--moveY': `${dot.moveY}px`,
+            animation: `native-drift ${dot.moveDuration}s ease-in-out infinite, native-pulse ${dot.duration}s ease-in-out infinite`,
             animationDelay: `${dot.delay}s`
           } as React.CSSProperties}
         />
@@ -98,7 +113,7 @@ function CurvedMarquee() {
         >
           <textPath href="#curve-path" startOffset="0%">
             <animate attributeName="startOffset" from="0%" to="-100%" dur="30s" repeatCount="indefinite" />
-            {"UX/UI DESIGN • PRODUCT DESIGN • DESIGN SYSTEMS • DIGITAL EXPERIENCES • WEB & MOBILE • ".repeat(30)}
+            {"UX/UI DESIGN • WEBSITE DESIGN & DEVELOPMENT • INTERACTIVE & MOTION-LED WEB • DESIGN-TO-LIVE WORKFLOWS • ".repeat(30)}
           </textPath>
         </text>
       </svg>
@@ -107,7 +122,7 @@ function CurvedMarquee() {
   );
 }
 
-export default function Hero() {
+export default function TzinrHero() {
   // Mouse parallax setup
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
@@ -156,13 +171,17 @@ export default function Hero() {
       }}
     >
       {/* Background Layers */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-0" 
+        style={{ background: 'radial-gradient(circle at 50% 20%, rgba(32,97,215,0.14), transparent 55%)' }}
+      />
       <div className="hero-grid-overlay" />
       <TwinklingDots />
 
       {/* ─── HERO CONTENT (Centered) ─── */}
       <div style={{ position: 'relative', zIndex: 20, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         
-        {/* Eyebrow - Professional Status */}
+        {/* Eyebrow - Studio Status */}
         <Reveal delay={600}>
           <div
             style={{
@@ -177,14 +196,12 @@ export default function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ background: 'var(--c-primary)' }}></span>
                 <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: 'var(--c-primary)', boxShadow: '0 0 10px var(--c-primary)' }}></span>
               </div>
-              UX/UI DESIGNER • PRODUCT DESIGNER
+              DIGITAL PRODUCT & EXPERIENCE STUDIO
             </div>
-            <span style={{ opacity: 0.5 }}>|</span>
-            <span>Hyderabad, India</span>
           </div>
         </Reveal>
 
-        {/* Headline - Professional Identity */}
+        {/* Headline */}
         <div 
           style={{
             display: 'flex', flexDirection: 'column', alignItems: 'center',
@@ -193,7 +210,7 @@ export default function Hero() {
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
               <SplitText 
-                text="Designing Digital Experiences" 
+                text="Helping businesses build better" 
                 splitType="words" 
                 delay={0.4}
                 style={{ 
@@ -215,13 +232,13 @@ export default function Hero() {
                   fontStyle: 'italic'
                 }}
               >
-                People Enjoy Using.
+                DIGITAL EXPERIENCES.
               </span>
             </Reveal>
           </div>
         </div>
 
-        {/* Subtext - Value Proposition */}
+        {/* Subtext */}
         <Reveal delay={800}>
             <p
             style={{
@@ -229,17 +246,15 @@ export default function Hero() {
               maxWidth: 700, textAlign: 'center', marginTop: 32, lineHeight: 1.6
             }}
           >
-            I design intuitive, user-centered digital experiences for web and mobile, combining UX thinking, thoughtful interfaces, and scalable design systems.
+            We design and build thoughtful websites, digital products, and interactive experiences that help businesses move forward.
           </p>
         </Reveal>
-
-        {/* CTAs moved below image */}
       </div>
 
       {/* ─── CURVED RIBBON (Background) ─── */}
       <CurvedMarquee />
 
-      {/* ─── PORTRAIT CARD (No artificial delay for LCP) ─── */}
+      {/* ─── PORTRAIT CARD ─── */}
       <div style={{
           marginTop: 24,
           position: 'relative',
@@ -269,19 +284,19 @@ export default function Hero() {
           {/* Backside Glow Effect */}
           <motion.div style={{
             position: 'absolute',
-            inset: -4, // expand slightly to match border
+            inset: -4, 
             background: 'var(--c-primary)',
             filter: 'blur(40px)',
             opacity: 0.85,
             x: bgX, y: bgY, z: -50,
-            borderRadius: '36px', // slightly larger than image
+            borderRadius: '36px',
             boxShadow: '-10px -10px 40px rgba(255, 255, 255, 0.6), 0 0 80px var(--c-primary)'
           }} />
 
           {/* Portrait Image */}
           <img
             src={portrait}
-            alt="Portrait of Trinath Kondapalli"
+            alt="TZINR Studio"
             loading="eager"
             fetchPriority="high"
             decoding="async"
@@ -310,7 +325,6 @@ export default function Hero() {
             zIndex: 20,
             boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
           }}>
-            {/* Rotating SVG Text */}
             <svg className="anim-rotate" width="120" height="120" viewBox="0 0 120 120" style={{ position: 'absolute', inset: 0 }}>
               <defs>
                 <path id="badge-path" d="M 60, 60 m -43, 0 a 43,43 0 1,1 86,0 a 43,43 0 1,1 -86,0" />
@@ -322,7 +336,6 @@ export default function Hero() {
               </text>
             </svg>
 
-            {/* Pulsing Center Icon */}
             <div className="anim-pulse" style={{
               width: 56, height: 56, borderRadius: '50%',
               background: 'var(--c-white)',
@@ -341,20 +354,20 @@ export default function Hero() {
         <Reveal delay={1000}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap', justifyContent: 'center' }}>
             <a 
-              href="#work"
+              href="#contact"
               style={{
-                background: 'var(--c-primary)', color: 'var(--c-base)', padding: '16px 32px',
+                background: 'var(--c-primary)', color: 'var(--c-white)', padding: '16px 32px',
                 borderRadius: 100, fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: 16,
-                textDecoration: 'none', transition: 'all 0.3s ease', boxShadow: '0 0 30px rgba(109,215,76,0.2)'
+                textDecoration: 'none', transition: 'all 0.3s ease', boxShadow: '0 0 30px rgba(40,136,208,0.3)',
+                display: 'flex', alignItems: 'center', gap: '8px'
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-white)'; e.currentTarget.style.boxShadow = '0 0 40px rgba(255,255,255,0.3)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-primary)'; e.currentTarget.style.boxShadow = '0 0 30px rgba(109,215,76,0.2)'; }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--c-secondary)'; e.currentTarget.style.boxShadow = '0 0 40px rgba(80,168,232,0.4)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--c-primary)'; e.currentTarget.style.boxShadow = '0 0 30px rgba(40,136,208,0.3)'; }}
             >
-              View My Work
+              Start a Project <ArrowUpRight size={20} />
             </a>
             <a 
-              href="/Trinath_Kondapalli_Resume.pdf"
-              download="Trinath_Kondapalli_Resume.pdf"
+              href="#work"
               style={{
                 background: 'transparent', color: 'var(--c-white)', padding: '16px 32px',
                 borderRadius: 100, fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: 16,
@@ -363,12 +376,11 @@ export default function Hero() {
               onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; }}
             >
-              Download Resume ↗
+              View Our Work →
             </a>
           </div>
         </Reveal>
       </div>
-
 
     </section>
   );

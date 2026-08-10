@@ -1,16 +1,15 @@
 import { lazy, Suspense } from 'react';
 import Hero from '../components/Hero';
-import CurrentlyStrip from '../components/CurrentlyStrip';
 import ToolsMarquee from '../components/ToolsMarquee';
-import Services from '../components/Services';
-import WhoIHelp from '../components/WhoIHelp';
-import ProblemsISolve from '../components/ProblemsISolve';
+import AboutMe from '../components/AboutMe';
+import Achievements from '../components/Achievements';
 import FeaturedProjects from '../components/FeaturedProjects';
 import DesignProcess from '../components/DesignProcess';
-import AboutMe from '../components/AboutMe';
-// import Testimonials from '../components/Testimonials';
+import Skills from '../components/Skills';
+import Experience from '../components/Experience';
+import Education from '../components/Education';
+import Certifications from '../components/Certifications';
 
-const FAQ = lazy(() => import('../components/FAQ'));
 const Contact = lazy(() => import('../components/Contact'));
 
 function SectionSkeleton({ height = '600px' }: { height?: string }) {
@@ -30,18 +29,17 @@ export default function Home() {
   return (
     <main style={{ background: '#081509' }}>
       <Hero />
-      <CurrentlyStrip />
       <ToolsMarquee />
-      <Services />
-      <WhoIHelp />
-      <ProblemsISolve />
+      <AboutMe />
+      <Achievements />
       <FeaturedProjects />
       <DesignProcess />
-      <AboutMe />
-      {/* <Testimonials /> */}
+      <Skills />
+      <Experience />
+      <Education />
+      <Certifications />
       
       <Suspense fallback={<SectionSkeleton height="800px" />}>
-        <FAQ />
         <Contact />
       </Suspense>
     </main>

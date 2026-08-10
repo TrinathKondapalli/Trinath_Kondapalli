@@ -24,19 +24,15 @@ export default function Services() {
           width: 100%;
           max-width: 1200px;
           margin: 0 auto;
-          padding: 48px 0;
-          border-bottom: 1px solid rgba(255,255,255,0.05);
+          padding: 48px 24px;
+          border-radius: 24px;
           cursor: pointer;
-          transition: padding 0.4s ease;
+          transition: background 0.4s ease;
           overflow: hidden;
         }
 
-        .service-row.is-first {
-          border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
         .service-row:hover {
-          padding: 48px 24px;
+          background: rgba(255,255,255,0.02);
         }
 
         .service-content {
@@ -136,13 +132,15 @@ export default function Services() {
         }
 
         @media (max-width: 768px) {
-          .service-row {
+          .service-content {
             grid-template-columns: 1fr;
             gap: 16px;
-            padding: 32px 0;
+          }
+          .service-row {
+            padding: 32px 16px;
           }
           .service-row:hover {
-            padding: 32px 16px;
+            background: transparent;
           }
           .service-row:hover .service-title {
             transform: translateX(10px);

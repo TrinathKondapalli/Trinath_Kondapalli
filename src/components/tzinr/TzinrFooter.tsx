@@ -1,22 +1,8 @@
-import Reveal from './Reveal';
 import { useLocation } from 'react-router-dom';
 
-export default function Footer() {
-  const location = useLocation();
-  if (location.pathname === '/case-study/nutribox') return null;
-
+export default function TzinrFooter() {
   return (
-    <footer style={{
-      position: 'relative',
-      width: '100%',
-      padding: '48px 0 0 0',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      zIndex: 10,
-      borderTop: 'none',
-      overflow: 'hidden'
-    }}>
+    <footer className="w-full bg-gradient-to-b from-transparent via-[var(--c-base)]/50 to-[var(--c-base)] pt-12 pb-0 relative z-20 overflow-hidden">
       <style>{`
         .huge-footer-text-container {
            width: 100%;
@@ -25,16 +11,17 @@ export default function Footer() {
            pointer-events: none;
            user-select: none;
            container-type: inline-size;
+           overflow: hidden;
         }
 
         .huge-footer-text {
           font-family: var(--font-sans);
-          font-size: 11cqi;
+          font-size: 15.5cqi;
           font-weight: 900;
           line-height: 0.8;
           letter-spacing: -0.02em;
           text-transform: uppercase;
-          background: linear-gradient(180deg, var(--c-primary) 20%, rgba(109,215,76,0.1) 100%);
+          background: linear-gradient(180deg, var(--c-primary) 20%, rgba(32,97,215,0.1) 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           white-space: nowrap;
@@ -45,23 +32,22 @@ export default function Footer() {
 
         @media (max-width: 1024px) {
           .huge-footer-text {
-            font-size: 10cqi;
+            font-size: 13.5cqi;
           }
         }
 
         @media (max-width: 768px) {
           .huge-footer-text {
-            font-size: 8.8cqi;
+            font-size: 11.5cqi;
             letter-spacing: -0.02em;
           }
         }
       `}</style>
 
-      <Reveal delay={200} style={{ width: '100%' }}>
-        <div className="huge-footer-text-container">
-          <div className="huge-footer-text">TRINATH KONDAPALLI</div>
-        </div>
-      </Reveal>
+      {/* HUGE FOOTER TEXT (Full Bleed) */}
+      <div className="huge-footer-text-container">
+        <div className="huge-footer-text">TZINR STUDIO</div>
+      </div>
     </footer>
   );
 }

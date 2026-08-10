@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import CaseStudy from './pages/CaseStudy';
-import NutriBox from './pages/case-studies/NutriBox';
-import GoVigi from './pages/case-studies/GoVigi';
-import LinguLink from './pages/case-studies/LinguLink';
-import FitTrack from './pages/case-studies/FitTrack';
-import DirectorAI from './pages/case-studies/DirectorAI';
+
+// Code-split heavy pages to make the website ultra lightweight & fast
+const CaseStudy = lazy(() => import('./pages/CaseStudy'));
+const NutriBox = lazy(() => import('./pages/case-studies/NutriBox'));
+const GoVigi = lazy(() => import('./pages/case-studies/GoVigi'));
+const LinguLink = lazy(() => import('./pages/case-studies/LinguLink'));
+const FitTrack = lazy(() => import('./pages/case-studies/FitTrack'));
+const DirectorAI = lazy(() => import('./pages/case-studies/DirectorAI'));
+const TzinrHome = lazy(() => import('./pages/tzinr/TzinrHome'));
+
+import TzinrLayout from './components/tzinr/TzinrLayout';
+import RouteTransition from './components/tzinr/RouteTransition';
 
 import CustomCursor from './components/CustomCursor';
 import ScrollProgressBar from './components/ScrollProgressBar';
-import Preloader from './components/Preloader';
 
 import './index.css';
 
@@ -29,9 +34,26 @@ function ScrollToTop() {
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const isCaseStudy = location.pathname.startsWith('/case-study');
+  const isTzinr = location.pathname.startsWith('/tzinr');
+
+  if (isTzinr) {
+    return (
+      <>
+        <div className="tzinr-theme">
+          <CustomCursor />
+          <ScrollProgressBar />
+        </div>
+        <TzinrLayout>
+          {children}
+        </TzinrLayout>
+      </>
+    );
+  }
 
   return (
     <>
+      <CustomCursor />
+      <ScrollProgressBar />
       {!isCaseStudy && <Navbar />}
       {children}
       {!isCaseStudy && <Footer />}
@@ -151,54 +173,35 @@ function AnimatedRoutes() {
             </motion.div>
           } 
         />
+        <Route 
+          path="/tzinr" 
+          element={
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }} 
+              transition={{ duration: 0.8, ease: "easeInOut" }}
+            >
+              <TzinrHome />
+            </motion.div>
+          } 
+        />
       </Routes>
     </AnimatePresence>
   );
 }
 
-import SmoothScrollProvider from './components/SmoothScrollProvider';
-
 function App() {
-  const prefersReducedMotion = usePrefersReducedMotion();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (isLoading) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isLoading]);
-
-  const content = (
+  return (
     <BrowserRouter>
       <ScrollToTop />
-      <ScrollProgressBar />
+      <RouteTransition />
       <Layout>
-        <AnimatedRoutes />
+        <Suspense fallback={null}>
+          <AnimatedRoutes />
+        </Suspense>
       </Layout>
     </BrowserRouter>
-  );
-
-  return (
-    <>
-      <AnimatePresence mode="wait">
-        {isLoading && (
-          <Preloader key="preloader" onComplete={() => setIsLoading(false)} />
-        )}
-      </AnimatePresence>
-      <CustomCursor />
-      {prefersReducedMotion ? (
-        content
-      ) : (
-        <SmoothScrollProvider>
-          {content}
-        </SmoothScrollProvider>
-      )}
-    </>
   );
 }
 

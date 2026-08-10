@@ -1,226 +1,587 @@
-import { ArrowRight, Download } from 'lucide-react';
-import portrait from '../assets/portrait.jpg';
-import GlobalMagneticButton from './GlobalMagneticButton';
+import { ArrowRight, User, Code2, Layers, Component, Briefcase, Calendar, Users, CircleDot } from 'lucide-react';
 import Reveal from './Reveal';
 
-const values = [
+const principles = [
   {
-    title: 'Form Follows Function.',
-    desc: 'Aesthetic beauty is meaningless if the user is confused. I balance striking visuals with airtight usability.'
+    num: '01',
+    title: 'User First',
+    desc: 'I translate user needs and business goals into clear, intuitive experiences that reduce friction and make products easier to understand and use.',
+    Icon: User
   },
   {
-    title: 'Systems Over Pages.',
-    desc: 'I do not design isolated screens. I build cohesive, modular design systems that scale effortlessly as your product grows.'
+    num: '02',
+    title: 'Design + Technology',
+    desc: 'I understand how interfaces move from design files into real products, allowing me to collaborate closely with developers and create solutions that are practical, scalable, and implementation-aware.',
+    Icon: Code2
   },
   {
-    title: 'Obsessive Polish.',
-    desc: 'The difference between good and great is in the micro-interactions. I sweat the invisible details that others ignore.'
+    num: '03',
+    title: 'Systems Thinking',
+    desc: 'I build reusable components, consistent patterns, and scalable design systems that maintain visual and functional consistency as products evolve.',
+    Icon: Layers
   }
 ];
+
+// Laurel Graphic removed
 
 export default function AboutMe() {
   return (
     <section id="about" style={{
       position: 'relative',
       width: '100%',
-      padding: '60px 24px',
+      padding: '100px 24px',
       display: 'flex',
-      justifyContent: 'center',
-      zIndex: 10,
-      background: 'var(--c-base)'
+      flexDirection: 'column',
+      alignItems: 'center',
+      zIndex: 10
     }}>
       <style>{`
-        .about-spread {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 80px;
-          max-width: 1440px;
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap');
+
+        .about-container {
           width: 100%;
-          align-items: stretch;
-        }
-
-        /* Left Side: Editorial Photo */
-        .photo-column {
-          position: relative;
-          width: 100%;
-          min-height: 700px;
-          border-radius: 24px;
-          overflow: hidden;
-          background: #000;
-        }
-
-        .photo-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center 20%;
-          filter: contrast(1.15) grayscale(20%);
-        }
-
-        /* Subtle green vignette on the right edge */
-        .photo-vignette {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(to left, rgba(109,215,76,0.15) 0%, transparent 30%),
-                      linear-gradient(to top, rgba(8, 21, 9, 0.8) 0%, transparent 40%);
-          pointer-events: none;
-        }
-
-        /* Right Side: Typography */
-        .text-column {
+          max-width: 1100px;
           display: flex;
           flex-direction: column;
+          gap: 64px;
+        }
+
+        /* Top Section */
+        .about-top {
+          display: flex;
           justify-content: center;
-          padding: 40px 0;
+          align-items: center;
+          width: 100%;
         }
 
-        .manifesto {
+        .about-top-left {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          gap: 24px;
+          max-width: 1000px;
+        }
+
+
+
+        .about-headline {
           font-family: var(--font-sans);
-          font-size: clamp(32px, 4vw, 48px);
-          font-weight: 800;
-          line-height: 1.1;
-          letter-spacing: -1.5px;
+          font-size: clamp(36px, 5vw, 56px);
+          font-weight: 700;
           color: var(--c-white);
-          margin-bottom: 64px;
+          line-height: 1.15;
+          letter-spacing: -1px;
+          margin-bottom: 0;
+          text-wrap: balance;
         }
 
-        .values-list {
-          display: flex;
-          flex-direction: column;
-          gap: 32px;
-          margin-bottom: 64px;
+        .about-headline-accent {
+          font-family: var(--font-display);
+          font-style: italic;
+          color: var(--c-primary);
+          font-weight: 400;
         }
 
-        .value-item {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        .value-text {
+        .about-intro-text {
           font-family: var(--font-sans);
-          font-size: 18px;
+          font-size: 16px;
+          color: rgba(255, 255, 255, 0.7);
+          line-height: 1.7;
+          max-width: 700px;
+        }
+
+        .about-top-right {
+          flex: 0 0 320px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 24px;
+          padding-top: 40px;
+        }
+
+        /* Principles Grid */
+        .principles-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+        }
+
+        .principle-card {
+          background: #09100a;
+          background-image: radial-gradient(circle at top right, rgba(109,215,76,0.03), transparent 60%);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 16px;
+          padding: 32px;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          min-height: 380px;
+          transition: all 0.4s ease;
+          overflow: hidden;
+        }
+
+        .principle-card::after {
+          content: '';
+          position: absolute;
+          bottom: 0; left: 0; right: 0; height: 1px;
+          background: radial-gradient(circle at center, var(--c-primary) 0%, transparent 70%);
+          opacity: 0.3;
+          transition: opacity 0.4s ease;
+        }
+
+        .principle-card:hover {
+          border-color: rgba(109, 215, 76, 0.15);
+          transform: translateY(-4px);
+        }
+
+        @keyframes shimmer-line {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(300%); }
+        }
+
+        @keyframes pulse-ring {
+          0% {
+            transform: scale(0.8);
+            opacity: 0.8;
+          }
+          80%, 100% {
+            transform: scale(2.5);
+            opacity: 0;
+          }
+        }
+
+        .principle-card:hover::after {
+          opacity: 0.8;
+          box-shadow: 0 0 20px var(--c-primary);
+        }
+
+        .principle-num {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          border: 1px solid rgba(255,255,255,0.08);
+          background: rgba(0,0,0,0.3);
+          font-family: var(--font-sans);
+          font-size: 13px;
+          color: var(--c-primary);
+          font-weight: 600;
+          margin-bottom: 32px;
+          box-shadow: inset 0 2px 4px rgba(255,255,255,0.02);
+        }
+
+        .principle-icon-row {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          margin-bottom: 24px;
+        }
+
+        .principle-icon-wrapper {
+          position: relative;
+          width: 56px;
+          height: 56px;
+          border-radius: 16px;
+          background: rgba(109,215,76,0.03);
+          border: 1px solid rgba(109,215,76,0.2);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: inset 0 0 10px rgba(109,215,76,0.05), 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .principle-line-group {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          opacity: 0.5;
+        }
+
+        .principle-dot {
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background: var(--c-primary);
+        }
+
+        .principle-line {
+          width: 40px;
+          height: 1px;
+          background: rgba(255,255,255,0.3);
+        }
+
+        .principle-title {
+          font-family: var(--font-sans);
+          font-size: 20px;
+          font-weight: 700;
+          color: var(--c-white);
+          margin-bottom: 16px;
+        }
+
+        .principle-desc {
+          font-family: var(--font-sans);
+          font-size: 15px;
+          color: rgba(255, 255, 255, 0.6);
           line-height: 1.6;
         }
 
-        .value-title {
+        /* Bottom Section */
+        .about-footer {
+          display: grid;
+          grid-template-columns: 1fr 1px 1fr;
+          gap: 64px;
+          margin-top: 16px;
+          padding-top: 64px;
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .vertical-divider {
+          background: rgba(255, 255, 255, 0.05);
+          width: 1px;
+          height: 100%;
+        }
+
+        .currently-label {
+          font-family: var(--font-sans);
+          font-size: 11px;
+          color: var(--c-primary);
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 20px;
+        }
+
+        .currently-role {
+          font-family: var(--font-sans);
+          font-size: 22px;
           font-weight: 700;
           color: var(--c-white);
-          margin-right: 8px;
+          margin-bottom: 6px;
         }
 
-        .value-desc {
+        .currently-company {
+          font-family: var(--font-sans);
+          font-size: 15px;
+          color: rgba(255, 255, 255, 0.5);
           font-weight: 400;
-          color: rgba(255,255,255,0.6);
         }
 
-        .cta-group {
-          display: flex;
-          gap: 16px;
-          align-items: center;
-        }
-
-        .btn {
+        .skill-pill {
           display: inline-flex;
           align-items: center;
-          gap: 12px;
-          padding: 18px 32px;
+          gap: 8px;
+          padding: 8px 16px;
+          border: 1px solid rgba(255,255,255,0.1);
           border-radius: 100px;
           font-family: var(--font-sans);
-          font-size: 16px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          font-size: 12px;
+          color: rgba(255,255,255,0.7);
         }
 
-        .btn-solid {
+        .timeline-step {
+          position: relative;
+          padding-left: 28px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .timeline-dot {
+          position: absolute;
+          left: 0;
+          top: 6px;
+          width: 8px;
+          height: 8px;
           background: var(--c-primary);
-          color: #081509;
-          border: 1px solid var(--c-primary);
+          border-radius: 50%;
+          box-shadow: 0 0 10px var(--c-primary);
         }
 
-        .btn-solid:hover {
-          background: #81DD6A;
-          transform: translateY(-2px);
-          box-shadow: 0 10px 30px -10px rgba(109,215,76,0.4);
+        .timeline-year {
+          font-family: var(--font-sans);
+          font-size: 11px;
+          color: var(--c-primary);
+          font-weight: 700;
+          letter-spacing: 1px;
         }
 
-        .btn-ghost {
-          background: transparent;
+        .timeline-title {
+          font-family: var(--font-sans);
+          font-size: 16px;
           color: var(--c-white);
-          border: 1px solid rgba(255,255,255,0.2);
+          font-weight: 600;
         }
 
-        .btn-ghost:hover {
-          background: rgba(255,255,255,0.05);
-          border-color: rgba(255,255,255,0.4);
-          transform: translateY(-2px);
+        .timeline-org {
+          font-family: var(--font-sans);
+          font-size: 14px;
+          color: rgba(255, 255, 255, 0.5);
+        }
+
+        .experience-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          color: var(--c-white);
+          font-family: var(--font-sans);
+          font-size: 13px;
+          font-weight: 600;
+          text-decoration: none;
+          transition: all 0.3s ease;
+          border: 1px solid rgba(255,255,255,0.1);
+          padding: 12px 24px;
+          border-radius: 100px;
+          width: fit-content;
+        }
+
+        .experience-cta:hover {
+          color: var(--c-primary);
+          border-color: rgba(109,215,76,0.3);
+          background: rgba(255,255,255,0.02);
         }
 
         @media (max-width: 1024px) {
-          .about-spread { grid-template-columns: 1fr; gap: 48px; }
-          .photo-column { min-height: 500px; }
-          .text-column { padding: 0; }
+          .about-top {
+            flex-direction: column;
+          }
+          .about-top-right {
+            width: 100%;
+            flex: none;
+            padding-top: 0;
+          }
         }
 
-        @media (max-width: 640px) {
-          .cta-group { flex-direction: column; width: 100%; }
-          .btn { width: 100%; justify-content: center; }
+        @media (max-width: 900px) {
+          .principles-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .principles-grid {
+            grid-template-columns: 1fr;
+          }
+          .about-footer {
+            grid-template-columns: 1fr;
+            gap: 48px;
+          }
         }
       `}</style>
 
-      <div className="about-spread">
-        {/* LEFT COLUMN: Editorial Photo */}
-        <Reveal delay={0}>
-          <div className="photo-column">
-            <img src={portrait} alt="Trinath Kondapalli" loading="lazy" className="photo-img" />
-            <div className="photo-vignette" />
+      <div className="about-container">
+        
+        {/* Top Section */}
+        <div className="about-top">
+          <div className="about-top-left">
+            <Reveal delay={100}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 16 }}>
+                <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+                <div style={{ color: 'var(--c-primary)', fontSize: 12, fontWeight: 700, letterSpacing: 2 }}>ABOUT ME</div>
+                <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+              </div>
+            </Reveal>
+            <Reveal delay={200}>
+              <h2 className="about-headline">
+                I <span className="about-headline-accent">design with purpose</span>, build with systems, and think beyond the interface.
+              </h2>
+            </Reveal>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '16px' }}>
+              <Reveal delay={300}>
+                <p className="about-intro-text" style={{ maxWidth: '800px' }}>
+                  I’m a UX/UI and Product Designer focused on creating intuitive, user-centered experiences for web and mobile. My work spans the entire process-from foundational user research and wireframing, to crafting high-fidelity UI and scalable design systems. I work closely with developers to translate these design decisions into practical, accessible, and implementation-ready digital products.
+                </p>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+
+        {/* Principles Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-8">
+          {principles.map((p, idx) => {
+            const IconComp = p.Icon;
+            return (
+              <Reveal key={p.num} delay={700 + idx * 100}>
+                <div className="p-6 rounded-2xl bg-[#081509]/80 border border-[#6dd74c]/20 hover:border-[#6dd74c]/50 transition-all flex flex-col gap-3 h-full">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono text-[#6dd74c] font-bold">{p.num}</span>
+                    <div className="w-9 h-9 rounded-full bg-[#143113] border border-[#6dd74c]/30 flex items-center justify-center text-[#6dd74c]">
+                      <IconComp size={18} />
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold text-white tracking-tight mt-1">{p.title}</h3>
+                  <p className="text-xs text-gray-300/80 leading-relaxed font-sans">{p.desc}</p>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+
+        {/* Principles Separator */}
+        <Reveal delay={900}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, width: '100%', marginTop: 32, fontSize: 10, color: 'var(--c-primary)', letterSpacing: 3, flexWrap: 'wrap', fontWeight: 600 }}>
+            <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)' }} />
+            DESIGNING
+            <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)' }} />
+            THINKING
+            <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)' }} />
+            BUILDING
+            <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)' }} />
+            IMPACTING
+            <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)' }} />
           </div>
         </Reveal>
 
-        {/* RIGHT COLUMN: Manifesto & Values */}
-        <div className="text-column">
-          
-          <Reveal delay={100}>
-            <div className="manifesto">
-              I build digital products that make people feel something.
-            </div>
-          </Reveal>
+        {/* Footer Context / Mini Timeline */}
+        <Reveal delay={1000}>
+          <div className="about-footer" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '64px', marginTop: '16px', paddingTop: '64px', borderTop: '1px solid rgba(255, 255, 255, 0.05)' }}>
+            
+            {/* Column 1: Currently */}
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {/* Header */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32 }}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+                <div style={{ color: 'var(--c-primary)', fontSize: 12, fontWeight: 700, letterSpacing: 2 }}>CURRENTLY</div>
+                <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.1)' }} />
+                <div style={{ width: 12, height: 12, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.2)' }} />
+              </div>
 
-          <div className="values-list">
-            {values.map((val, i) => (
-              <Reveal key={i} delay={200 + (i * 100)}>
-                <div className="value-item">
-                  <div className="value-text">
-                    <span className="value-title">{val.title}</span>
-                    <span className="value-desc">{val.desc}</span>
+              {/* Card */}
+              <div style={{ 
+                background: 'rgba(9, 16, 10, 0.4)', 
+                border: '1px solid rgba(109, 215, 76, 0.2)', 
+                borderRadius: 24, 
+                padding: 32, 
+                position: 'relative', 
+                boxShadow: '0 0 40px rgba(109, 215, 76, 0.05)',
+                overflow: 'hidden'
+              }}>
+                {/* Inner top-left icon */}
+                <div style={{ width: 48, height: 48, borderRadius: '50%', border: '1px solid rgba(109,215,76,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 32 }}>
+                  <Briefcase size={20} color="var(--c-primary)" />
+                </div>
+
+                <div style={{ color: 'var(--c-primary)', fontSize: 11, fontWeight: 700, letterSpacing: 2, marginBottom: 8 }}>MY CURRENT ROLE</div>
+                <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--c-white)', marginBottom: 8 }}>Associate Web Designer</div>
+                <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>G1 Global • Hyderabad, India</div>
+
+                {/* Separator */}
+                <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', margin: '24px 0', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', left: 0, top: -1, height: 3, width: '40%', background: 'linear-gradient(90deg, transparent, var(--c-primary), transparent)', animation: 'shimmer-line 2.5s infinite ease-in-out' }} />
+                </div>
+
+                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, lineHeight: 1.7, marginBottom: 32 }}>
+                  Translating business briefs into responsive UI concepts, interaction flows, wireframes, and implementation-ready design documentation while collaborating closely with frontend developers.
+                </p>
+
+                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', borderRadius: 100, border: '1px solid rgba(255,255,255,0.1)', fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>
+                    <Component size={14} color="var(--c-primary)" /> Design Systems
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', borderRadius: 100, border: '1px solid rgba(255,255,255,0.1)', fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>
+                    <Code2 size={14} color="var(--c-primary)" /> Design to Development
                   </div>
                 </div>
-              </Reveal>
-            ))}
-          </div>
+              </div>
+            </div>
 
-          <Reveal delay={500}>
-            <div className="cta-group">
-              <GlobalMagneticButton
-                className="btn btn-solid"
-                onClick={() => window.location.href = '#contact'}
-                style={{
-                  fontFamily: 'var(--font-sans)', fontSize: 16, fontWeight: 600,
-                  border: '1px solid var(--c-primary)'
-                }}
-              >
-                Book a call
-                <ArrowRight size={18} strokeWidth={2.5} />
-              </GlobalMagneticButton>
-              <a href="/Trinath_Kondapalli_Resume.pdf" download="Trinath_Kondapalli_Resume.pdf" className="btn btn-ghost" target="_blank" rel="noopener noreferrer">
-                Download CV
-                <Download size={18} strokeWidth={2.5} />
+            {/* Column 2: Timeline */}
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {/* Header */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32 }}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+                <div style={{ color: 'var(--c-primary)', fontSize: 12, fontWeight: 700, letterSpacing: 2 }}>MY JOURNEY</div>
+                <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.1)' }} />
+                <div style={{ width: 12, height: 12, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.2)' }} />
+              </div>
+
+              {/* Timeline Items */}
+              <div style={{ position: 'relative' }}>
+                {/* Vertical line */}
+                <div style={{ position: 'absolute', left: 72, top: 24, bottom: 0, width: 1, background: 'rgba(109,215,76,0.2)' }} />
+
+                {/* Item 1 */}
+                <div style={{ display: 'flex', position: 'relative', marginBottom: 40 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 12, border: '1px solid rgba(109,215,76,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#09100a', zIndex: 2 }}>
+                    <Calendar size={20} color="var(--c-primary)" />
+                  </div>
+                  <div style={{ width: 24, height: 1, background: 'rgba(109,215,76,0.2)', marginTop: 24 }} />
+                  
+                  <div style={{ position: 'relative', marginTop: 20, marginLeft: -4, zIndex: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', width: 8, height: 8 }}>
+                    <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 10px var(--c-primary)', position: 'relative', zIndex: 2 }} />
+                    <div style={{ position: 'absolute', width: '100%', height: '100%', borderRadius: '50%', background: 'var(--c-primary)', animation: 'pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite' }} />
+                  </div>
+                  
+                  <div style={{ marginLeft: 24, flex: 1 }}>
+                    <div style={{ color: 'var(--c-primary)', fontSize: 12, fontWeight: 700, marginBottom: 4 }}>October 2025 – Present</div>
+                    <div style={{ color: 'var(--c-white)', fontSize: 18, fontWeight: 700, marginBottom: 4 }}>Associate Web Designer</div>
+                    <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, marginBottom: 16 }}>G1 Global • Full-time (On-site)</div>
+
+                    <div style={{ border: '1px solid rgba(255,255,255,0.05)', borderRadius: 12, padding: 16, background: 'rgba(255,255,255,0.02)' }}>
+                      <div style={{ display: 'flex', gap: 12 }}>
+                        <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', marginTop: 8, flexShrink: 0 }} />
+                        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 }}>
+                          Working on responsive UI, interaction design, wireframes, and design documentation with a strong focus on developer collaboration.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Item 2 */}
+                <div style={{ display: 'flex', position: 'relative', marginBottom: 24 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 12, border: '1px solid rgba(109,215,76,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#09100a', zIndex: 2 }}>
+                    <Users size={20} color="var(--c-primary)" />
+                  </div>
+                  <div style={{ width: 24, height: 1, background: 'rgba(109,215,76,0.2)', marginTop: 24 }} />
+                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 10px var(--c-primary)', marginTop: 20, marginLeft: -4, zIndex: 2 }} />
+                  
+                  <div style={{ marginLeft: 24, flex: 1 }}>
+                    <div style={{ color: 'var(--c-primary)', fontSize: 12, fontWeight: 700, marginBottom: 4 }}>March 2025 – June 2025</div>
+                    <div style={{ color: 'var(--c-white)', fontSize: 18, fontWeight: 700, marginBottom: 4 }}>Associate Product Designer</div>
+                    <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, marginBottom: 16 }}>InterviewBuddy • Visakhapatnam, India (On-site)</div>
+
+                    <div style={{ border: '1px solid rgba(255,255,255,0.05)', borderRadius: 12, padding: 16, background: 'rgba(255,255,255,0.02)' }}>
+                      <div style={{ display: 'flex', gap: 12 }}>
+                        <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', marginTop: 8, flexShrink: 0 }} />
+                        <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 }}>
+                          Designed structured interaction flows, high-fidelity UI systems, and contributed to cross-functional discussions to align product goals with UX strategy.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* CTA Button */}
+              <a href="#experience" style={{ textDecoration: 'none' }}>
+                <div style={{ border: '1px solid rgba(255,255,255,0.05)', borderRadius: 100, padding: '12px 12px 12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(9,16,10,0.5)', marginTop: 24, transition: 'all 0.3s ease' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: '50%', border: '1px solid rgba(109,215,76,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <CircleDot size={16} color="var(--c-primary)" />
+                    </div>
+                    <div>
+                      <div style={{ color: 'var(--c-white)', fontSize: 16, fontWeight: 600 }}>View Full Experience</div>
+                      <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>See my complete professional journey</div>
+                    </div>
+                  </div>
+                  
+                  <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'linear-gradient(135deg, #6dd74c, #3b8221)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 20px rgba(109,215,76,0.4)' }}>
+                    <ArrowRight size={20} color="#000" />
+                  </div>
+                </div>
               </a>
             </div>
-          </Reveal>
 
-        </div>
+          </div>
+        </Reveal>
+
       </div>
     </section>
   );

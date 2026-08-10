@@ -31,7 +31,7 @@ const ChatGraphic = () => (
 const faqs = [
   {
     question: "How do I know we're a good fit before committing?",
-    answer: "Every project begins with a free 30-minute discovery call.\nNo pitch — just a real conversation to see if we align.\nIf I'm not the right fit, I'll honestly let you know."
+    answer: "Every project begins with a free 30-minute discovery call.\nNo pitch - just a real conversation to see if we align.\nIf I'm not the right fit, I'll honestly let you know."
   },
   {
     question: "What's your typical project timeline?",
@@ -64,51 +64,46 @@ function FAQItem({ faq, index, isOpen, toggleOpen }: { faq: any, index: number, 
         </div>
       </div>
       
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            key="faq-content"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            style={{ overflow: 'hidden' }}
-          >
-            <div className="faq-body-inner">
-              <div className="faq-body-line" />
-              <div className="faq-body-content">
-                <div className="faq-body-left">
-                  <p className="faq-answer">
-                    {faq.answer.split('\n').map((line: string, i: number) => (
-                      <span key={i}>{line}<br/></span>
-                    ))}
-                  </p>
-                  
-                  {faq.features && (
-                    <div className="faq-features">
-                      {faq.features.map((f: any, i: number) => (
-                        <div key={i} className="faq-feature-box">
-                          <div className="faq-feature-icon">{f.icon}</div>
-                          <div className="faq-feature-text">
-                            <div className="faq-feature-title">{f.title}</div>
-                            <div className="faq-feature-desc">{f.desc}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+      <div 
+        className={`grid transition-all duration-300 ease-out overflow-hidden ${
+          isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="faq-body-inner">
+            <div className="faq-body-line" />
+            <div className="faq-body-content">
+              <div className="faq-body-left">
+                <p className="faq-answer">
+                  {faq.answer.split('\n').map((line: string, i: number) => (
+                    <span key={i}>{line}<br/></span>
+                  ))}
+                </p>
                 
-                {faq.graphic && (
-                  <div className="faq-graphic-wrap">
-                    <ChatGraphic />
+                {faq.features && (
+                  <div className="faq-features">
+                    {faq.features.map((f: any, i: number) => (
+                      <div key={i} className="faq-feature-box">
+                        <div className="faq-feature-icon">{f.icon}</div>
+                        <div className="faq-feature-text">
+                          <div className="faq-feature-title">{f.title}</div>
+                          <div className="faq-feature-desc">{f.desc}</div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
+              
+              {faq.graphic && (
+                <div className="faq-graphic-wrap">
+                  <ChatGraphic />
+                </div>
+              )}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -128,8 +123,7 @@ export default function FAQ() {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      zIndex: 10,
-      background: 'var(--c-base)'
+      zIndex: 10
     }}>
       <style>{`
         .faq-container {
@@ -488,7 +482,7 @@ export default function FAQ() {
       <Reveal delay={400}>
         <div className="faq-bottom-cta">
           <div className="faq-bottom-text">Still have questions?</div>
-          <a href="mailto:trinathkondapalli@gmail.com" className="faq-bottom-btn">
+          <a href="mailto:trinathkondapalli@gmail.com" target="_blank" rel="noopener noreferrer" className="faq-bottom-btn">
             Let's talk about your project <ArrowRight size={16} />
           </a>
         </div>

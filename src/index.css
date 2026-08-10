@@ -36,11 +36,45 @@
   --font-sans: 'Bricolage Grotesque', sans-serif;
 }
 
+.tzinr-theme {
+  --c-primary: #2061D7;      /* TZINR Blue */
+  --c-secondary: #437EF0;    /* Bright Blue */
+  --c-base: #030A1D;         /* Midnight Navy */
+  --c-white: #F6F6F7;        /* Primary White */
+  --c-deep: #0D2660;         /* Deep Electric Blue */
+  --c-warm: #6B9EFF;         /* Soft Blue */
+  --c-dark: #07132F;         /* Deep Navy */
+  --c-muted: #8D9099;        /* Muted Gray */
+  --c-body: #C3C5CC;         /* Cool Gray */
+  --c-surface: #091B46;      /* Blue Surface */
+  --c-obsidian: #000410;     /* Obsidian Navy */
+  
+  --rgba-primary-04: rgba(32,97,215,0.4);
+  --rgba-primary-006: rgba(32,97,215,0.06);
+  --rgba-white-06: rgba(246,246,247,0.6);
+  --rgba-white-03: rgba(246,246,247,0.3);
+  --rgba-white-015: rgba(246,246,247,0.15);
+  --rgba-white-008: rgba(246,246,247,0.08);
+  --rgba-dark-07: rgba(7,19,47,0.7);
+  --rgba-dark-06: rgba(7,19,47,0.6);
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
-  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--c-base);
+  color: var(--c-white);
+  transform: translateZ(0);
 }
 
 html.custom-cursor-active,
@@ -63,6 +97,13 @@ html.custom-cursor-active * {
   mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
   -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
 }
+
+.tzinr-theme .hero-grid-overlay {
+  background-image: 
+    linear-gradient(rgba(40,136,208,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(40,136,208,0.08) 1px, transparent 1px);
+}
+
 
 /* Animations */
 @keyframes rotate-infinite {

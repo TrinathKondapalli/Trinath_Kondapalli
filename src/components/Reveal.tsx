@@ -40,12 +40,13 @@ export function useReveal(options: any = {}) {
   return ref
 }
 
-export default function Reveal({ children, delay = 0, threshold = 0.12, style = {} }: { children: React.ReactNode, delay?: number, threshold?: number, style?: React.CSSProperties }) {
+export default function Reveal({ children, delay = 0, threshold = 0.12, style = {}, className = '' }: { children: React.ReactNode, delay?: number, threshold?: number, style?: React.CSSProperties, className?: string }) {
   const ref = useReveal({ delay, threshold })
 
   return (
     <div 
       ref={ref} 
+      className={className}
       style={{ 
         opacity: 0, 
         transform: 'translateY(28px)', 

@@ -67,7 +67,6 @@ export default function Testimonials() {
       flexDirection: 'column',
       alignItems: 'center',
       zIndex: 10,
-      background: 'var(--c-base)',
       overflow: 'hidden'
     }}>
       <style>{`

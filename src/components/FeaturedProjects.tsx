@@ -12,7 +12,9 @@ const projects = [
     isPlaceholder: false,
     problem: 'Indian health seekers struggled to navigate fragmented diet tracking and inconsistent fitness guidance on mobile screens.',
     process: 'Structured a 19-stage UX blueprint — from user persona mapping (Meet Ananya) to localized diet systems and hi-fi mobile screens.',
-    outcome: 'Delivered a holistic fitness ecosystem with localized diet search, streak milestone cards, and 100% accessible UI craft.'
+    outcome: 'Delivered a holistic fitness ecosystem with localized diet search, streak milestone cards, and 100% accessible UI craft.',
+    role: 'Lead UX/UI Designer',
+    tools: ['Figma', 'Miro', 'Notion']
   },
   { 
     index: 2, 
@@ -23,7 +25,9 @@ const projects = [
     href: '/case-study/lingu-link',
     problem: 'Language learners lost engagement due to cluttered navigation and fragmented lesson progress tracking.',
     process: 'Simplified information architecture into a 3-tab navigation hub and gamified streak milestone cards.',
-    outcome: 'Scaled to 100k+ active users while driving a 35% increase in daily active lesson completions.'
+    outcome: 'Scaled to 100k+ active users while driving a 35% increase in daily active lesson completions.',
+    role: 'Product Designer',
+    tools: ['Figma', 'Protopie']
   },
   { 
     index: 3, 
@@ -35,7 +39,9 @@ const projects = [
     isPlaceholder: true,
     problem: 'Creative teams spend hours engineering complex prompts to generate UI layouts and UGC scripts, receiving unstructured, unusable text formats.',
     process: 'Designed a node-based prompt architecture that visualizes LLM generation, validates JSON outputs, and instantly renders creative assets in a WYSIWYG studio.',
-    outcome: 'Reduced asset generation time by 75% and achieved a 92% successful output validation rate during beta.'
+    outcome: 'Reduced asset generation time by 75% and achieved a 92% successful output validation rate during beta.',
+    role: 'Principal Product Designer',
+    tools: ['Figma', 'React', 'OpenAI API']
   },
   { 
     index: 4, 
@@ -46,7 +52,9 @@ const projects = [
     href: '/case-study/nutribox',
     problem: 'Indian D2C wellness shoppers had high drop-off rates due to unverified ingredient trust signals on mobile screens.',
     process: 'Reorganized product card hierarchy and introduced clean ingredient callout badges with mobile-first tap targets.',
-    outcome: 'Increased landing page conversion rate by +40% and reduced mobile bounce rates within 30 days.'
+    outcome: 'Increased landing page conversion rate by +40% and reduced mobile bounce rates within 30 days.',
+    role: 'UX Designer',
+    tools: ['Figma', 'Webflow']
   },
   { 
     index: 5, 
@@ -57,7 +65,9 @@ const projects = [
     href: '/case-study/go-vigi',
     problem: 'Agricultural traders struggled with complex multi-step bulk produce ordering and opaque freight tracking.',
     process: 'Consolidated a 7-step ordering portal into a 2-step matrix dashboard with instant order status cards.',
-    outcome: 'Reduced bulk order completion time by 60% and successfully deployed across web and mobile platforms.'
+    outcome: 'Reduced bulk order completion time by 60% and successfully deployed across web and mobile platforms.',
+    role: 'Lead Product Designer',
+    tools: ['Figma', 'Illustrator']
   }
 ];
 
@@ -70,8 +80,7 @@ export default function FeaturedProjects() {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      zIndex: 10,
-      background: 'var(--c-base)'
+      zIndex: 10
     }}>
       <style>{`
         .editorial-grid {
@@ -155,24 +164,18 @@ export default function FeaturedProjects() {
         }
       `}</style>
 
-      {/* Eyebrow Pill */}
+      {/* Eyebrow */}
       <Reveal>
         <div style={{
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'center',
             gap: 12,
-            padding: '6px 16px',
-            background: 'var(--rgba-dark-06)',
-            border: '1px solid var(--rgba-white-03)',
-            borderRadius: 100,
-            marginBottom: 80,
-            width: 'max-content'
+            marginBottom: 80
           }}
         >
           <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-            SELECTED WORK — 05 PROJECTS
-          </span>
+          <div style={{ color: 'var(--c-primary)', fontSize: 12, fontWeight: 700, letterSpacing: 2 }}>SELECTED WORK — 05 PROJECTS</div>
           <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
         </div>
       </Reveal>

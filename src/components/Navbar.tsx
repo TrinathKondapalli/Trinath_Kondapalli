@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Menu, X, ArrowLeft } from 'lucide-react';
+import { useCurtainStore } from './tzinr/RouteTransition';
 
 import GlobalMagneticButton from './GlobalMagneticButton';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { triggerCurtain } = useCurtainStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,7 +25,7 @@ export default function Navbar() {
 
   if (isNutriBox) return null;
 
-  const navItems = ['Home', 'About', 'Services', 'Work', 'Process', 'Contact'];
+  const navItems = ['About', 'Work', 'Process', 'Skills', 'Experience'];
 
   return (
     <motion.div 
@@ -124,6 +126,22 @@ export default function Navbar() {
           ))}
         </div>
 
+        {/* Desktop Actions */}
+        <div className="desktop-actions" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <a href="/tzinr" onClick={(e) => {
+            e.preventDefault();
+            triggerCurtain('toTzinr', () => navigate('/tzinr'));
+          }} style={{
+            position: 'relative', color: 'var(--c-white)', textDecoration: 'none',
+            transition: 'color 0.3s ease', display: 'flex', alignItems: 'center', gap: 6,
+            fontFamily: 'var(--font-sans)', fontSize: 14, fontWeight: 500
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--c-secondary)')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--c-white)')}
+          >
+            TZINR Studio ↗
+          </a>
+
         {/* Desktop CTA Button */}
         <GlobalMagneticButton
           className="cta-btn"
@@ -137,6 +155,7 @@ export default function Navbar() {
           Let's Talk
           <ArrowUpRight size={16} strokeWidth={3} />
         </GlobalMagneticButton>
+        </div>
 
         {/* Mobile Hamburger Button */}
         <button 
@@ -194,6 +213,16 @@ export default function Navbar() {
                 {item}
               </a>
             ))}
+            <a href="/tzinr" onClick={(e) => {
+              e.preventDefault();
+              setIsOpen(false);
+              triggerCurtain('toTzinr', () => navigate('/tzinr'));
+            }} style={{
+              color: 'var(--c-white)', textDecoration: 'none', fontSize: 18, fontWeight: 500,
+              fontFamily: 'var(--font-sans)', padding: '8px 0', borderBottom: '1px solid var(--rgba-white-008)'
+            }}>
+              TZINR Studio ↗
+            </a>
             <button 
               onClick={() => {
                 setIsOpen(false);
@@ -229,6 +258,7 @@ export default function Navbar() {
         .mobile-menu-btn { display: none !important; }
         @media (max-width: 1024px) {
           .nav-links { display: none !important; }
+          .desktop-actions { display: none !important; }
           .cta-btn { display: none !important; }
           .mobile-menu-btn { display: flex !important; }
         }

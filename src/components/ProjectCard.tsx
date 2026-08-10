@@ -4,7 +4,7 @@ import Reveal from './Reveal'
 
 export default function ProjectCard({ 
   index, title, category, image, result, href = '#', large = false,
-  problem, process, outcome, isPlaceholder = false
+  problem, process, outcome, isPlaceholder = false, role, tools
 }: any) {
   const [hovered, setHovered] = useState(false)
   const cardRef = useRef<HTMLAnchorElement>(null)
@@ -144,7 +144,12 @@ export default function ProjectCard({
               {title} {isPlaceholder && <span style={{ fontSize: 11, color: 'var(--c-primary)', fontWeight: 400 }}>(Upcoming)</span>}
             </div>
 
-            {/* Problem / Process / Outcome Summary */}
+            {/* Details Summary */}
+            {role && (
+              <div style={{ fontSize: 11, color: 'var(--c-primary)', fontWeight: 600, lineHeight: 1.4 }}>
+                Role: <span style={{ color: '#fff', fontWeight: 400 }}>{role}</span>
+              </div>
+            )}
             {problem && (
               <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', lineHeight: 1.4 }}>
                 <strong style={{ color: '#fff' }}>Problem:</strong> {problem}
@@ -152,12 +157,16 @@ export default function ProjectCard({
             )}
             {process && (
               <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', lineHeight: 1.4 }}>
-                <strong style={{ color: '#fff' }}>Process:</strong> {process}
+                <strong style={{ color: '#fff' }}>Contribution:</strong> {process}
               </div>
             )}
-            {outcome && (
-              <div style={{ fontSize: 11, color: '#6ddc6d', fontWeight: 600, lineHeight: 1.4 }}>
-                <strong>Outcome:</strong> {outcome}
+            {tools && tools.length > 0 && (
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 4 }}>
+                {tools.map((t: string) => (
+                  <span key={t} style={{ padding: '2px 6px', background: 'rgba(255,255,255,0.1)', borderRadius: 4, fontSize: 10, color: 'rgba(255,255,255,0.7)' }}>
+                    {t}
+                  </span>
+                ))}
               </div>
             )}
 

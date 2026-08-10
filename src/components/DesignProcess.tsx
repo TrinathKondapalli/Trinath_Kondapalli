@@ -1,473 +1,464 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import Reveal from './Reveal';
 import { 
-  Search, Brain, Target, Users, FileText, TrendingUp, Network, 
-  Layout, Smartphone, Code, CheckCircle2, Rocket, Paintbrush, Plus 
+  Search, User, Share2, PenTool, MousePointer2, Layers, RefreshCw, Code2 
 } from 'lucide-react';
 
 const steps = [
   { 
-    title: 'Obsessive discovery', 
-    subtitle: 'Understanding problem constraints before designing.',
-    desc: 'I spend the first week analyzing real business constraints and user heatmaps rather than making aesthetic assumptions. [REAL EXAMPLE NEEDED: e.g., Proxycare discovery audit revealed drop-off on booking step 3].',
-    mainIcon: <Search size={24} />,
-    features: [
-      { icon: <Brain size={18} />, text: 'Deep\nUnderstanding' },
-      { icon: <Target size={18} />, text: 'Clear\nDirection' },
-      { icon: <Users size={18} />, text: 'Aligned\nGoals' }
-    ],
-    deliverables: [
-      { icon: <FileText size={18} />, text: 'Brief' },
-      { icon: <TrendingUp size={18} />, text: 'Competitive audit' },
-      { icon: <Users size={18} />, text: 'User research' }
-    ]
+    title: 'Understand the Problem', 
+    desc: 'Before designing anything, I understand what needs to be solved.',
+    activities: ['Business goals', 'User needs', 'Existing problems', 'Project constraints'],
+    icon: Search
   },
   { 
-    title: 'Strategic architecture', 
-    subtitle: 'Logical information structure & flow mapping.',
-    desc: 'Mapping user flows and wireframe logic before touching high-fidelity visuals. [REAL EXAMPLE NEEDED: e.g., GoVigi checkout simplified from 7 screens to a 2-step matrix].',
-    mainIcon: <Network size={24} />,
-    features: [
-      { icon: <Layout size={18} />, text: 'Logical\nStructure' },
-      { icon: <Smartphone size={18} />, text: 'User\nJourneys' },
-      { icon: <Code size={18} />, text: 'Scalable\nFoundations' }
-    ],
-    deliverables: [
-      { icon: <Network size={18} />, text: 'Sitemap' },
-      { icon: <Layout size={18} />, text: 'User flows' },
-      { icon: <FileText size={18} />, text: 'Content hierarchy' }
-    ]
+    title: 'Learn About the Users', 
+    desc: 'I gather insights about users so the experience is based on real needs rather than assumptions.',
+    activities: ['User research', 'User needs', 'Pain points', 'Existing behavior'],
+    icon: User
   },
   { 
-    title: 'Pixel-perfect UI', 
-    subtitle: 'Design systems built on responsive tokens.',
-    desc: 'Building modular design systems on strict grids with interactive state tokens. [REAL EXAMPLE NEEDED: e.g., NutriBox ingredient badge design system].',
-    mainIcon: <Paintbrush size={24} />,
-    features: [
-      { icon: <Paintbrush size={18} />, text: 'Visual\nLanguage' },
-      { icon: <Smartphone size={18} />, text: 'Responsive\nDesign' },
-      { icon: <CheckCircle2 size={18} />, text: 'Accessible\nInterfaces' }
-    ],
-    deliverables: [
-      { icon: <Layout size={18} />, text: 'Design system' },
-      { icon: <Smartphone size={18} />, text: 'Hi-fi mockups' },
-      { icon: <Code size={18} />, text: 'Prototype' }
-    ]
+    title: 'Shape the Experience', 
+    desc: 'I organize information and define how people move through the product.',
+    activities: ['User journeys', 'Information architecture', 'User flows', 'Navigation structure'],
+    icon: Share2
   },
   { 
-    title: 'Flawless execution', 
-    subtitle: 'Production-ready builds & seamless handoff.',
-    desc: 'Shipping live production code with smooth motion and cross-device QA. [REAL EXAMPLE NEEDED: e.g., LinguLink zero-drift Figma-to-live React deployment].',
-    mainIcon: <Rocket size={24} />,
-    features: [
-      { icon: <Code size={18} />, text: 'Clean\nCodebase' },
-      { icon: <CheckCircle2 size={18} />, text: 'Rigorous\nQA' },
-      { icon: <Rocket size={18} />, text: 'Smooth\nLaunch' }
-    ],
-    deliverables: [
-      { icon: <Code size={18} />, text: 'Responsive build' },
-      { icon: <CheckCircle2 size={18} />, text: 'QA checklist' },
-      { icon: <Rocket size={18} />, text: 'Launch' }
-    ]
+    title: 'Explore Solutions', 
+    desc: 'I turn ideas into early layouts so problems can be solved before visual details take over.',
+    activities: ['Wireframes', 'Layout exploration', 'Interaction ideas', 'Early prototypes'],
+    icon: PenTool
   },
+  { 
+    title: 'Design the Interface', 
+    desc: 'I transform the structure into clear, polished interfaces that are easy to understand and use.',
+    activities: ['High-fidelity UI', 'Interaction design', 'Visual hierarchy', 'Responsive layouts'],
+    icon: MousePointer2
+  },
+  { 
+    title: 'Build the System', 
+    desc: 'I create reusable components and design patterns so the product stays consistent as it grows.',
+    activities: ['Design systems', 'Reusable components', 'Typography', 'UI patterns', 'Consistency'],
+    icon: Layers
+  },
+  { 
+    title: 'Test and Improve', 
+    desc: 'I review the experience, identify problems, and refine the design before it moves forward.',
+    activities: ['Usability testing', 'Feedback', 'Iteration', 'Accessibility'],
+    icon: RefreshCw
+  },
+  { 
+    title: 'Work With Developers', 
+    desc: 'I document the design clearly and collaborate with developers to help the final product stay true to the intended experience.',
+    activities: ['Design documentation', 'Responsive behavior', 'Developer collaboration', 'Design handoff', 'Implementation awareness'],
+    icon: Code2
+  }
 ];
 
-function AccordionItem({ step, index, isOpen, onClick }: any) {
-  return (
-    <div className="process-row">
-      <div className={`timeline-col ${isOpen ? 'active' : ''}`}>
-        <div className="timeline-num">0{index + 1}</div>
-      </div>
-
-      <div className={`process-card ${isOpen ? 'active' : ''}`}>
-        <div className="card-header" onClick={onClick}>
-          <div className="card-icon">
-            {step.mainIcon}
-          </div>
-          <div className="card-title-group">
-            <div className="card-title">{step.title}</div>
-            <div className="card-subtitle">{step.subtitle}</div>
-          </div>
-          <div className="card-indicator">
-            <motion.div
-              animate={{ rotate: isOpen ? 45 : 0 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-              <Plus size={20} color={isOpen ? 'var(--c-primary)' : 'rgba(255,255,255,0.4)'} />
-            </motion.div>
-          </div>
-        </div>
-
-        <AnimatePresence initial={false}>
-          {isOpen && (
-            <motion.div
-              key="accordion-content"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              style={{ overflow: 'hidden' }}
-            >
-              <div className="card-body-inner">
-                <div className="card-body-left">
-                  <p className="card-desc">{step.desc}</p>
-                  <div className="features-row">
-                  {step.features.map((f: any, i: number) => (
-                    <div key={i} className="feature-box">
-                      <div className="feature-icon">{f.icon}</div>
-                      <div className="feature-text">{f.text}</div>
-                    </div>
-                  ))}
-                  </div>
-                </div>
-                <div className="card-body-right">
-                  <div className="deliverables-title">Deliverables</div>
-                  <div className="deliverables-list">
-                    {step.deliverables.map((d: any, i: number) => (
-                      <div key={i} className="deliverable-box">
-                        <div className="deliverable-icon">{d.icon}</div>
-                        <div className="deliverable-text">{d.text}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
-  );
-}
-
 export default function DesignProcess() {
-  const [open, setOpen] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"]
+  });
+  
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   return (
     <section id="process" style={{
       position: 'relative',
       width: '100%',
-      padding: '60px 24px',
+      padding: '120px 24px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      zIndex: 10,
-      background: 'var(--c-base)'
+      zIndex: 10
     }}>
       <style>{`
-        .process-container {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
+        .dp-container {
           width: 100%;
           max-width: 1000px;
-        }
-
-        .timeline-master-line {
-          position: absolute;
-          top: 56px;
-          bottom: 56px;
-          left: 32px;
-          width: 2px;
-          background: rgba(255,255,255,0.05);
-          z-index: 0;
-        }
-
-        .process-row {
-          display: flex;
-          gap: 32px;
-          width: 100%;
-          position: relative;
-          z-index: 1;
-        }
-
-        .timeline-col {
-          position: relative;
-          width: 64px;
-          flex-shrink: 0;
-          display: flex;
-          justify-content: center;
-          padding-top: 28px;
-        }
-
-        .timeline-num {
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          background: var(--c-base);
-          border: 1px solid rgba(255,255,255,0.1);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-family: var(--font-sans);
-          font-size: 15px;
-          font-weight: 700;
-          color: rgba(255,255,255,0.5);
-          transition: all 0.4s ease;
-          position: relative;
-          z-index: 2;
-        }
-
-        .timeline-col.active .timeline-num {
-          border-color: rgba(109,220,109,0.5);
-          color: white;
-          box-shadow: 0 0 20px rgba(109,220,109,0.2), inset 0 0 10px rgba(109,220,109,0.1);
-        }
-
-        .process-row:hover:not(:has(.timeline-col.active)) .timeline-num {
-          border-color: rgba(109,220,109,0.25);
-          color: var(--c-primary);
-          box-shadow: 0 0 15px rgba(109,220,109,0.15), inset 0 0 10px rgba(109,220,109,0.05);
-        }
-
-        .process-card {
-          flex-grow: 1;
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.05);
-          border-radius: 16px;
-          overflow: hidden;
-          transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-        }
-
-        .process-card:hover:not(.active) {
-          background: rgba(255,255,255,0.03);
-          border-color: rgba(255,255,255,0.08);
-        }
-
-        .process-card.active {
-          background: rgba(10, 25, 12, 0.4);
-          border-color: rgba(109,220,109,0.3);
-          box-shadow: 0 10px 40px rgba(109,220,109,0.05);
-        }
-
-        .card-header {
-          display: flex;
-          align-items: center;
-          gap: 24px;
-          padding: 24px 32px;
-          cursor: pointer;
-        }
-
-        .card-icon {
-          width: 56px;
-          height: 56px;
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.05);
-          color: rgba(255,255,255,0.3);
-          transition: all 0.4s ease;
-        }
-
-        .card-header:hover .card-icon {
-          background: rgba(109,220,109,0.05);
-          color: var(--c-primary);
-          border-color: rgba(109,220,109,0.25);
-          box-shadow: 0 0 15px rgba(109,220,109,0.15), inset 0 0 10px rgba(109,220,109,0.05);
-        }
-
-        .process-card.active .card-icon,
-        .process-card.active .card-header:hover .card-icon {
-          background: rgba(109,220,109,0.05);
-          border-color: rgba(109,220,109,0.3);
-          color: var(--c-primary);
-          box-shadow: 0 0 20px rgba(109,220,109,0.2), inset 0 0 10px rgba(109,220,109,0.1);
-        }
-
-        .card-title-group {
-          flex-grow: 1;
           display: flex;
           flex-direction: column;
-          gap: 4px;
-        }
-
-        .card-title {
-          font-family: var(--font-sans);
-          font-size: 24px;
-          font-weight: 700;
-          color: white;
-          letter-spacing: -0.5px;
-        }
-
-        .card-subtitle {
-          font-family: var(--font-sans);
-          font-size: 15px;
-          color: rgba(255,255,255,0.4);
-          transition: color 0.4s ease;
-        }
-
-        .process-card.active .card-subtitle {
-          color: var(--c-primary);
-        }
-
-        .card-indicator {
-          width: 40px;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .process-card:not(.active) .card-indicator {
-          border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 50%;
-          transition: background 0.3s ease;
-        }
-
-        .process-card:not(.active):hover .card-indicator {
-          background: rgba(255,255,255,0.05);
-        }
-
-        .card-body-inner {
-          padding: 0 32px 32px 32px;
-          display: grid;
-          grid-template-columns: 1.2fr 1fr;
           gap: 64px;
         }
 
-        .card-desc {
-          font-family: var(--font-sans);
-          font-size: 16px;
-          color: rgba(255,255,255,0.6);
-          line-height: 1.6;
-          margin-top: 0;
+        .dp-header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
           margin-bottom: 32px;
         }
 
-        .features-row {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 12px;
-        }
-
-        .feature-box {
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.06);
-          border-radius: 12px;
-          padding: 12px;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .feature-icon {
-          color: var(--c-primary);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .feature-text {
+        .dp-title {
           font-family: var(--font-sans);
-          font-size: 11px;
-          font-weight: 500;
-          color: rgba(255,255,255,0.7);
-          line-height: 1.4;
-          white-space: pre-line;
-        }
-
-        .deliverables-title {
-          font-family: var(--font-sans);
-          font-size: 11px;
+          font-size: clamp(40px, 5vw, 64px);
           font-weight: 700;
-          letter-spacing: 1.5px;
-          text-transform: uppercase;
-          color: var(--c-primary);
-          margin-bottom: 20px;
-        }
-
-        .deliverables-list {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        .deliverable-box {
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.06);
-          border-radius: 12px;
-          padding: 16px;
-          display: flex;
-          align-items: center;
-          gap: 16px;
-        }
-
-        .deliverable-icon {
-          color: var(--c-primary);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .deliverable-text {
-          font-family: var(--font-sans);
-          font-size: 14px;
-          font-weight: 500;
           color: var(--c-white);
+          letter-spacing: -1px;
+          line-height: 1.1;
+        }
+        
+        .dp-title em {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic;
+          color: var(--c-primary);
         }
 
-        @media (max-width: 1024px) {
-          .card-body-inner {
-            grid-template-columns: 1fr;
-            gap: 40px;
+        .dp-timeline-wrapper {
+          position: relative;
+          width: 100%;
+          padding-left: 24px;
+        }
+        
+        @media (min-width: 768px) {
+          .dp-timeline-wrapper {
+            padding-left: 50%;
           }
         }
 
-        @media (max-width: 768px) {
-          .process-row { gap: 16px; }
-          .timeline-col { width: 48px; }
-          .timeline-num { width: 36px; height: 36px; font-size: 13px; }
-          .timeline-master-line { left: 24px; }
-          .card-header { padding: 20px; gap: 16px; }
-          .card-icon { width: 48px; height: 48px; }
-          .card-title { font-size: 18px; }
-          .card-subtitle { font-size: 13px; }
-          .card-body-inner { padding: 0 20px 20px 20px; }
-          .features-row { grid-template-columns: 1fr; }
+        .dp-line-bg {
+          position: absolute;
+          left: 24px;
+          top: 0;
+          bottom: 0;
+          width: 2px;
+          background: rgba(255,255,255,0.05);
+        }
+        
+        @media (min-width: 768px) {
+          .dp-line-bg {
+            left: 50%;
+            transform: translateX(-50%);
+          }
+        }
+
+        .dp-line-fill {
+          position: absolute;
+          left: 24px;
+          top: 0;
+          width: 2px;
+          background: var(--c-primary);
+          box-shadow: 0 0 10px var(--c-primary);
+          transform-origin: top;
+        }
+        
+        @media (min-width: 768px) {
+          .dp-line-fill {
+            left: 50%;
+            transform: translateX(-50%);
+          }
+        }
+
+        .dp-step {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          padding-left: 48px;
+          margin-bottom: 80px;
+          width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+          .dp-step {
+            width: 100%;
+            margin-bottom: 120px;
+          }
+          .dp-step:nth-child(odd) {
+            left: -100%;
+            padding-left: 0;
+            padding-right: 64px;
+            text-align: right;
+            align-items: flex-end;
+          }
+          .dp-step:nth-child(even) {
+            padding-left: 64px;
+            align-items: flex-start;
+          }
+        }
+
+        .dp-step:last-child {
+          margin-bottom: 0;
+        }
+
+        .dp-node {
+          position: absolute;
+          left: -4px;
+          top: 0;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: #09100a;
+          border: 2px solid rgba(255,255,255,0.2);
+          z-index: 2;
+          transition: all 0.4s ease;
+        }
+        
+        @media (min-width: 768px) {
+          .dp-step:nth-child(odd) .dp-node {
+            left: auto;
+            right: -7px;
+          }
+          .dp-step:nth-child(even) .dp-node {
+            left: -7px;
+          }
+        }
+
+        .dp-step.active .dp-node {
+          border-color: var(--c-primary);
+          background: var(--c-primary);
+          box-shadow: 0 0 12px var(--c-primary);
+        }
+
+        .dp-step-content {
+          opacity: 0.4;
+          transition: all 0.5s ease;
+          transform: translateY(10px);
+          width: 100%;
+          max-width: 440px;
+        }
+        
+        @media (min-width: 768px) {
+          .dp-step:nth-child(odd) .dp-step-content {
+            margin-left: auto;
+          }
+        }
+
+        .dp-step.active .dp-step-content {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .dp-step:hover .dp-step-content {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .dp-step:hover .dp-node {
+          border-color: rgba(109,215,76,0.5);
+          box-shadow: 0 0 12px rgba(109,215,76,0.3);
+        }
+        .dp-step.active:hover .dp-node {
+          border-color: var(--c-primary);
+          box-shadow: 0 0 12px var(--c-primary);
+        }
+
+        .dp-step-num {
+          font-family: var(--font-sans);
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--c-primary);
+          letter-spacing: 2px;
+          margin-bottom: 12px;
+          padding-left: 52px;
+        }
+
+        .dp-step-title {
+          font-family: var(--font-sans);
+          font-size: 24px;
+          font-weight: 700;
+          color: var(--c-white);
+          margin-bottom: 16px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        
+        @media (min-width: 768px) {
+          .dp-step:nth-child(odd) .dp-step-title {
+            flex-direction: row-reverse;
+          }
+        }
+
+        .dp-step-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: rgba(109,215,76,0.05);
+          border: 1px solid rgba(109,215,76,0.2);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--c-primary);
+          transition: all 0.4s ease;
+        }
+
+        .dp-step.active .dp-step-icon, .dp-step:hover .dp-step-icon {
+          background: rgba(109,215,76,0.1);
+          box-shadow: 0 0 16px rgba(109,215,76,0.15);
+        }
+
+        .dp-step-desc {
+          font-family: var(--font-sans);
+          font-size: 15px;
+          color: rgba(255,255,255,0.7);
+          line-height: 1.6;
+          margin-bottom: 24px;
+          padding-left: 52px;
+        }
+
+        .dp-activities {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 8px;
+          padding-left: 52px;
+        }
+        
+        @media (min-width: 768px) {
+          .dp-step:nth-child(odd) .dp-step-num,
+          .dp-step:nth-child(odd) .dp-step-desc,
+          .dp-step:nth-child(odd) .dp-activities {
+            padding-left: 0;
+            padding-right: 52px;
+          }
+          
+          .dp-step:nth-child(odd) .dp-activities {
+            justify-content: flex-end;
+          }
+        }
+
+        .dp-activity {
+          padding: 6px 12px;
+          border-radius: 100px;
+          border: 1px solid rgba(255,255,255,0.1);
+          font-size: 12px;
+          color: rgba(255,255,255,0.5);
+          background: rgba(255,255,255,0.02);
+          transition: all 0.4s ease;
+        }
+
+        .dp-step.active .dp-activity, .dp-step:hover .dp-activity {
+          border-color: rgba(109,215,76,0.2);
+          color: rgba(255,255,255,0.8);
+        }
+
+        .dp-outro {
+          text-align: center;
+          margin-top: 80px;
+          padding-top: 80px;
+          border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .dp-outro-text {
+          font-family: var(--font-sans);
+          font-size: 16px;
+          color: rgba(255,255,255,0.6);
+          margin-bottom: 32px;
+        }
+
+        .dp-loop {
+          display: inline-flex;
+          align-items: center;
+          gap: 16px;
+          padding: 12px 24px;
+          border-radius: 100px;
+          background: rgba(109,215,76,0.05);
+          border: 1px solid rgba(109,215,76,0.2);
+          color: var(--c-primary);
+          font-size: 14px;
+          font-weight: 600;
+          letter-spacing: 1px;
+        }
+
+        .dp-loop-arrow {
+          opacity: 0.5;
+        }
+        
+        @media (max-width: 600px) {
+          .dp-loop {
+            font-size: 12px;
+            gap: 8px;
+            padding: 10px 16px;
+          }
         }
       `}</style>
 
-      {/* Eyebrow Pill */}
-      <Reveal>
-        <div 
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            padding: '6px 16px',
-            background: 'var(--rgba-dark-06)',
-            border: '1px solid var(--rgba-white-03)',
-            borderRadius: 100,
-            marginBottom: 80
-          }}
-        >
-          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, color: 'var(--c-primary)', textTransform: 'uppercase' }}>
-            HOW I WORK
-          </span>
-          <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
-        </div>
-      </Reveal>
-
-      {/* Interactive Process List */}
-      <div className="process-container">
-        <div className="timeline-master-line" />
-        {steps.map((s, i) => (
-          <Reveal key={i} delay={i * 100}>
-            <AccordionItem 
-              step={s} 
-              index={i} 
-              isOpen={open === i} 
-              onClick={() => setOpen(open === i ? null : i)} 
-            />
+      <div className="dp-container">
+        <div className="dp-header">
+          <Reveal delay={0}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 24 }}>
+              <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+              <div style={{ color: 'var(--c-primary)', fontSize: 12, fontWeight: 700, letterSpacing: 2 }}>HOW I WORK</div>
+              <div style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--c-primary)', boxShadow: '0 0 8px var(--c-primary)' }} />
+            </div>
+            <h2 className="dp-title">From problem<br/>to <em>product.</em></h2>
+            <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: 24, fontSize: 16, maxWidth: 600, margin: '24px auto 0', lineHeight: 1.6 }}>
+              I use a structured design process to understand the problem, shape the experience, design the interface, and work with development teams to bring the solution to life.
+            </p>
           </Reveal>
-        ))}
+        </div>
+
+        <div className="dp-timeline-wrapper" ref={containerRef}>
+          <div className="dp-line-bg" />
+          <motion.div 
+            className="dp-line-fill" 
+            style={{ 
+              scaleY: smoothProgress,
+              height: '100%'
+            }} 
+          />
+
+          {steps.map((step, idx) => {
+            return (
+              <StepItem 
+                key={idx} 
+                step={step} 
+                idx={idx} 
+                progress={scrollYProgress} 
+                total={steps.length} 
+              />
+            );
+          })}
+        </div>
+
+        <Reveal>
+          <div className="dp-outro">
+            <div className="dp-outro-text">
+              Good design is not a single step. It is a continuous loop of understanding, designing, testing, and improving.
+            </div>
+            <div className="dp-loop">
+              Understand <span className="dp-loop-arrow">→</span> Design <span className="dp-loop-arrow">→</span> Test <span className="dp-loop-arrow">→</span> Improve <span className="dp-loop-arrow">↺</span>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
+  );
+}
+
+function StepItem({ step, idx }: any) {
+  const [active, setActive] = useState(false);
+
+  return (
+    <motion.div 
+      className={`dp-step ${active ? 'active' : ''}`}
+      onViewportEnter={() => setActive(true)}
+      onViewportLeave={() => setActive(false)}
+      viewport={{ once: false, margin: "-40% 0px -40% 0px" }}
+    >
+      <div className="dp-node" />
+      <div className="dp-step-content">
+        <div className="dp-step-num">0{idx + 1}</div>
+        <div className="dp-step-title">
+          <div className="dp-step-icon">
+            <step.icon size={18} strokeWidth={2} />
+          </div>
+          {step.title}
+        </div>
+        <div className="dp-step-desc">{step.desc}</div>
+        <div className="dp-activities">
+          {step.activities.map((act: string, i: number) => (
+            <div key={i} className="dp-activity">{act}</div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
   );
 }

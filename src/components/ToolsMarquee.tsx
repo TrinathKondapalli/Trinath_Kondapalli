@@ -14,7 +14,6 @@ export default function ToolsMarquee() {
   return (
     <section id="tools" style={{
       width: '100%',
-      background: '#081509',
       padding: '64px 0',
       display: 'flex',
       flexDirection: 'column',
@@ -70,6 +69,8 @@ export default function ToolsMarquee() {
           display: flex;
           white-space: nowrap;
           width: fit-content;
+          will-change: transform;
+          transform: translateZ(0);
           animation: marquee 75s linear infinite;
         }
         
