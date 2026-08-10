@@ -74,7 +74,6 @@ body {
   overflow-x: hidden;
   background-color: var(--c-base);
   color: var(--c-white);
-  transform: translateZ(0);
 }
 
 html.custom-cursor-active,

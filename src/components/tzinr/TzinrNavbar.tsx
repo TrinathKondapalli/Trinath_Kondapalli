@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/Tzinr_logo.png';
 import { useCurtainStore } from './RouteTransition';
+import GlobalMagneticButton from '../GlobalMagneticButton';
 
 export default function TzinrNavbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -13,7 +14,7 @@ export default function TzinrNavbar() {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -27,113 +28,206 @@ export default function TzinrNavbar() {
   ];
 
   return (
-    <>
-      <motion.nav 
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? 'py-4' : 'py-6'
-        }`}
+    <motion.div 
+      initial={{ y: -50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0,
+        zIndex: 50,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '24px', 
+        pointerEvents: 'none', 
+      }}
+    >
+      <nav 
+        className={scrolled ? 'scrolled' : ''}
+        style={{
+          pointerEvents: 'auto', 
+          background: 'rgba(3, 10, 29, 0.85)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          border: '1px solid rgba(67, 126, 240, 0.25)',
+          borderRadius: 100, 
+          padding: '12px 24px',
+          height: 72,
+          width: '100%',
+          maxWidth: 1200,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          boxSizing: 'border-box'
+        }}
       >
-        <div className="container mx-auto px-6 md:px-12">
-          <div 
-            className={`flex items-center justify-between mx-auto max-w-7xl rounded-2xl transition-all duration-300 ${
-              scrolled 
-                ? 'bg-[#030A1D]/75 backdrop-blur-[24px] border border-[#437EF0]/20 px-6 py-3 shadow-2xl shadow-black/20' 
-                : 'bg-transparent px-4 py-2'
-            }`}
-          >
-            {/* Logo */}
-            <Link to="/tzinr" className="flex items-center">
-              <img src={logo} alt="TZINR Studio" className="h-10 md:h-12 w-auto object-contain" />
-            </Link>
+        {/* Logo */}
+        <Link to="/tzinr" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <img src={logo} alt="TZINR Studio" style={{ height: 42, width: 'auto', objectFit: 'contain' }} />
+        </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <a 
-                  key={link.name}
-                  href={link.href}
-                  className="text-sm font-medium text-[var(--c-muted)] hover:text-[var(--c-primary)] transition-colors"
-                >
-                  {link.name}
-                </a>
-              ))}
-            </div>
-
-            {/* CTAs */}
-            <div className="hidden md:flex items-center gap-6">
-              <a href="/" onClick={(e) => {
-                e.preventDefault();
-                triggerCurtain('toPersonal', () => navigate('/'));
-              }} className="text-sm font-medium text-[var(--c-muted)] hover:text-[var(--c-white)] transition-colors underline decoration-white/20 underline-offset-4">
-                Trinath's Portfolio ↗
-              </a>
-              <a 
-                href="#contact"
-                className="px-5 py-2.5 rounded-lg bg-[var(--c-primary)] text-[var(--c-white)] text-sm font-semibold hover:bg-[var(--c-secondary)] transition-all flex items-center gap-2"
-              >
-                Start a Project ↗
-              </a>
-            </div>
-
-            {/* Mobile Menu Toggle */}
-            <button 
-              className="md:hidden text-[var(--c-white)] p-2"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle menu"
+        {/* Desktop Navigation */}
+        <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: 28, fontSize: 15, fontWeight: 500 }}>
+          {navLinks.map((link) => (
+            <a 
+              key={link.name}
+              href={link.href}
+              style={{ color: '#ffffff', textDecoration: 'none', transition: 'color 0.3s ease' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#437EF0')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#ffffff')}
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+              {link.name}
+            </a>
+          ))}
         </div>
-      </motion.nav>
 
-      {/* Mobile Menu */}
+        {/* Desktop Actions */}
+        <div className="desktop-actions" style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+          <a 
+            href="/" 
+            onClick={(e) => {
+              e.preventDefault();
+              triggerCurtain('toPersonal', () => navigate('/'));
+            }} 
+            style={{
+              color: '#ffffff',
+              textDecoration: 'none',
+              fontSize: 14,
+              fontWeight: 500,
+              transition: 'color 0.3s ease'
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#437EF0')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#ffffff')}
+          >
+            Trinath's Portfolio ↗
+          </a>
+
+          {/* CTA Button */}
+          <GlobalMagneticButton
+            className="tzinr-cta-btn"
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            style={{
+              background: '#437EF0',
+              color: '#ffffff',
+              fontFamily: 'var(--font-sans)',
+              fontWeight: 600,
+              fontSize: 15,
+              padding: '0 24px',
+              height: 48,
+              borderRadius: 100,
+              border: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              cursor: 'pointer'
+            }}
+          >
+            Start a Project
+            <ArrowUpRight size={16} strokeWidth={3} />
+          </GlobalMagneticButton>
+        </div>
+
+        {/* Mobile Hamburger Button */}
+        <button 
+          className="mobile-menu-btn"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          style={{
+            background: 'none', border: 'none', color: '#ffffff',
+            cursor: 'pointer', padding: 8, display: 'none', alignItems: 'center', justifyContent: 'center'
+          }}
+        >
+          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </nav>
+
+      {/* Mobile Menu Dropdown */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 bg-[var(--c-base)]/95 backdrop-blur-2xl flex flex-col pt-24 px-8"
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            style={{
+              pointerEvents: 'auto',
+              position: 'absolute',
+              top: 108,
+              left: 24, right: 24,
+              background: 'rgba(3, 10, 29, 0.95)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid rgba(67, 126, 240, 0.25)',
+              borderRadius: 24,
+              padding: 24,
+              display: 'flex', flexDirection: 'column', gap: 16,
+              boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+            }}
           >
-            <div className="flex flex-col gap-6 text-2xl font-display font-medium text-[var(--c-white)]">
-              {navLinks.map((link) => (
-                <a 
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="border-b border-[var(--c-deep)] pb-4 hover:text-[var(--c-primary)] transition-colors"
-                >
-                  {link.name}
-                </a>
-              ))}
-              
-              <div className="mt-8 flex flex-col gap-6">
-                <a 
-                  href="/" 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setMobileMenuOpen(false);
-                    triggerCurtain('toPersonal', () => navigate('/'));
-                  }}
-                  className="text-lg text-[var(--c-muted)] hover:text-[var(--c-white)] underline decoration-white/20 underline-offset-4"
-                >
-                  Trinath's Portfolio ↗
-                </a>
-                <a 
-                  href="#contact"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="py-4 text-center rounded-xl bg-[var(--c-primary)] text-[var(--c-white)] text-lg font-semibold"
-                >
-                  Start a Project ↗
-                </a>
-              </div>
-            </div>
+            {navLinks.map((link) => (
+              <a 
+                key={link.name}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                style={{
+                  color: '#ffffff', textDecoration: 'none', fontSize: 18, fontWeight: 500,
+                  padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.08)'
+                }}
+              >
+                {link.name}
+              </a>
+            ))}
+            <a 
+              href="/" 
+              onClick={(e) => {
+                e.preventDefault();
+                setMobileMenuOpen(false);
+                triggerCurtain('toPersonal', () => navigate('/'));
+              }}
+              style={{
+                color: '#ffffff', textDecoration: 'none', fontSize: 18, fontWeight: 500,
+                padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.08)'
+              }}
+            >
+              Trinath's Portfolio ↗
+            </a>
+            <button 
+              onClick={() => {
+                setMobileMenuOpen(false);
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              style={{
+                background: '#437EF0',
+                color: '#ffffff', fontWeight: 600, fontSize: 16,
+                padding: '16px', borderRadius: 100, border: 'none',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, 
+                cursor: 'pointer', marginTop: 8
+              }}
+            >
+              Start a Project <ArrowUpRight size={18} strokeWidth={3} />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+
+      <style>{`
+        .tzinr-cta-btn { 
+          background: #437EF0;
+          transition: transform 0.2s, background 0.2s !important; 
+        }
+        .tzinr-cta-btn:hover { 
+          transform: scale(1.05); 
+          background: #3269d6 !important; 
+        }
+
+        .mobile-menu-btn { display: none !important; }
+        @media (max-width: 1024px) {
+          .nav-links { display: none !important; }
+          .desktop-actions { display: none !important; }
+          .mobile-menu-btn { display: flex !important; }
+        }
+      `}</style>
+    </motion.div>
   );
 }
