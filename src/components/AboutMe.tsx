@@ -1,5 +1,6 @@
 import { ArrowRight, User, Code2, Layers, Component, Briefcase, Calendar, Users, CircleDot } from 'lucide-react';
 import Reveal from './Reveal';
+import CircularGallery from './CircularGallery';
 
 const principles = [
   {
@@ -21,6 +22,13 @@ const principles = [
     Icon: Layers
   }
 ];
+
+const galleryItems = principles.map((p) => ({
+  num: p.num,
+  text: p.title.toUpperCase(),
+  desc: p.desc,
+  image: ''
+}));
 
 // Laurel Graphic removed
 
@@ -402,26 +410,18 @@ export default function AboutMe() {
           </div>
         </div>
 
-        {/* Principles Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-8">
-          {principles.map((p, idx) => {
-            const IconComp = p.Icon;
-            return (
-              <Reveal key={p.num} delay={700 + idx * 100}>
-                <div className="p-6 rounded-2xl bg-[#081509]/80 border border-[#6dd74c]/20 hover:border-[#6dd74c]/50 transition-all flex flex-col gap-3 h-full">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono text-[#6dd74c] font-bold">{p.num}</span>
-                    <div className="w-9 h-9 rounded-full bg-[#143113] border border-[#6dd74c]/30 flex items-center justify-center text-[#6dd74c]">
-                      <IconComp size={18} />
-                    </div>
-                  </div>
-                  <h3 className="text-lg font-bold text-white tracking-tight mt-1">{p.title}</h3>
-                  <p className="text-xs text-gray-300/80 leading-relaxed font-sans">{p.desc}</p>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
+        {/* Interactive 3D Canvas Gallery */}
+        <Reveal delay={600}>
+          <div className="w-full h-[400px] my-6 relative overflow-hidden">
+            {/* Left Edge Gradient Fade */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#081509] via-[#081509]/80 to-transparent z-20" />
+            
+            {/* Right Edge Gradient Fade */}
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#081509] via-[#081509]/80 to-transparent z-20" />
+            
+            <CircularGallery items={galleryItems} bend={3} textColor="#6dd74c" borderRadius={0.05} />
+          </div>
+        </Reveal>
 
         {/* Principles Separator */}
         <Reveal delay={900}>

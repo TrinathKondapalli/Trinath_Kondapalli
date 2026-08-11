@@ -528,7 +528,7 @@ class Media {
       }
     }
     this.scale = 1.0;
-    this.plane.scale.y = this.viewport.height * 0.85; // Fill 85% of the container's height
+    this.plane.scale.y = this.viewport.height * 0.68; // Scaled down cards for compact elegant display
     this.plane.scale.x = this.plane.scale.y * (1000 / 900); // Maintain canvas 1000x900 aspect ratio
     this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
     this.padding = 2;

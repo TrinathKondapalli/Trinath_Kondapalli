@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Check } from 'lucide-react';
+import { Send, Check, Loader2 } from 'lucide-react';
+
+// Web3Forms access key — get yours free at https://web3forms.com
+const WEB3FORMS_ACCESS_KEY = '1e8749c9-e766-4ea8-91ae-523bdf415c6c';
 
 const projectTypes = [
   "UX/UI Design",
@@ -22,6 +25,8 @@ export default function TzinrContact() {
   const [selectedType, setSelectedType] = useState<string>("UX/UI Design");
   const [selectedBudget, setSelectedBudget] = useState<string>("$5k - $10k");
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [sending, setSending] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -35,9 +40,46 @@ export default function TzinrContact() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    setError('');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `[TZINR] New Project Inquiry – ${selectedType}`,
+          from_name: formData.name,
+          email: formData.email,
+          company: formData.company || 'Not specified',
+          project_type: selectedType,
+          budget_range: selectedBudget,
+          timeline: formData.timeline || 'Not specified',
+          message: formData.description,
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        throw new Error(result.message || 'Submission failed');
+      }
+    } catch (err) {
+      console.error('Form submission error:', err);
+      // Fallback: open mailto link so submission is never lost
+      const subject = encodeURIComponent(`[TZINR] New Project Inquiry – ${selectedType}`);
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\nCompany: ${formData.company || 'N/A'}\nProject Type: ${selectedType}\nBudget: ${selectedBudget}\nTimeline: ${formData.timeline || 'N/A'}\n\nProject Details:\n${formData.description}`
+      );
+      window.open(`mailto:tzinrtalks@gmail.com?subject=${subject}&body=${body}`, '_blank');
+      setSubmitted(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -235,19 +277,37 @@ export default function TzinrContact() {
               {/* Submit CTA */}
               <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-6">
                 <motion.button 
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: sending ? 1 : 1.02 }}
+                  whileTap={{ scale: sending ? 1 : 0.98 }}
                   type="submit"
-                  className="w-full sm:w-auto px-10 py-4.5 rounded-full bg-[#2061D7] hover:bg-[#437EF0] text-white font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all shadow-[0_0_20px_rgba(32,97,215,0.4)] cursor-pointer"
+                  disabled={sending}
+                  className={`w-full sm:w-auto px-10 py-4.5 rounded-full text-white font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all shadow-[0_0_20px_rgba(32,97,215,0.4)] ${
+                    sending 
+                      ? 'bg-[#2061D7]/60 cursor-wait' 
+                      : 'bg-[#2061D7] hover:bg-[#437EF0] cursor-pointer'
+                  }`}
                 >
-                  <span>Start a Conversation</span>
-                  <Send size={16} />
+                  {sending ? (
+                    <>
+                      <span>Sending...</span>
+                      <Loader2 size={16} className="animate-spin" />
+                    </>
+                  ) : (
+                    <>
+                      <span>Start a Conversation</span>
+                      <Send size={16} />
+                    </>
+                  )}
                 </motion.button>
 
                 <p className="text-xs text-gray-400 font-mono">
                   Direct response within 24-48 hours.
                 </p>
               </div>
+
+              {error && (
+                <p className="text-red-400 text-xs mt-2">{error}</p>
+              )}
 
             </motion.form>
           )}
